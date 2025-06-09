@@ -1,11 +1,10 @@
-
 import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { Upload, FileText, Camera, Clock } from 'lucide-react';
+import { Upload, FileText, Camera, Clock, X, Eye } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
 export const PrescriptionUpload = () => {
@@ -60,6 +59,130 @@ export const PrescriptionUpload = () => {
     setFiles([]);
   };
 
+  const getFilePreview = (file: File) => {
+    if (file.type.startsWith('image/')) {
+      return URL.createObjectURL(file);
+    }
+    return null;
+  };
+
+  const renderUploadArea = () => {
+    if (files.length > 0) {
+      // Preview mode
+      return (
+        <div className="space-y-4">
+          <div className="flex items-center justify-between">
+            <h3 className="text-lg font-medium flex items-center space-x-2">
+              <Eye className="w-5 h-5" />
+              <span>Uploaded Files Preview</span>
+            </h3>
+            <Button variant="outline" asChild>
+              <label className="cursor-pointer">
+                Add More Files
+                <Input
+                  type="file"
+                  multiple
+                  accept="image/*,.pdf"
+                  className="hidden"
+                  onChange={handleFileSelect}
+                />
+              </label>
+            </Button>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {files.map((file, index) => {
+              const preview = getFilePreview(file);
+              return (
+                <div key={index} className="relative border rounded-lg overflow-hidden">
+                  {preview ? (
+                    <div className="aspect-video relative">
+                      <img
+                        src={preview}
+                        alt={file.name}
+                        className="w-full h-full object-cover"
+                      />
+                      <div className="absolute inset-0 bg-black/40 opacity-0 hover:opacity-100 transition-opacity duration-200 flex items-center justify-center">
+                        <div className="text-white text-center p-2">
+                          <p className="text-sm font-medium truncate">{file.name}</p>
+                          <p className="text-xs">
+                            {(file.size / 1024 / 1024).toFixed(2)} MB
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="aspect-video flex items-center justify-center bg-muted">
+                      <div className="text-center">
+                        <FileText className="w-12 h-12 text-muted-foreground mx-auto mb-2" />
+                        <p className="text-sm font-medium truncate px-2">{file.name}</p>
+                        <p className="text-xs text-muted-foreground">
+                          {(file.size / 1024 / 1024).toFixed(2)} MB
+                        </p>
+                      </div>
+                    </div>
+                  )}
+                  
+                  <Button
+                    variant="destructive"
+                    size="sm"
+                    className="absolute top-2 right-2"
+                    onClick={() => removeFile(index)}
+                  >
+                    <X className="w-4 h-4" />
+                  </Button>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      );
+    }
+
+    // Upload mode
+    return (
+      <div
+        className={`border-2 border-dashed rounded-lg p-8 text-center transition-colors ${
+          dragOver 
+            ? 'border-primary bg-primary/5' 
+            : 'border-muted-foreground/25 hover:border-primary/50'
+        }`}
+        onDragOver={handleDragOver}
+        onDragLeave={handleDragLeave}
+        onDrop={handleDrop}
+      >
+        <div className="space-y-4">
+          <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mx-auto">
+            <Camera className="w-6 h-6 text-primary" />
+          </div>
+          <div>
+            <p className="text-lg font-medium">
+              Drop your prescription here
+            </p>
+            <p className="text-muted-foreground">
+              or click to browse files
+            </p>
+          </div>
+          <Button variant="outline" asChild>
+            <label className="cursor-pointer">
+              Choose Files
+              <Input
+                type="file"
+                multiple
+                accept="image/*,.pdf"
+                className="hidden"
+                onChange={handleFileSelect}
+              />
+            </label>
+          </Button>
+          <p className="text-xs text-muted-foreground">
+            Supported formats: JPG, PNG, PDF (Max 10MB per file)
+          </p>
+        </div>
+      </div>
+    );
+  };
+
   return (
     <section className="py-16 bg-background">
       <div className="container mx-auto px-4">
@@ -74,77 +197,25 @@ export const PrescriptionUpload = () => {
           </div>
 
           <div className="grid lg:grid-cols-2 gap-8">
-            {/* Upload area */}
+            {/* Upload/Preview area */}
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center space-x-2">
-                  <Upload className="w-5 h-5" />
-                  <span>Upload Prescription</span>
+                  {files.length > 0 ? (
+                    <>
+                      <Eye className="w-5 h-5" />
+                      <span>Prescription Preview</span>
+                    </>
+                  ) : (
+                    <>
+                      <Upload className="w-5 h-5" />
+                      <span>Upload Prescription</span>
+                    </>
+                  )}
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-6">
-                {/* File upload area */}
-                <div
-                  className={`border-2 border-dashed rounded-lg p-8 text-center transition-colors ${
-                    dragOver 
-                      ? 'border-primary bg-primary/5' 
-                      : 'border-muted-foreground/25 hover:border-primary/50'
-                  }`}
-                  onDragOver={handleDragOver}
-                  onDragLeave={handleDragLeave}
-                  onDrop={handleDrop}
-                >
-                  <div className="space-y-4">
-                    <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mx-auto">
-                      <Camera className="w-6 h-6 text-primary" />
-                    </div>
-                    <div>
-                      <p className="text-lg font-medium">
-                        Drop your prescription here
-                      </p>
-                      <p className="text-muted-foreground">
-                        or click to browse files
-                      </p>
-                    </div>
-                    <Button variant="outline" asChild>
-                      <label className="cursor-pointer">
-                        Choose Files
-                        <Input
-                          type="file"
-                          multiple
-                          accept="image/*,.pdf"
-                          className="hidden"
-                          onChange={handleFileSelect}
-                        />
-                      </label>
-                    </Button>
-                    <p className="text-xs text-muted-foreground">
-                      Supported formats: JPG, PNG, PDF (Max 10MB per file)
-                    </p>
-                  </div>
-                </div>
-
-                {/* Uploaded files */}
-                {files.length > 0 && (
-                  <div className="space-y-2">
-                    <Label>Uploaded Files</Label>
-                    {files.map((file, index) => (
-                      <div key={index} className="flex items-center justify-between p-3 bg-muted/50 rounded-lg">
-                        <div className="flex items-center space-x-3">
-                          <FileText className="w-4 h-4 text-primary" />
-                          <span className="text-sm font-medium">{file.name}</span>
-                        </div>
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => removeFile(index)}
-                        >
-                          Remove
-                        </Button>
-                      </div>
-                    ))}
-                  </div>
-                )}
+                {renderUploadArea()}
 
                 {/* Patient information */}
                 <div className="space-y-4">
