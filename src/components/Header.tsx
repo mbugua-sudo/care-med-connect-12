@@ -623,12 +623,12 @@ export const Header = ({
           >
             Offers
           </Link>
-          <button 
-            onClick={() => scrollToSection('medicine-offers')}
+          <Link 
+            to="/personal-care"
             className="text-sm font-medium hover:text-primary transition-colors py-2"
           >
             Personal Care & Hygiene
-          </button>
+          </Link>
           <button 
             onClick={() => scrollToSection('prescription-upload')}
             className="text-sm font-medium hover:text-primary transition-colors py-2"
@@ -672,12 +672,12 @@ export const Header = ({
             >
               Offers
             </Link>
-            <button 
-              onClick={() => scrollToSection('medicine-offers')}
+            <Link 
+              to="/personal-care"
               className="block text-sm font-medium hover:text-primary transition-colors py-2"
             >
               Personal Care & Hygiene
-            </button>
+            </Link>
             <button 
               onClick={() => scrollToSection('prescription-upload')}
               className="block text-sm font-medium hover:text-primary transition-colors py-2"
