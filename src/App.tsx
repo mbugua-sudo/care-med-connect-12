@@ -10,6 +10,7 @@ import ProductDetail from "./pages/ProductDetail";
 import CategoryPage from "./pages/CategoryPage";
 import ConditionPage from "./pages/ConditionPage";
 import OffersPage from "./pages/OffersPage";
+import PersonalCarePage from "./pages/PersonalCarePage";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import NotFound from "./pages/NotFound";
@@ -29,6 +30,7 @@ const App = () => (
           <Route path="/category/:category" element={<CategoryPage />} />
           <Route path="/condition/:condition" element={<ConditionPage />} />
           <Route path="/offers" element={<OffersPage />} />
+          <Route path="/personal-care" element={<PersonalCarePage />} />
           <Route path="/signin" element={<SignIn />} />
           <Route path="/signup" element={<SignUp />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}

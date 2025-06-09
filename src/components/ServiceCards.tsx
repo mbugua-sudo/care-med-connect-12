@@ -9,11 +9,14 @@ import {
   FileText, 
   MapPin 
 } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { MedicationReminder } from './MedicationReminder';
 import { HealthTracker } from './HealthTracker';
 import { PharmacyLocator } from './PharmacyLocator';
 
 export const ServiceCards = () => {
+  const navigate = useNavigate();
+  
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
     if (element) {
@@ -36,7 +39,7 @@ export const ServiceCards = () => {
       description: 'Condoms, sanitary towels, diapers, baby care, and intimate wellness products',
       color: 'bg-green-100 text-green-600',
       action: 'Shop Now',
-      onClick: () => scrollToSection('medicine-offers')
+      onClick: () => navigate('/personal-care')
     },
     {
       icon: Activity,
