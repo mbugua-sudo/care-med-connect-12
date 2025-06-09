@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Header } from '@/components/Header';
@@ -16,12 +15,13 @@ const ConditionPage = () => {
   const [favorites, setFavorites] = useState<string[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
 
-  // Comprehensive medicines for each condition
+  // Comprehensive medicines for each condition with brand names
   const conditionMedicines: Record<string, any[]> = {
     'stomach-care-digestive-health': [
       {
         id: 'digestive-1',
         name: 'Omeprazole 20mg',
+        brand: 'Prilosec',
         price: 1850,
         originalPrice: 2200,
         discount: 16,
@@ -32,6 +32,7 @@ const ConditionPage = () => {
       {
         id: 'digestive-2',
         name: 'Ranitidine 150mg',
+        brand: 'Zantac',
         price: 1299,
         originalPrice: 1599,
         discount: 19,
@@ -42,6 +43,7 @@ const ConditionPage = () => {
       {
         id: 'digestive-3',
         name: 'Antacid Tablets',
+        brand: 'Tums',
         price: 899,
         originalPrice: 1199,
         discount: 25,
@@ -52,6 +54,7 @@ const ConditionPage = () => {
       {
         id: 'digestive-4',
         name: 'Probiotics Capsules',
+        brand: 'Culturelle',
         price: 2599,
         originalPrice: 3299,
         discount: 21,
@@ -62,6 +65,7 @@ const ConditionPage = () => {
       {
         id: 'digestive-5',
         name: 'Simethicone 40mg',
+        brand: 'Gas-X',
         price: 1499,
         originalPrice: 1899,
         discount: 21,
@@ -72,6 +76,7 @@ const ConditionPage = () => {
       {
         id: 'digestive-6',
         name: 'Loperamide 2mg',
+        brand: 'Imodium',
         price: 799,
         originalPrice: 999,
         discount: 20,
@@ -84,6 +89,7 @@ const ConditionPage = () => {
       {
         id: 'pain-1',
         name: 'Paracetamol 500mg',
+        brand: 'Tylenol',
         price: 1299,
         originalPrice: 1599,
         discount: 19,
@@ -94,6 +100,7 @@ const ConditionPage = () => {
       {
         id: 'pain-2',
         name: 'Ibuprofen 400mg',
+        brand: 'Advil',
         price: 1850,
         originalPrice: 2250,
         discount: 18,
@@ -104,6 +111,7 @@ const ConditionPage = () => {
       {
         id: 'pain-3',
         name: 'Aspirin 300mg',
+        brand: 'Bayer',
         price: 999,
         originalPrice: 1299,
         discount: 23,
@@ -114,6 +122,7 @@ const ConditionPage = () => {
       {
         id: 'pain-4',
         name: 'Diclofenac Gel',
+        brand: 'Voltaren',
         price: 2199,
         originalPrice: 2799,
         discount: 21,
@@ -124,6 +133,7 @@ const ConditionPage = () => {
       {
         id: 'pain-5',
         name: 'Tramadol 50mg',
+        brand: 'Ultram',
         price: 3299,
         originalPrice: 4199,
         discount: 21,
@@ -134,6 +144,7 @@ const ConditionPage = () => {
       {
         id: 'pain-6',
         name: 'Naproxen 250mg',
+        brand: 'Aleve',
         price: 1699,
         originalPrice: 2099,
         discount: 19,
@@ -146,6 +157,7 @@ const ConditionPage = () => {
       {
         id: 'diabetes-1',
         name: 'Metformin 500mg',
+        brand: 'Glucophage',
         price: 2299,
         originalPrice: 2899,
         discount: 21,
@@ -156,6 +168,7 @@ const ConditionPage = () => {
       {
         id: 'diabetes-2',
         name: 'Glibenclamide 5mg',
+        brand: 'Daonil',
         price: 1899,
         originalPrice: 2399,
         discount: 21,
@@ -166,6 +179,7 @@ const ConditionPage = () => {
       {
         id: 'diabetes-3',
         name: 'Insulin Needles',
+        brand: 'BD Ultra-Fine',
         price: 1599,
         originalPrice: 1999,
         discount: 20,
@@ -176,6 +190,7 @@ const ConditionPage = () => {
       {
         id: 'diabetes-4',
         name: 'Blood Glucose Strips',
+        brand: 'OneTouch',
         price: 2799,
         originalPrice: 3499,
         discount: 20,
@@ -186,6 +201,7 @@ const ConditionPage = () => {
       {
         id: 'diabetes-5',
         name: 'Diabetic Foot Cream',
+        brand: 'Diabetic Care',
         price: 1799,
         originalPrice: 2299,
         discount: 22,
@@ -196,6 +212,7 @@ const ConditionPage = () => {
       {
         id: 'diabetes-6',
         name: 'Glucometer Device',
+        brand: 'Accu-Chek',
         price: 3999,
         originalPrice: 4999,
         discount: 20,
@@ -208,6 +225,7 @@ const ConditionPage = () => {
       {
         id: 'hypertension-1',
         name: 'Amlodipine 5mg',
+        brand: 'Norvasc',
         price: 2199,
         originalPrice: 2799,
         discount: 21,
@@ -218,6 +236,7 @@ const ConditionPage = () => {
       {
         id: 'hypertension-2',
         name: 'Losartan 50mg',
+        brand: 'Cozaar',
         price: 2599,
         originalPrice: 3299,
         discount: 21,
@@ -228,6 +247,7 @@ const ConditionPage = () => {
       {
         id: 'hypertension-3',
         name: 'Hydrochlorothiazide 25mg',
+        brand: 'Microzide',
         price: 1799,
         originalPrice: 2299,
         discount: 22,
@@ -238,6 +258,7 @@ const ConditionPage = () => {
       {
         id: 'hypertension-4',
         name: 'Blood Pressure Monitor',
+        brand: 'Omron',
         price: 8999,
         originalPrice: 11499,
         discount: 22,
@@ -250,6 +271,7 @@ const ConditionPage = () => {
       {
         id: 'mental-1',
         name: 'Sertraline 50mg',
+        brand: 'Zoloft',
         price: 2999,
         originalPrice: 3699,
         discount: 19,
@@ -260,6 +282,7 @@ const ConditionPage = () => {
       {
         id: 'mental-2',
         name: 'Fluoxetine 20mg',
+        brand: 'Prozac',
         price: 2599,
         originalPrice: 3199,
         discount: 19,
@@ -272,6 +295,7 @@ const ConditionPage = () => {
       {
         id: 'cold-1',
         name: 'Paracetamol Cold Relief',
+        brand: 'Tylenol Cold',
         price: 899,
         originalPrice: 1199,
         discount: 25,
@@ -282,6 +306,7 @@ const ConditionPage = () => {
       {
         id: 'cold-2',
         name: 'Cough Syrup',
+        brand: 'Robitussin',
         price: 1299,
         originalPrice: 1599,
         discount: 19,
@@ -294,6 +319,7 @@ const ConditionPage = () => {
       {
         id: 'allergy-1',
         name: 'Cetirizine 10mg',
+        brand: 'Zyrtec',
         price: 699,
         originalPrice: 899,
         discount: 22,
@@ -304,6 +330,7 @@ const ConditionPage = () => {
       {
         id: 'allergy-2',
         name: 'Loratadine 10mg',
+        brand: 'Claritin',
         price: 799,
         originalPrice: 999,
         discount: 20,
@@ -316,6 +343,7 @@ const ConditionPage = () => {
       {
         id: 'respiratory-1',
         name: 'Salbutamol Inhaler',
+        brand: 'Ventolin',
         price: 1899,
         originalPrice: 2399,
         discount: 21,
@@ -326,6 +354,7 @@ const ConditionPage = () => {
       {
         id: 'respiratory-2',
         name: 'Budesonide Inhaler',
+        brand: 'Pulmicort',
         price: 3299,
         originalPrice: 4199,
         discount: 21,
@@ -338,6 +367,7 @@ const ConditionPage = () => {
       {
         id: 'skin-1',
         name: 'Hydrocortisone Cream',
+        brand: 'Cortaid',
         price: 1199,
         originalPrice: 1499,
         discount: 20,
@@ -348,6 +378,7 @@ const ConditionPage = () => {
       {
         id: 'skin-2',
         name: 'Antifungal Cream',
+        brand: 'Lamisil',
         price: 1599,
         originalPrice: 1999,
         discount: 20,
@@ -360,6 +391,7 @@ const ConditionPage = () => {
       {
         id: 'eye-1',
         name: 'Artificial Tears',
+        brand: 'Refresh',
         price: 899,
         originalPrice: 1199,
         discount: 25,
@@ -370,6 +402,7 @@ const ConditionPage = () => {
       {
         id: 'eye-2',
         name: 'Antibiotic Eye Drops',
+        brand: 'Vigamox',
         price: 1599,
         originalPrice: 1999,
         discount: 20,
@@ -382,6 +415,7 @@ const ConditionPage = () => {
       {
         id: 'womens-1',
         name: 'Iron Supplements',
+        brand: 'Feosol',
         price: 1299,
         originalPrice: 1599,
         discount: 19,
@@ -392,6 +426,7 @@ const ConditionPage = () => {
       {
         id: 'womens-2',
         name: 'Folic Acid Tablets',
+        brand: 'Nature Made',
         price: 899,
         originalPrice: 1199,
         discount: 25,
@@ -404,6 +439,7 @@ const ConditionPage = () => {
       {
         id: 'mens-1',
         name: 'Multivitamin for Men',
+        brand: 'Centrum Men',
         price: 2199,
         originalPrice: 2799,
         discount: 21,
@@ -414,6 +450,7 @@ const ConditionPage = () => {
       {
         id: 'mens-2',
         name: 'Testosterone Support',
+        brand: 'TestoFuel',
         price: 3299,
         originalPrice: 4199,
         discount: 21,
@@ -426,6 +463,7 @@ const ConditionPage = () => {
       {
         id: 'senior-1',
         name: 'Senior Multivitamin',
+        brand: 'Centrum Silver',
         price: 2599,
         originalPrice: 3299,
         discount: 21,
@@ -436,6 +474,7 @@ const ConditionPage = () => {
       {
         id: 'senior-2',
         name: 'Joint Support Formula',
+        brand: 'Glucosamine Plus',
         price: 3799,
         originalPrice: 4699,
         discount: 19,
@@ -559,9 +598,14 @@ const ConditionPage = () => {
                   </div>
                   
                   <div className="space-y-3">
-                    <h3 className="font-semibold text-base sm:text-lg line-clamp-2 leading-tight">
-                      {medicine.name}
-                    </h3>
+                    <div>
+                      <h3 className="font-semibold text-base sm:text-lg line-clamp-2 leading-tight">
+                        {medicine.name}
+                      </h3>
+                      <p className="text-sm text-muted-foreground mt-1">
+                        by {medicine.brand}
+                      </p>
+                    </div>
                     
                     <div className="flex items-center space-x-2">
                       <div className="flex">

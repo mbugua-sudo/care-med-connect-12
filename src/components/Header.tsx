@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { Search, ShoppingCart, User, Menu, X, Plus, Minus, Trash2, ChevronDown, LogIn, LogOut } from 'lucide-react';
@@ -63,6 +62,7 @@ interface HeaderProps {
   setSearchQuery: (query: string) => void;
   favorites: string[];
   toggleFavorite: (id: string) => void;
+  medicines: any[];
 }
 
 export const Header = ({ 
@@ -74,7 +74,8 @@ export const Header = ({
   searchQuery,
   setSearchQuery,
   favorites,
-  toggleFavorite
+  toggleFavorite,
+  medicines
 }: HeaderProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -576,20 +577,20 @@ export const Header = ({
           </form>
         </div>
 
-        {/* Navigation menu with Categories and Conditions */}
-        <nav className="hidden md:flex mt-4 space-x-8">
+        {/* Navigation menu with Categories and Conditions - improved spacing */}
+        <nav className="hidden md:flex mt-6 space-x-8">
           <Menubar className="border-0 bg-transparent p-0 h-auto">
             <MenubarMenu>
-              <MenubarTrigger className="flex items-center space-x-1 text-xs sm:text-sm font-medium hover:text-primary transition-colors cursor-pointer p-0 h-auto">
+              <MenubarTrigger className="flex items-center space-x-1 text-sm font-medium hover:text-primary transition-colors cursor-pointer p-0 h-auto py-2">
                 <span>Shop by Category</span>
-                <ChevronDown className="w-3 h-3 sm:w-4 sm:h-4" />
+                <ChevronDown className="w-4 h-4" />
               </MenubarTrigger>
-              <MenubarContent>
+              <MenubarContent className="min-w-56 p-2">
                 {categories.map((category) => (
                   <MenubarItem
                     key={category}
                     onClick={() => handleCategoryClick(category)}
-                    className="cursor-pointer text-sm"
+                    className="cursor-pointer text-sm py-3 px-3 rounded-md hover:bg-muted"
                   >
                     {category}
                   </MenubarItem>
@@ -598,16 +599,16 @@ export const Header = ({
             </MenubarMenu>
 
             <MenubarMenu>
-              <MenubarTrigger className="flex items-center space-x-1 text-xs sm:text-sm font-medium hover:text-primary transition-colors cursor-pointer p-0 h-auto">
+              <MenubarTrigger className="flex items-center space-x-1 text-sm font-medium hover:text-primary transition-colors cursor-pointer p-0 h-auto py-2">
                 <span>Shop by Condition</span>
-                <ChevronDown className="w-3 h-3 sm:w-4 sm:h-4" />
+                <ChevronDown className="w-4 h-4" />
               </MenubarTrigger>
-              <MenubarContent className="max-h-96 overflow-y-auto">
+              <MenubarContent className="max-h-96 overflow-y-auto min-w-64 p-2">
                 {healthConditions.map((condition) => (
                   <MenubarItem
                     key={condition.name}
                     onClick={() => handleConditionClick(condition.name)}
-                    className="cursor-pointer text-sm"
+                    className="cursor-pointer text-sm py-3 px-3 rounded-md hover:bg-muted"
                   >
                     {condition.name}
                   </MenubarItem>
@@ -618,48 +619,48 @@ export const Header = ({
           
           <Link 
             to="/offers"
-            className="text-xs sm:text-sm font-medium hover:text-primary transition-colors"
+            className="text-sm font-medium hover:text-primary transition-colors py-2"
           >
             Offers
           </Link>
           <button 
             onClick={() => scrollToSection('medicine-offers')}
-            className="text-xs sm:text-sm font-medium hover:text-primary transition-colors"
+            className="text-sm font-medium hover:text-primary transition-colors py-2"
           >
             Health Products
           </button>
           <button 
             onClick={() => scrollToSection('prescription-upload')}
-            className="text-xs sm:text-sm font-medium hover:text-primary transition-colors"
+            className="text-sm font-medium hover:text-primary transition-colors py-2"
           >
             Upload Prescription
           </button>
         </nav>
       </div>
 
-      {/* Mobile menu */}
+      {/* Mobile menu - improved spacing */}
       {isMenuOpen && (
         <div className="md:hidden bg-white border-t">
-          <nav className="container mx-auto px-4 py-4 space-y-4">
-            <div className="space-y-2">
+          <nav className="container mx-auto px-4 py-6 space-y-6">
+            <div className="space-y-3">
               <h4 className="font-medium text-sm text-muted-foreground">Shop by Category</h4>
               {categories.map((category) => (
                 <button
                   key={category}
                   onClick={() => handleCategoryClick(category)}
-                  className="block text-sm font-medium hover:text-primary transition-colors pl-4"
+                  className="block text-sm font-medium hover:text-primary transition-colors pl-4 py-2"
                 >
                   {category}
                 </button>
               ))}
             </div>
-            <div className="space-y-2">
+            <div className="space-y-3">
               <h4 className="font-medium text-sm text-muted-foreground">Shop by Condition</h4>
               {healthConditions.map((condition) => (
                 <button
                   key={condition.name}
                   onClick={() => handleConditionClick(condition.name)}
-                  className="block text-sm font-medium hover:text-primary transition-colors pl-4"
+                  className="block text-sm font-medium hover:text-primary transition-colors pl-4 py-2"
                 >
                   {condition.name}
                 </button>
@@ -667,19 +668,19 @@ export const Header = ({
             </div>
             <Link 
               to="/offers"
-              className="block text-sm font-medium hover:text-primary transition-colors"
+              className="block text-sm font-medium hover:text-primary transition-colors py-2"
             >
               Offers
             </Link>
             <button 
               onClick={() => scrollToSection('medicine-offers')}
-              className="block text-sm font-medium hover:text-primary transition-colors"
+              className="block text-sm font-medium hover:text-primary transition-colors py-2"
             >
               Health Products
             </button>
             <button 
               onClick={() => scrollToSection('prescription-upload')}
-              className="block text-sm font-medium hover:text-primary transition-colors"
+              className="block text-sm font-medium hover:text-primary transition-colors py-2"
             >
               Upload Prescription
             </button>
