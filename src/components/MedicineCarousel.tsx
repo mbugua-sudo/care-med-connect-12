@@ -1,9 +1,11 @@
+
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
 import { ShoppingCart, Heart } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import Autoplay from "embla-carousel-autoplay";
 
 interface Medicine {
   id: string;
@@ -129,79 +131,88 @@ export const MedicineCarousel = ({
           )}
         </div>
 
-        <Carousel
-          opts={{
-            align: "start",
-            loop: true,
-          }}
-          className="w-full"
-        >
-          <CarouselContent className="-ml-2 md:-ml-4">
-            {filteredMedicines.map((medicine) => (
-              <CarouselItem key={medicine.id} className="pl-2 md:pl-4 basis-full sm:basis-1/2 md:basis-1/3 lg:basis-1/4">
-                <Card className="group hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
-                  <CardContent className="p-4">
-                    <div className="relative mb-4">
-                      <Link to={`/product/${medicine.id}`}>
-                        <img
-                          src={medicine.image}
-                          alt={medicine.name}
-                          className="w-full h-40 object-cover rounded-lg bg-muted cursor-pointer"
-                        />
-                      </Link>
-                      {medicine.discount && (
-                        <Badge className="absolute top-2 right-2 bg-red-500 text-white">
-                          -{medicine.discount}%
-                        </Badge>
-                      )}
-                      <Button
-                        size="icon"
-                        variant="ghost"
-                        className={`absolute top-2 left-2 h-8 w-8 ${
-                          favorites.includes(medicine.id) 
-                            ? 'text-red-500 bg-white/80' 
-                            : 'text-gray-500 bg-white/80 hover:text-red-500'
-                        }`}
-                        onClick={() => toggleFavorite(medicine.id)}
-                      >
-                        <Heart className={`w-4 h-4 ${favorites.includes(medicine.id) ? 'fill-current' : ''}`} />
-                      </Button>
-                    </div>
-                    
-                    <div className="space-y-2">
-                      <p className="text-xs text-muted-foreground">{medicine.category}</p>
-                      <Link to={`/product/${medicine.id}`}>
-                        <h3 className="font-semibold text-sm line-clamp-2 hover:text-primary cursor-pointer">{medicine.name}</h3>
-                      </Link>
-                      
-                      <div className="flex items-center space-x-2">
-                        <span className="text-lg font-bold text-primary">
-                          Kshs {medicine.price}
-                        </span>
-                        {medicine.originalPrice && (
-                          <span className="text-sm text-muted-foreground line-through">
-                            Kshs {medicine.originalPrice}
-                          </span>
+        <div className="relative px-12">
+          <Carousel
+            opts={{
+              align: "start",
+              loop: true,
+            }}
+            plugins={[
+              Autoplay({
+                delay: 3000,
+                stopOnInteraction: true,
+                stopOnMouseEnter: true,
+              }),
+            ]}
+            className="w-full"
+          >
+            <CarouselContent className="-ml-2 md:-ml-4">
+              {filteredMedicines.map((medicine) => (
+                <CarouselItem key={medicine.id} className="pl-2 md:pl-4 basis-full sm:basis-1/2 md:basis-1/3 lg:basis-1/4">
+                  <Card className="group hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+                    <CardContent className="p-4">
+                      <div className="relative mb-4">
+                        <Link to={`/product/${medicine.id}`}>
+                          <img
+                            src={medicine.image}
+                            alt={medicine.name}
+                            className="w-full h-40 object-cover rounded-lg bg-muted cursor-pointer"
+                          />
+                        </Link>
+                        {medicine.discount && (
+                          <Badge className="absolute top-2 right-2 bg-red-500 text-white">
+                            -{medicine.discount}%
+                          </Badge>
                         )}
+                        <Button
+                          size="icon"
+                          variant="ghost"
+                          className={`absolute top-2 left-2 h-8 w-8 ${
+                            favorites.includes(medicine.id) 
+                              ? 'text-red-500 bg-white/80' 
+                              : 'text-gray-500 bg-white/80 hover:text-red-500'
+                          }`}
+                          onClick={() => toggleFavorite(medicine.id)}
+                        >
+                          <Heart className={`w-4 h-4 ${favorites.includes(medicine.id) ? 'fill-current' : ''}`} />
+                        </Button>
                       </div>
                       
-                      <Button 
-                        size="sm" 
-                        className="w-full"
-                        onClick={() => addToCart(medicine)}
-                      >
-                        <ShoppingCart className="w-4 h-4 mr-2" />
-                        Add to Cart
-                      </Button>
-                    </div>
-                  </CardContent>
-                </Card>
-              </CarouselItem>
-            ))}
-          </CarouselContent>
-          <CarouselPrevious className="hidden md:flex" />
-          <CarouselNext className="hidden md:flex" />
-        </Carousel>
+                      <div className="space-y-2">
+                        <p className="text-xs text-muted-foreground">{medicine.category}</p>
+                        <Link to={`/product/${medicine.id}`}>
+                          <h3 className="font-semibold text-sm line-clamp-2 hover:text-primary cursor-pointer">{medicine.name}</h3>
+                        </Link>
+                        
+                        <div className="flex items-center space-x-2">
+                          <span className="text-lg font-bold text-primary">
+                            Kshs {medicine.price}
+                          </span>
+                          {medicine.originalPrice && (
+                            <span className="text-sm text-muted-foreground line-through">
+                              Kshs {medicine.originalPrice}
+                            </span>
+                          )}
+                        </div>
+                        
+                        <Button 
+                          size="sm" 
+                          className="w-full"
+                          onClick={() => addToCart(medicine)}
+                        >
+                          <ShoppingCart className="w-4 h-4 mr-2" />
+                          Add to Cart
+                        </Button>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <CarouselPrevious className="left-0" />
+            <CarouselNext className="right-0" />
+          </Carousel>
+        </div>
       </div>
     </section>
   );
