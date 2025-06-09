@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -24,7 +23,7 @@ export const FreeDeliveryOverlay = () => {
   if (!isVisible) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm animate-fade-in">
+    <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/60 backdrop-blur-sm animate-fade-in">
       <Card className="max-w-md mx-4 relative bg-gradient-to-br from-primary via-primary to-primary/90 text-white shadow-2xl border-0 overflow-hidden">
         <Button 
           size="icon" 
