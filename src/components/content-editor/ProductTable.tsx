@@ -21,6 +21,8 @@ import {
   CheckCircle,
   Package
 } from 'lucide-react';
+import { toast } from '@/hooks/use-toast';
+import { ProductForm } from './ProductForm';
 
 interface ProductTableProps {
   searchQuery: string;
@@ -29,6 +31,7 @@ interface ProductTableProps {
 
 export const ProductTable: React.FC<ProductTableProps> = ({ searchQuery, selectedCategory }) => {
   const [editingProduct, setEditingProduct] = useState<string | null>(null);
+  const [showEditForm, setShowEditForm] = useState(false);
 
   // TODO: Replace with real data from Supabase
   // Implementation will include:
@@ -88,21 +91,32 @@ export const ProductTable: React.FC<ProductTableProps> = ({ searchQuery, selecte
   };
 
   const handleEdit = (productId: string) => {
-    // TODO: Implement edit functionality
-    // Will open ProductForm in edit mode
     console.log('Edit product:', productId);
     setEditingProduct(productId);
+    setShowEditForm(true);
+    toast({
+      title: "Edit Product",
+      description: `Opening edit form for product ${productId}`,
+    });
   };
 
   const handleDelete = (productId: string) => {
-    // TODO: Implement delete functionality with confirmation
-    // Will include soft delete and audit logging
     console.log('Delete product:', productId);
+    // TODO: Add confirmation dialog
+    toast({
+      title: "Delete Product",
+      description: `Product ${productId} will be deleted (confirmation dialog needed)`,
+      variant: "destructive"
+    });
   };
 
   const handleView = (productId: string) => {
-    // TODO: Navigate to product detail view
     console.log('View product:', productId);
+    // TODO: Navigate to product detail view or open modal
+    toast({
+      title: "View Product",
+      description: `Viewing details for product ${productId}`,
+    });
   };
 
   // Filter products based on search query and category
@@ -115,126 +129,161 @@ export const ProductTable: React.FC<ProductTableProps> = ({ searchQuery, selecte
   });
 
   return (
-    <Card className="modern-card">
-      <CardHeader>
-        <div className="flex justify-between items-center">
-          <CardTitle className="flex items-center gap-2">
-            <Package className="h-5 w-5" />
-            Products Management
-          </CardTitle>
-          <Badge variant="secondary">
-            {filteredProducts.length} products
-          </Badge>
-        </div>
-      </CardHeader>
-      <CardContent>
-        {filteredProducts.length === 0 ? (
-          <div className="text-center py-12 text-muted-foreground">
-            <Package className="h-12 w-12 mx-auto mb-4 opacity-50" />
-            <p>No products found</p>
-            <p className="text-sm mt-2">Try adjusting your search criteria</p>
+    <>
+      <Card className="modern-card">
+        <CardHeader>
+          <div className="flex justify-between items-center">
+            <CardTitle className="flex items-center gap-2">
+              <Package className="h-5 w-5" />
+              Products Management
+            </CardTitle>
+            <Badge variant="secondary">
+              {filteredProducts.length} products
+            </Badge>
           </div>
-        ) : (
-          <div className="overflow-x-auto">
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Product</TableHead>
-                  <TableHead>Category</TableHead>
-                  <TableHead>Price (KES)</TableHead>
-                  <TableHead>Stock</TableHead>
-                  <TableHead>Status</TableHead>
-                  <TableHead>SKU</TableHead>
-                  <TableHead>Actions</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {filteredProducts.map((product) => {
-                  const stockStatus = getStockStatus(product.stockQuantity, product.minStockLevel);
-                  
-                  return (
-                    <TableRow key={product.id} className="hover:bg-muted/50">
-                      <TableCell>
-                        <div>
-                          <div className="font-medium">{product.name}</div>
-                          <div className="text-sm text-muted-foreground">{product.brand}</div>
-                          {product.requiresPrescription && (
-                            <Badge variant="outline" className="mt-1 text-xs">
-                              Prescription Required
-                            </Badge>
-                          )}
-                        </div>
-                      </TableCell>
-                      <TableCell>
-                        <Badge variant="secondary">{product.category}</Badge>
-                      </TableCell>
-                      <TableCell>
-                        <span className="font-medium">
-                          {product.price.toLocaleString()}
-                        </span>
-                      </TableCell>
-                      <TableCell>
-                        <div className="flex items-center gap-2">
-                          <span className="font-medium">{product.stockQuantity}</span>
-                          <div className={`w-2 h-2 rounded-full ${stockStatus.color}`} />
-                        </div>
-                        <div className="text-xs text-muted-foreground">
-                          Min: {product.minStockLevel}
-                        </div>
-                      </TableCell>
-                      <TableCell>
-                        <div className="flex items-center gap-2">
-                          {product.status === 'active' ? (
-                            <CheckCircle className="h-4 w-4 text-emerald-500" />
-                          ) : (
-                            <AlertTriangle className="h-4 w-4 text-amber-500" />
-                          )}
-                          <span className="capitalize">{product.status}</span>
-                        </div>
-                      </TableCell>
-                      <TableCell>
-                        <code className="text-xs bg-muted px-2 py-1 rounded">
-                          {product.sku}
-                        </code>
-                      </TableCell>
-                      <TableCell>
-                        <div className="flex items-center gap-2">
-                          <Button 
-                            variant="ghost" 
-                            size="sm"
-                            onClick={() => handleView(product.id)}
-                          >
-                            <Eye className="h-4 w-4" />
-                          </Button>
-                          <Button 
-                            variant="ghost" 
-                            size="sm"
-                            onClick={() => handleEdit(product.id)}
-                          >
-                            <Edit className="h-4 w-4" />
-                          </Button>
-                          <Button 
-                            variant="ghost" 
-                            size="sm"
-                            onClick={() => handleDelete(product.id)}
-                          >
-                            <Trash2 className="h-4 w-4" />
-                          </Button>
-                        </div>
-                      </TableCell>
-                    </TableRow>
-                  );
-                })}
-              </TableBody>
-            </Table>
+        </CardHeader>
+        <CardContent>
+          {filteredProducts.length === 0 ? (
+            <div className="text-center py-12 text-muted-foreground">
+              <Package className="h-12 w-12 mx-auto mb-4 opacity-50" />
+              <p>No products found</p>
+              <p className="text-sm mt-2">Try adjusting your search criteria</p>
+            </div>
+          ) : (
+            <div className="overflow-x-auto">
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Product</TableHead>
+                    <TableHead>Category</TableHead>
+                    <TableHead>Price (Kshs)</TableHead>
+                    <TableHead>Stock</TableHead>
+                    <TableHead>Status</TableHead>
+                    <TableHead>SKU</TableHead>
+                    <TableHead>Actions</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {filteredProducts.map((product) => {
+                    const stockStatus = getStockStatus(product.stockQuantity, product.minStockLevel);
+                    
+                    return (
+                      <TableRow key={product.id} className="hover:bg-muted/50">
+                        <TableCell>
+                          <div>
+                            <div className="font-medium">{product.name}</div>
+                            <div className="text-sm text-muted-foreground">{product.brand}</div>
+                            {product.requiresPrescription && (
+                              <Badge variant="outline" className="mt-1 text-xs">
+                                Prescription Required
+                              </Badge>
+                            )}
+                          </div>
+                        </TableCell>
+                        <TableCell>
+                          <Badge variant="secondary">{product.category}</Badge>
+                        </TableCell>
+                        <TableCell>
+                          <span className="font-medium">
+                            Kshs {product.price.toLocaleString()}
+                          </span>
+                        </TableCell>
+                        <TableCell>
+                          <div className="flex items-center gap-2">
+                            <span className="font-medium">{product.stockQuantity}</span>
+                            <div className={`w-2 h-2 rounded-full ${stockStatus.color}`} />
+                          </div>
+                          <div className="text-xs text-muted-foreground">
+                            Min: {product.minStockLevel}
+                          </div>
+                        </TableCell>
+                        <TableCell>
+                          <div className="flex items-center gap-2">
+                            {product.status === 'active' ? (
+                              <CheckCircle className="h-4 w-4 text-emerald-500" />
+                            ) : (
+                              <AlertTriangle className="h-4 w-4 text-amber-500" />
+                            )}
+                            <span className="capitalize">{product.status}</span>
+                          </div>
+                        </TableCell>
+                        <TableCell>
+                          <code className="text-xs bg-muted px-2 py-1 rounded">
+                            {product.sku}
+                          </code>
+                        </TableCell>
+                        <TableCell>
+                          <div className="flex items-center gap-2">
+                            <Button 
+                              variant="ghost" 
+                              size="sm"
+                              onClick={() => handleView(product.id)}
+                              className="hover:bg-blue-50 hover:text-blue-600"
+                            >
+                              <Eye className="h-4 w-4" />
+                            </Button>
+                            <Button 
+                              variant="ghost" 
+                              size="sm"
+                              onClick={() => handleEdit(product.id)}
+                              className="hover:bg-green-50 hover:text-green-600"
+                            >
+                              <Edit className="h-4 w-4" />
+                            </Button>
+                            <Button 
+                              variant="ghost" 
+                              size="sm"
+                              onClick={() => handleDelete(product.id)}
+                              className="hover:bg-red-50 hover:text-red-600"
+                            >
+                              <Trash2 className="h-4 w-4" />
+                            </Button>
+                          </div>
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })}
+                </TableBody>
+              </Table>
+            </div>
+          )}
+          
+          {/* TODO: Implement pagination */}
+          <div className="mt-4 text-center text-sm text-muted-foreground">
+            TODO: Add pagination component for large datasets
           </div>
-        )}
-        
-        {/* TODO: Implement pagination */}
-        <div className="mt-4 text-center text-sm text-muted-foreground">
-          TODO: Add pagination component for large datasets
+        </CardContent>
+      </Card>
+
+      {/* Edit Product Modal */}
+      {showEditForm && editingProduct && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+          <div className="bg-background rounded-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+            <div className="p-6 border-b flex justify-between items-center">
+              <h2 className="text-2xl font-bold">Edit Product</h2>
+              <Button 
+                variant="ghost" 
+                size="sm"
+                onClick={() => {
+                  setShowEditForm(false);
+                  setEditingProduct(null);
+                }}
+              >
+                ×
+              </Button>
+            </div>
+            <div className="p-6">
+              <ProductForm 
+                productId={editingProduct}
+                onClose={() => {
+                  setShowEditForm(false);
+                  setEditingProduct(null);
+                }} 
+              />
+            </div>
+          </div>
         </div>
-      </CardContent>
-    </Card>
+      )}
+    </>
   );
 };

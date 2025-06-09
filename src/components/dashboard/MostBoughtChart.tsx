@@ -32,22 +32,23 @@ const chartConfig = {
 export const MostBoughtChart: React.FC<MostBoughtChartProps> = ({ data }) => {
   const renderCustomLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percentage, name }: any) => {
     const RADIAN = Math.PI / 180;
-    const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
+    // Increased radius for better positioning
+    const radius = outerRadius + 25;
     const x = cx + radius * Math.cos(-midAngle * RADIAN);
     const y = cy + radius * Math.sin(-midAngle * RADIAN);
 
-    if (percentage < 5) return null; // Don't show labels for small slices
+    if (percentage < 3) return null; // Don't show labels for very small slices
 
     return (
       <text 
         x={x} 
         y={y} 
-        fill="white" 
+        fill="hsl(var(--foreground))" 
         textAnchor={x > cx ? 'start' : 'end'} 
         dominantBaseline="central"
-        fontSize="11"
+        fontSize="12"
         fontWeight="600"
-        filter="drop-shadow(0 1px 2px rgba(0,0,0,0.8))"
+        className="drop-shadow-sm"
       >
         {`${percentage}%`}
       </text>
@@ -66,9 +67,9 @@ export const MostBoughtChart: React.FC<MostBoughtChartProps> = ({ data }) => {
         }}
       ></div>
       
-      <ChartContainer config={chartConfig} className="relative z-10 w-full h-[280px]">
+      <ChartContainer config={chartConfig} className="relative z-10 w-full h-[320px]">
         <ResponsiveContainer width="100%" height="100%">
-          <PieChart margin={{ top: 10, right: 10, bottom: 10, left: 10 }}>
+          <PieChart margin={{ top: 20, right: 40, bottom: 60, left: 40 }}>
             <defs>
               {/* Create 3D gradients for each slice */}
               {COLORS.map((color, index) => (
@@ -91,8 +92,8 @@ export const MostBoughtChart: React.FC<MostBoughtChartProps> = ({ data }) => {
               cy="45%"
               labelLine={false}
               label={renderCustomLabel}
-              outerRadius={85}
-              innerRadius={35}
+              outerRadius={75}
+              innerRadius={30}
               fill="#8884d8"
               dataKey="value"
               stroke="#ffffff"
@@ -130,7 +131,7 @@ export const MostBoughtChart: React.FC<MostBoughtChartProps> = ({ data }) => {
                         />
                         <p className="font-semibold text-foreground">{data.name}</p>
                       </div>
-                      <p className="text-sm text-muted-foreground">Sales: <span className="font-medium text-foreground">{data.value.toLocaleString()}</span></p>
+                      <p className="text-sm text-muted-foreground">Sales: <span className="font-medium text-foreground">Kshs {data.value.toLocaleString()}</span></p>
                       <p className="text-sm text-muted-foreground">Share: <span className="font-medium text-foreground">{data.percentage}%</span></p>
                     </div>
                   );
@@ -139,20 +140,26 @@ export const MostBoughtChart: React.FC<MostBoughtChartProps> = ({ data }) => {
               }}
             />
             
-            {/* Enhanced legend with 3D effect */}
+            {/* Enhanced legend with better spacing */}
             <Legend 
               verticalAlign="bottom" 
-              height={40}
+              height={50}
               iconType="circle"
               wrapperStyle={{ 
-                paddingTop: '15px', 
-                fontSize: '11px',
-                fontWeight: '500'
+                paddingTop: '20px', 
+                fontSize: '12px',
+                fontWeight: '500',
+                lineHeight: '1.6'
+              }}
+              itemStyle={{
+                marginRight: '20px',
+                marginBottom: '8px'
               }}
               formatter={(value, entry) => (
                 <span style={{ 
                   color: entry.color,
-                  textShadow: `0 1px 2px ${entry.color}30`
+                  textShadow: `0 1px 2px ${entry.color}30`,
+                  marginLeft: '8px'
                 }}>
                   {value}
                 </span>
