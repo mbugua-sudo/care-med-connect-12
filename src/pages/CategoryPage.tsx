@@ -189,7 +189,7 @@ const CategoryPage = () => {
 
         {/* Header with enhanced typography */}
         <div className="mb-12">
-          <Link to="/" className="inline-flex items-center text-primary hover:text-primary/80 mb-6 transition-all duration-300 hover:translate-x-1">
+          <Link to="/" className="inline-flex items-center text-primary text-left w-full hover:text-primary/80 mb-6 transition-all duration-300 hover:translate-x-1">
             <ArrowLeft className="w-5 h-5 mr-2" />
             Back to Home
           </Link>
@@ -241,9 +241,9 @@ const CategoryPage = () => {
                   </div>
                   
                   <div className="p-6 space-y-4">
-                    <p className="text-xs text-muted-foreground font-medium uppercase tracking-wider">{medicine.category}</p>
+                    <p className="text-xs text-muted-foreground font-medium uppercase tracking-wider text-left">{medicine.category}</p>
                     <Link to={`/product/${medicine.id}`}>
-                      <h3 className="font-semibold text-base line-clamp-2 hover:text-primary cursor-pointer transition-colors font-poppins leading-tight">
+                      <h3 className="font-semibold text-base line-clamp-2 hover:text-primary cursor-pointer transition-colors font-poppins text-left leading-tight">
                         {medicine.name}
                       </h3>
                     </Link>

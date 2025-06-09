@@ -547,7 +547,7 @@ const ConditionPage = () => {
       
       <main className="container mx-auto px-4 py-8 lg:py-12">
         {/* Breadcrumb */}
-        <div className="mb-8 text-sm text-muted-foreground">
+        <div className="mb-8 text-sm text-muted-foreground text-left">
           <Link to="/" className="hover:text-primary">Home</Link>
           <span className="mx-2">/</span>
           <Link to="/shop-by-condition" className="hover:text-primary">Shop by Condition</Link>
@@ -560,7 +560,7 @@ const ConditionPage = () => {
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-6">
             {conditionName} Medicines
           </h1>
-          <p className="text-lg sm:text-xl text-muted-foreground max-w-3xl leading-relaxed">
+          <p className="text-lg sm:text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed text-center">
             Find effective medicines and treatments for {conditionName.toLowerCase()}. 
             All products are genuine and sourced from certified manufacturers.
           </p>
@@ -600,10 +600,10 @@ const ConditionPage = () => {
                   
                   <div className="space-y-3">
                     <div>
-                      <h3 className="font-semibold text-base sm:text-lg line-clamp-2 leading-tight">
+                      <h3 className="font-semibold text-base sm:text-lg line-clamp-2 leading-tight text-left">
                         {medicine.name}
                       </h3>
-                      <p className="text-sm text-muted-foreground mt-1">
+                      <p className="text-sm text-muted-foreground mt-1 text-left">
                         by {medicine.brand}
                       </p>
                     </div>

@@ -171,9 +171,9 @@ export const MedicineCarousel = ({
                       </div>
                       
                       <div className="space-y-2">
-                        <p className="text-xs text-muted-foreground">{medicine.category}</p>
+                        <p className="text-xs text-muted-foreground text-left">{medicine.category}</p>
                         <Link to={`/product/${medicine.id}`}>
-                          <h3 className="font-semibold text-xs md:text-sm line-clamp-2 hover:text-primary cursor-pointer">{medicine.name}</h3>
+                          <h3 className="font-semibold text-xs md:text-sm line-clamp-2 hover:text-primary cursor-pointer text-left">{medicine.name}</h3>
                         </Link>
                         
                         <div className="flex items-center space-x-2">

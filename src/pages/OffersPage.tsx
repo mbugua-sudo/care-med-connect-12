@@ -292,7 +292,7 @@ const OffersPage = () => {
                       <p className="text-xs text-muted-foreground">{medicine.brand}</p>
                     </div>
                     <Link to={`/product/${medicine.id}`}>
-                      <h3 className="font-semibold text-sm line-clamp-2 hover:text-primary cursor-pointer">
+                      <h3 className="font-semibold text-sm line-clamp-2 hover:text-primary cursor-pointer text-left">
                         {medicine.name}
                       </h3>
                     </Link>

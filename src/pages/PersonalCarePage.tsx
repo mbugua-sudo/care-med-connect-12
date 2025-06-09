@@ -378,11 +378,13 @@ const PersonalCarePage = () => {
                       </div>
                       
                       <div className="space-y-2">
-                        <Badge variant="outline" className="text-xs">
-                          {product.category}
-                        </Badge>
-                        <h3 className="font-medium text-sm line-clamp-2">{product.name}</h3>
-                        <p className="text-xs text-muted-foreground">{product.brand}</p>
+                        <div className='flex justify-start'>
+                          <Badge variant='outline' className="text-xs">
+                            {product.category}
+                          </Badge>
+                        </div>
+                        <h3 className="font-medium text-sm line-clamp-2 text-left">{product.name}</h3>
+                        <p className="text-xs text-muted-foreground text-left">{product.brand}</p>
                         
                         <div className="flex items-center gap-1">
                           <span className="text-lg font-bold text-primary">
