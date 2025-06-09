@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { Search, ShoppingCart, User, Menu, X, Plus, Minus, Trash2, ChevronDown, LogIn, LogOut } from 'lucide-react';
@@ -629,12 +630,13 @@ export const Header = ({
           >
             Personal Care & Hygiene
           </Link>
-          <button 
+          <Link
+            to="/prescription-upload"
             onClick={() => scrollToSection('prescription-upload')}
             className="text-sm font-medium hover:text-primary transition-colors py-2"
           >
             Upload Prescription
-          </button>
+          </Link>
         </nav>
       </div>
 

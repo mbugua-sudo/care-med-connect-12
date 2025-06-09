@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
@@ -231,7 +232,7 @@ const ShopByCondition = () => {
           <BreadcrumbList>
             <BreadcrumbItem>
               <BreadcrumbLink asChild>
-                <Link to="/">Home</Link>
+                <Link to="/">Home /</Link>
               </BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbItem>

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -6,11 +7,42 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Upload, FileText, Camera, Clock, X, Eye } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { Header } from './Header';
 
 export const PrescriptionUpload = () => {
   const [dragOver, setDragOver] = useState(false);
   const [files, setFiles] = useState<File[]>([]);
   const { toast } = useToast();
+    const [isAuthenticated, setIsAuthenticated] = useState(true);
+  const [cartItems, setCartItems] = useState<any[]>([]);
+  const [favorites, setFavorites] = useState<string[]>([]);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [conditionSearch, setConditionSearch] = useState('');
+  
+   const removeFromCart = (medicineId: string) => {
+    setCartItems(prev => prev.filter(item => item.id !== medicineId));
+  };
+
+  const updateCartQuantity = (medicineId: string, quantity: number) => {
+    if (quantity <= 0) {
+      removeFromCart(medicineId);
+      return;
+    }
+    setCartItems(prev =>
+      prev.map(item =>
+        item.id === medicineId ? { ...item, quantity } : item
+      )
+    );
+  };
+
+   const toggleFavorite = (medicineId: string) => {
+    setFavorites(prev => 
+      prev.includes(medicineId)
+        ? prev.filter(id => id !== medicineId)
+        : [...prev, medicineId]
+    );
+  };
+
 
   const handleDragOver = (e: React.DragEvent) => {
     e.preventDefault();
@@ -71,6 +103,7 @@ export const PrescriptionUpload = () => {
       // Preview mode
       return (
         <div className="space-y-4">
+         
           <div className="flex items-center justify-between">
             <h3 className="text-lg font-medium flex items-center space-x-2">
               <Eye className="w-5 h-5" />
@@ -184,157 +217,154 @@ export const PrescriptionUpload = () => {
   };
 
   return (
-    <section className="py-16 bg-background">
-      <div className="container mx-auto px-4">
-        <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl lg:text-4xl font-bold mb-4">
-              Upload Your Prescription
-            </h2>
-            <p className="text-xl text-muted-foreground">
-              Get your prescribed medicines delivered safely and quickly
-            </p>
-          </div>
-
-          <div className="grid lg:grid-cols-2 gap-8">
-            {/* Upload/Preview area */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center space-x-2">
-                  {files.length > 0 ? (
-                    <>
-                      <Eye className="w-5 h-5" />
-                      <span>Prescription Preview</span>
-                    </>
-                  ) : (
-                    <>
-                      <Upload className="w-5 h-5" />
-                      <span>Upload Prescription</span>
-                    </>
-                  )}
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-6">
-                {renderUploadArea()}
-
-                {/* Patient information */}
-                <div className="space-y-4">
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <Label htmlFor="patient-name">Patient Name</Label>
-                      <Input id="patient-name" placeholder="Enter patient name" />
-                    </div>
-                    <div>
-                      <Label htmlFor="patient-phone">Phone Number</Label>
-                      <Input id="patient-phone" placeholder="Enter phone number" />
-                    </div>
-                  </div>
-                  <div>
-                    <Label htmlFor="notes">Additional Notes (Optional)</Label>
-                    <Textarea 
-                      id="notes" 
-                      placeholder="Any specific instructions or notes..."
-                      rows={3}
-                    />
-                  </div>
-                </div>
-
-                <Button 
-                  className="w-full" 
-                  size="lg"
-                  onClick={handleSubmit}
-                >
-                  Submit Prescription
-                </Button>
-              </CardContent>
-            </Card>
-
-            {/* Process information */}
-            <div className="space-y-6">
+    <div>
+      <section className="py-16 bg-background">
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl lg:text-4xl font-bold mb-4">
+                Upload Your Prescriptions
+              </h2>
+              <p className="text-xl text-muted-foreground">
+                Get your prescribed medicines delivered safely and quickly
+              </p>
+            </div>
+            <div className="grid lg:grid-cols-2 gap-8">
+              {/* Upload/Preview area */}
               <Card>
                 <CardHeader>
                   <CardTitle className="flex items-center space-x-2">
-                    <Clock className="w-5 h-5" />
-                    <span>How It Works</span>
+                    {files.length > 0 ? (
+                      <>
+                        <Eye className="w-5 h-5" />
+                        <span>Prescription Preview</span>
+                      </>
+                    ) : (
+                      <>
+                        <Upload className="w-5 h-5" />
+                        <span>Upload Prescription</span>
+                      </>
+                    )}
                   </CardTitle>
                 </CardHeader>
-                <CardContent>
-                  <div className="space-y-6">
-                    <div className="flex space-x-4">
-                      <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center text-white font-semibold text-sm">
-                        1
+                <CardContent className="space-y-6">
+                  {renderUploadArea()}
+                  {/* Patient information */}
+                  <div className="space-y-4">
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <Label htmlFor="patient-name">Patient Name</Label>
+                        <Input id="patient-name" placeholder="Enter patient name" />
                       </div>
                       <div>
-                        <h4 className="font-semibold">Upload Prescription</h4>
-                        <p className="text-sm text-muted-foreground">
-                          Take a clear photo or upload PDF of your prescription
-                        </p>
+                        <Label htmlFor="patient-phone">Phone Number</Label>
+                        <Input id="patient-phone" placeholder="Enter phone number" />
                       </div>
                     </div>
-                    <div className="flex space-x-4">
-                      <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center text-white font-semibold text-sm">
-                        2
-                      </div>
-                      <div>
-                        <h4 className="font-semibold">Pharmacist Review</h4>
-                        <p className="text-sm text-muted-foreground">
-                          Licensed pharmacist verifies and processes your prescription
-                        </p>
-                      </div>
-                    </div>
-                    <div className="flex space-x-4">
-                      <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center text-white font-semibold text-sm">
-                        3
-                      </div>
-                      <div>
-                        <h4 className="font-semibold">Order Confirmation</h4>
-                        <p className="text-sm text-muted-foreground">
-                          Receive order details and payment options
-                        </p>
-                      </div>
-                    </div>
-                    <div className="flex space-x-4">
-                      <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center text-white font-semibold text-sm">
-                        4
-                      </div>
-                      <div>
-                        <h4 className="font-semibold">Fast Delivery</h4>
-                        <p className="text-sm text-muted-foreground">
-                          Medicines delivered to your doorstep safely
-                        </p>
-                      </div>
+                    <div>
+                      <Label htmlFor="notes">Additional Notes (Optional)</Label>
+                      <Textarea
+                        id="notes"
+                        placeholder="Any specific instructions or notes..."
+                        rows={3}
+                      />
                     </div>
                   </div>
+                  <Button
+                    className="w-full"
+                    size="lg"
+                    onClick={handleSubmit}
+                  >
+                    Submit Prescription
+                  </Button>
                 </CardContent>
               </Card>
-
-              <Card className="bg-primary/5 border-primary/20">
-                <CardContent className="p-6">
-                  <h3 className="font-semibold text-lg mb-3">Why Choose Us?</h3>
-                  <ul className="space-y-2 text-sm">
-                    <li className="flex items-center space-x-2">
-                      <div className="w-2 h-2 bg-primary rounded-full"></div>
-                      <span>Licensed pharmacists verify every prescription</span>
-                    </li>
-                    <li className="flex items-center space-x-2">
-                      <div className="w-2 h-2 bg-primary rounded-full"></div>
-                      <span>100% genuine medicines guaranteed</span>
-                    </li>
-                    <li className="flex items-center space-x-2">
-                      <div className="w-2 h-2 bg-primary rounded-full"></div>
-                      <span>Secure data handling and privacy protection</span>
-                    </li>
-                    <li className="flex items-center space-x-2">
-                      <div className="w-2 h-2 bg-primary rounded-full"></div>
-                      <span>Same-day delivery in major cities</span>
-                    </li>
-                  </ul>
-                </CardContent>
-              </Card>
+              {/* Process information */}
+              <div className="space-y-6">
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="flex items-center space-x-2">
+                      <Clock className="w-5 h-5" />
+                      <span>How It Works</span>
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-6">
+                      <div className="flex space-x-4">
+                        <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center text-white font-semibold text-sm">
+                          1
+                        </div>
+                        <div>
+                          <h4 className="font-semibold">Upload Prescription</h4>
+                          <p className="text-sm text-muted-foreground">
+                            Take a clear photo or upload PDF of your prescription
+                          </p>
+                        </div>
+                      </div>
+                      <div className="flex space-x-4">
+                        <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center text-white font-semibold text-sm">
+                          2
+                        </div>
+                        <div>
+                          <h4 className="font-semibold">Pharmacist Review</h4>
+                          <p className="text-sm text-muted-foreground">
+                            Licensed pharmacist verifies and processes your prescription
+                          </p>
+                        </div>
+                      </div>
+                      <div className="flex space-x-4">
+                        <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center text-white font-semibold text-sm">
+                          3
+                        </div>
+                        <div>
+                          <h4 className="font-semibold">Order Confirmation</h4>
+                          <p className="text-sm text-muted-foreground">
+                            Receive order details and payment options
+                          </p>
+                        </div>
+                      </div>
+                      <div className="flex space-x-4">
+                        <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center text-white font-semibold text-sm">
+                          4
+                        </div>
+                        <div>
+                          <h4 className="font-semibold">Fast Delivery</h4>
+                          <p className="text-sm text-muted-foreground">
+                            Medicines delivered to your doorstep safely
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+                <Card className="bg-primary/5 border-primary/20">
+                  <CardContent className="p-6">
+                    <h3 className="font-semibold text-lg mb-3">Why Choose Us?</h3>
+                    <ul className="space-y-2 text-sm">
+                      <li className="flex items-center space-x-2">
+                        <div className="w-2 h-2 bg-primary rounded-full"></div>
+                        <span>Licensed pharmacists verify every prescription</span>
+                      </li>
+                      <li className="flex items-center space-x-2">
+                        <div className="w-2 h-2 bg-primary rounded-full"></div>
+                        <span>100% genuine medicines guaranteed</span>
+                      </li>
+                      <li className="flex items-center space-x-2">
+                        <div className="w-2 h-2 bg-primary rounded-full"></div>
+                        <span>Secure data handling and privacy protection</span>
+                      </li>
+                      <li className="flex items-center space-x-2">
+                        <div className="w-2 h-2 bg-primary rounded-full"></div>
+                        <span>Same-day delivery in major cities</span>
+                      </li>
+                    </ul>
+                  </CardContent>
+                </Card>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </div>
   );
 };
