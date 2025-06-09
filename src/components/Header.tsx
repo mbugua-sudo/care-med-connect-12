@@ -1,7 +1,7 @@
 
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { Search, ShoppingCart, User, Menu, X, Plus, Minus, Trash2, ChevronDown } from 'lucide-react';
+import { Search, ShoppingCart, User, Menu, X, Plus, Minus, Trash2, ChevronDown, LogIn, LogOut } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
@@ -9,6 +9,13 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/co
 import { Separator } from '@/components/ui/separator';
 import { NotificationViewer } from '@/components/NotificationViewer';
 import { FavoritesViewer } from '@/components/FavoritesViewer';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import {
   Menubar,
   MenubarContent,
@@ -160,6 +167,82 @@ export const Header = ({
     'Diabetes Care'
   ];
 
+  // Health conditions with their respective medicines
+  const healthConditions = [
+    {
+      name: 'Stomach Care/Digestive health',
+      medicines: ['Omeprazole 20mg', 'Ranitidine 150mg', 'Antacid Tablets', 'Probiotics Capsules', 'Simethicone 40mg']
+    },
+    {
+      name: 'Pain Relief/management',
+      medicines: ['Paracetamol 500mg', 'Ibuprofen 400mg', 'Aspirin 300mg', 'Diclofenac Gel', 'Tramadol 50mg']
+    },
+    {
+      name: 'Bone, joint and muscle aches',
+      medicines: ['Glucosamine Tablets', 'Calcium + Vitamin D', 'Diclofenac Gel', 'Methyl Salicylate Cream', 'Collagen Supplements']
+    },
+    {
+      name: 'Eye care',
+      medicines: ['Artificial Tears', 'Antibiotic Eye Drops', 'Vitamin A Drops', 'Lubricating Eye Gel', 'Allergy Eye Drops']
+    },
+    {
+      name: 'Ear care',
+      medicines: ['Ear Wax Removal Drops', 'Antibiotic Ear Drops', 'Pain Relief Ear Drops', 'Ear Cleaning Solution']
+    },
+    {
+      name: 'Cough, cold & flu',
+      medicines: ['Cough Syrup', 'Lozenges', 'Decongestant Tablets', 'Throat Spray', 'Cold & Flu Tablets']
+    },
+    {
+      name: 'Oral care',
+      medicines: ['Antiseptic Mouthwash', 'Fluoride Toothpaste', 'Oral Pain Relief Gel', 'Mouth Ulcer Treatment']
+    },
+    {
+      name: 'First aid and Bandages',
+      medicines: ['Adhesive Bandages', 'Antiseptic Cream', 'Gauze Pads', 'Medical Tape', 'Hydrogen Peroxide']
+    },
+    {
+      name: 'Brain and Nervous System Disorder',
+      medicines: ['Melatonin Tablets', 'Magnesium Supplements', 'B-Complex Vitamins', 'Ginkgo Biloba']
+    },
+    {
+      name: 'Diabetes',
+      medicines: ['Metformin 500mg', 'Glibenclamide 5mg', 'Insulin Needles', 'Blood Glucose Strips', 'Diabetic Foot Cream']
+    },
+    {
+      name: 'Reproductive health',
+      medicines: ['Folic Acid Tablets', 'Iron Supplements', 'Prenatal Vitamins', 'Emergency Contraception']
+    },
+    {
+      name: 'Hypertension',
+      medicines: ['Amlodipine 5mg', 'Losartan 50mg', 'Hydrochlorothiazide 25mg', 'Blood Pressure Monitor']
+    },
+    {
+      name: 'Endocrine disorders',
+      medicines: ['Levothyroxine 50mcg', 'Thyroid Support Supplements', 'Hormone Balance Tablets']
+    },
+    {
+      name: 'Allergy relief',
+      medicines: ['Cetirizine 10mg', 'Loratadine 10mg', 'Antihistamine Cream', 'Nasal Decongestant Spray']
+    },
+    {
+      name: 'Bacterial, fungal, Protozoal infections',
+      medicines: ['Amoxicillin 500mg', 'Fluconazole 150mg', 'Metronidazole 400mg', 'Antiseptic Solution']
+    },
+    {
+      name: 'HIV',
+      medicines: ['Antiretroviral Therapy', 'Immune Support Vitamins', 'Nutritional Supplements']
+    },
+    {
+      name: 'Malaria',
+      medicines: ['Artemether-Lumefantrine', 'Quinine Tablets', 'Mosquito Repellent', 'Fever Reducer']
+    },
+    {
+      name: 'Wellness Checkup (Blood Tests)',
+      medicines: ['Blood Test Kits', 'Cholesterol Test Strips', 'Pregnancy Test Kits', 'Urine Test Strips']
+    }
+  ];
+
   // Enhanced search suggestions including medicines
   const searchSuggestions = [
     ...allMedicines.map(med => med.name),
@@ -191,6 +274,10 @@ export const Header = ({
 
   const handleCategoryClick = (category: string) => {
     navigate(`/category/${encodeURIComponent(category.toLowerCase().replace(/\s+/g, '-'))}`);
+  };
+
+  const handleConditionClick = (condition: string) => {
+    navigate(`/condition/${encodeURIComponent(condition.toLowerCase().replace(/\s+/g, '-'))}`);
   };
 
   const handleMarkAsRead = (id: string) => {
@@ -226,7 +313,7 @@ export const Header = ({
   const handleWhatsAppOrder = () => {
     if (cartItems.length === 0) return;
     
-    const phoneNumber = "+254704472009"; // Updated WhatsApp number
+    const phoneNumber = "+254704472009";
     let message = "Hello! I'd like to order the following items from MediCare Online Pharmacy:\n\n";
     
     cartItems.forEach((item, index) => {
@@ -241,6 +328,15 @@ export const Header = ({
     
     const whatsappUrl = `https://wa.me/${phoneNumber.replace(/[^0-9]/g, '')}?text=${encodeURIComponent(message)}`;
     window.open(whatsappUrl, '_blank');
+  };
+
+  const handleSignIn = () => {
+    navigate('/signin');
+  };
+
+  const handleSignOut = () => {
+    setIsAuthenticated(false);
+    // Add any additional sign out logic here
   };
 
   return (
@@ -262,7 +358,7 @@ export const Header = ({
             </div>
             <div className="hidden sm:block">
               <h1 className="text-xl sm:text-2xl font-bold text-primary">MediCare</h1>
-              <p className="text-xs text-muted-foreground">Online Pharmacy</p>
+              <p className="text-xs text-muted-foreground hidden md:block">Online Pharmacy</p>
             </div>
           </Link>
 
@@ -423,17 +519,36 @@ export const Header = ({
               </SheetContent>
             </Sheet>
 
-            {isAuthenticated ? (
-              <Button variant="ghost" size="icon">
-                <User className="w-4 h-4 sm:w-5 sm:h-5" />
-              </Button>
-            ) : (
-              <Link to="/signin">
-                <Button className="text-xs sm:text-sm px-2 sm:px-4">
-                  Sign In
+            {/* User Profile with Dropdown */}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" size="icon">
+                  <User className="w-4 h-4 sm:w-5 sm:h-5" />
                 </Button>
-              </Link>
-            )}
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-48">
+                {isAuthenticated ? (
+                  <>
+                    <DropdownMenuItem onClick={handleSignOut}>
+                      <LogOut className="mr-2 h-4 w-4" />
+                      <span>Sign Out</span>
+                    </DropdownMenuItem>
+                  </>
+                ) : (
+                  <>
+                    <DropdownMenuItem onClick={handleSignIn}>
+                      <LogIn className="mr-2 h-4 w-4" />
+                      <span>Sign In</span>
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem onClick={() => navigate('/signup')}>
+                      <User className="mr-2 h-4 w-4" />
+                      <span>Sign Up</span>
+                    </DropdownMenuItem>
+                  </>
+                )}
+              </DropdownMenuContent>
+            </DropdownMenu>
 
             <Button
               variant="ghost"
@@ -461,7 +576,7 @@ export const Header = ({
           </form>
         </div>
 
-        {/* Navigation menu with Categories */}
+        {/* Navigation menu with Categories and Conditions */}
         <nav className="hidden md:flex mt-4 space-x-8">
           <Menubar className="border-0 bg-transparent p-0 h-auto">
             <MenubarMenu>
@@ -481,6 +596,24 @@ export const Header = ({
                 ))}
               </MenubarContent>
             </MenubarMenu>
+
+            <MenubarMenu>
+              <MenubarTrigger className="flex items-center space-x-1 text-xs sm:text-sm font-medium hover:text-primary transition-colors cursor-pointer p-0 h-auto">
+                <span>Shop by Condition</span>
+                <ChevronDown className="w-3 h-3 sm:w-4 sm:h-4" />
+              </MenubarTrigger>
+              <MenubarContent className="max-h-96 overflow-y-auto">
+                {healthConditions.map((condition) => (
+                  <MenubarItem
+                    key={condition.name}
+                    onClick={() => handleConditionClick(condition.name)}
+                    className="cursor-pointer text-sm"
+                  >
+                    {condition.name}
+                  </MenubarItem>
+                ))}
+              </MenubarContent>
+            </MenubarMenu>
           </Menubar>
           
           <Link 
@@ -494,12 +627,6 @@ export const Header = ({
             className="text-xs sm:text-sm font-medium hover:text-primary transition-colors"
           >
             Health Products
-          </button>
-          <button 
-            onClick={() => scrollToSection('medicine-offers')}
-            className="text-xs sm:text-sm font-medium hover:text-primary transition-colors"
-          >
-            Wellness
           </button>
           <button 
             onClick={() => scrollToSection('prescription-upload')}
@@ -526,6 +653,18 @@ export const Header = ({
                 </button>
               ))}
             </div>
+            <div className="space-y-2">
+              <h4 className="font-medium text-sm text-muted-foreground">Shop by Condition</h4>
+              {healthConditions.map((condition) => (
+                <button
+                  key={condition.name}
+                  onClick={() => handleConditionClick(condition.name)}
+                  className="block text-sm font-medium hover:text-primary transition-colors pl-4"
+                >
+                  {condition.name}
+                </button>
+              ))}
+            </div>
             <Link 
               to="/offers"
               className="block text-sm font-medium hover:text-primary transition-colors"
@@ -537,12 +676,6 @@ export const Header = ({
               className="block text-sm font-medium hover:text-primary transition-colors"
             >
               Health Products
-            </button>
-            <button 
-              onClick={() => scrollToSection('medicine-offers')}
-              className="block text-sm font-medium hover:text-primary transition-colors"
-            >
-              Wellness
             </button>
             <button 
               onClick={() => scrollToSection('prescription-upload')}

@@ -8,6 +8,7 @@ import Index from "./pages/Index";
 import SearchResults from "./pages/SearchResults";
 import ProductDetail from "./pages/ProductDetail";
 import CategoryPage from "./pages/CategoryPage";
+import ConditionPage from "./pages/ConditionPage";
 import OffersPage from "./pages/OffersPage";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
@@ -26,6 +27,7 @@ const App = () => (
           <Route path="/search" element={<SearchResults />} />
           <Route path="/product/:id" element={<ProductDetail />} />
           <Route path="/category/:category" element={<CategoryPage />} />
+          <Route path="/condition/:condition" element={<ConditionPage />} />
           <Route path="/offers" element={<OffersPage />} />
           <Route path="/signin" element={<SignIn />} />
           <Route path="/signup" element={<SignUp />} />
