@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Header } from '@/components/Header';
@@ -174,89 +173,95 @@ const CategoryPage = () => {
       
       <main className="container mx-auto px-4 py-8">
         {/* Breadcrumb */}
-        <Breadcrumb className="mb-6">
+        <Breadcrumb className="mb-8">
           <BreadcrumbList>
             <BreadcrumbItem>
               <BreadcrumbLink asChild>
-                <Link to="/">Home</Link>
+                <Link to="/" className="hover:text-primary transition-colors">Home</Link>
               </BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
-              <BreadcrumbPage>{displayCategory}</BreadcrumbPage>
+              <BreadcrumbPage className="font-semibold">{displayCategory}</BreadcrumbPage>
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>
 
-        {/* Header */}
-        <div className="mb-8">
-          <Link to="/" className="inline-flex items-center text-primary hover:text-primary/80 mb-4">
-            <ArrowLeft className="w-4 h-4 mr-2" />
+        {/* Header with enhanced typography */}
+        <div className="mb-12">
+          <Link to="/" className="inline-flex items-center text-primary hover:text-primary/80 mb-6 transition-all duration-300 hover:translate-x-1">
+            <ArrowLeft className="w-5 h-5 mr-2" />
             Back to Home
           </Link>
-          <h1 className="text-3xl font-bold mb-2">{displayCategory}</h1>
-          <p className="text-muted-foreground">
+          <h1 className="font-poppins font-bold mb-4 text-gradient-primary">
+            {displayCategory}
+          </h1>
+          <p className="text-muted-foreground text-lg font-inter">
             {categoryMedicines.length} products found in {displayCategory}
           </p>
         </div>
 
-        {/* Products Grid */}
+        {/* Products Grid with enhanced cards */}
         {categoryMedicines.length === 0 ? (
-          <div className="text-center py-12">
-            <p className="text-muted-foreground text-lg">No products found in this category.</p>
+          <div className="text-center py-20">
+            <div className="modern-card max-w-md mx-auto p-12">
+              <p className="text-muted-foreground text-xl font-medium">No products found in this category.</p>
+            </div>
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
             {categoryMedicines.map((medicine) => (
-              <Card key={medicine.id} className="group hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
-                <CardContent className="p-4">
-                  <div className="relative mb-4">
+              <Card key={medicine.id} className="modern-card group healthcare-card overflow-hidden">
+                <CardContent className="p-0">
+                  <div className="relative overflow-hidden">
                     <Link to={`/product/${medicine.id}`}>
                       <img
                         src={medicine.image}
                         alt={medicine.name}
-                        className="w-full h-48 object-cover rounded-lg bg-muted cursor-pointer"
+                        className="w-full h-56 object-cover cursor-pointer transition-transform duration-300 group-hover:scale-110"
                       />
                     </Link>
                     {medicine.discount && (
-                      <Badge className="absolute top-2 right-2 bg-red-500 text-white">
+                      <Badge className="absolute top-3 right-3 bg-gradient-to-r from-red-500 to-pink-500 text-white border-0 shadow-lg">
                         -{medicine.discount}%
                       </Badge>
                     )}
                     <Button
                       size="icon"
                       variant="ghost"
-                      className={`absolute top-2 left-2 h-8 w-8 ${
+                      className={`absolute top-3 left-3 h-10 w-10 rounded-full backdrop-blur-sm transition-all duration-300 ${
                         favorites.includes(medicine.id) 
-                          ? 'text-red-500 bg-white/80' 
-                          : 'text-gray-500 bg-white/80 hover:text-red-500'
+                          ? 'text-red-500 bg-white/90 shadow-lg scale-110' 
+                          : 'text-gray-600 bg-white/70 hover:bg-white/90 hover:text-red-500 hover:scale-110'
                       }`}
                       onClick={() => toggleFavorite(medicine.id)}
                     >
-                      <Heart className={`w-4 h-4 ${favorites.includes(medicine.id) ? 'fill-current' : ''}`} />
+                      <Heart className={`w-5 h-5 ${favorites.includes(medicine.id) ? 'fill-current' : ''}`} />
                     </Button>
                   </div>
                   
-                  <div className="space-y-2">
-                    <p className="text-xs text-muted-foreground">{medicine.category}</p>
+                  <div className="p-6 space-y-4">
+                    <p className="text-xs text-muted-foreground font-medium uppercase tracking-wider">{medicine.category}</p>
                     <Link to={`/product/${medicine.id}`}>
-                      <h3 className="font-semibold text-sm line-clamp-2 hover:text-primary cursor-pointer">{medicine.name}</h3>
+                      <h3 className="font-semibold text-base line-clamp-2 hover:text-primary cursor-pointer transition-colors font-poppins leading-tight">
+                        {medicine.name}
+                      </h3>
                     </Link>
                     
-                    <div className="flex items-center space-x-2">
-                      <span className="text-lg font-bold text-primary">
-                        KES {medicine.price}
+                    <div className="flex items-center space-x-3">
+                      <span className="text-xl font-bold text-primary font-space-grotesk">
+                        Kshs {medicine.price.toLocaleString()}
                       </span>
                       {medicine.originalPrice && (
-                        <span className="text-sm text-muted-foreground line-through">
-                          KES {medicine.originalPrice}
+                        <span className="text-sm text-muted-foreground line-through font-space-grotesk">
+                          Kshs {medicine.originalPrice.toLocaleString()}
                         </span>
                       )}
                     </div>
                     
                     <Button 
                       size="sm" 
-                      className="w-full"
+                      className="w-full btn-gradient rounded-xl font-semibold py-3"
                       onClick={() => addToCart(medicine)}
                     >
                       <ShoppingCart className="w-4 h-4 mr-2" />

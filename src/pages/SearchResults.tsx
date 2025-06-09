@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { useSearchParams, Link } from 'react-router-dom';
 import { Header } from '@/components/Header';
@@ -14,7 +13,7 @@ const SearchResults = () => {
   const [cartItems, setCartItems] = useState<any[]>([]);
   const [favorites, setFavorites] = useState<string[]>([]);
 
-  // Mock medicines for favorites functionality
+  // Mock medicines for favorites functionality with updated currency
   const allMedicines = [
     {
       id: '1',
@@ -127,14 +126,14 @@ const SearchResults = () => {
       />
       
       <main className="container mx-auto px-4 py-8">
-        <div className="mb-6">
-          <Link to="/" className="inline-flex items-center text-primary hover:text-primary/80 mb-4">
-            <ArrowLeft className="w-4 h-4 mr-2" />
+        <div className="mb-8">
+          <Link to="/" className="inline-flex items-center text-primary hover:text-primary/80 mb-6 transition-all duration-300 hover:translate-x-1 font-medium">
+            <ArrowLeft className="w-5 h-5 mr-2" />
             Back to Home
           </Link>
-          <h1 className="text-3xl font-bold mb-2">Search Results</h1>
-          <p className="text-muted-foreground">
-            Results for "{query}" organized by categories
+          <h1 className="font-poppins font-bold mb-4 text-gradient-primary">Search Results</h1>
+          <p className="text-muted-foreground text-lg font-inter">
+            Results for <span className="font-semibold text-foreground">"{query}"</span> organized by categories
           </p>
         </div>
 

@@ -31,7 +31,7 @@ export const HeroSection = () => {
   const nextIndex = (currentSlide + 1) % backgroundImages.length;
 
   return (
-    <section className="relative h-[50dvh] flex items-center justify-center py-16 overflow-hidden">
+    <section className="relative h-[60dvh] flex items-center justify-center py-16 overflow-hidden">
       {/* Current Image */}
       <div 
         className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-all duration-1000"
@@ -53,26 +53,26 @@ export const HeroSection = () => {
         }}
       />
 
-      {/* Background overlay for better text readability */}
-      <div className="absolute inset-0 bg-black/40" />
+      {/* Enhanced gradient overlay */}
+      <div className="absolute inset-0 bg-gradient-to-br from-black/50 via-black/30 to-transparent" />
       
       <div className="container mx-auto px-4 relative z-10">
-        <div className="max-w-3xl mx-auto text-center">
-          {/* Hero content */}
-          <div className="space-y-6">
-            <h1 className="text-4xl lg:text-6xl font-bold text-white leading-tight">
-              Your Health,
-              <span className="text-primary-foreground block">Delivered</span>
+        <div className="max-w-4xl mx-auto text-center">
+          {/* Hero content with enhanced typography */}
+          <div className="space-y-8">
+            <h1 className="font-poppins font-bold text-white leading-tight text-shadow-lg">
+              <span className="block text-5xl lg:text-7xl mb-2">Your Health,</span>
+              <span className="block text-gradient-accent text-6xl lg:text-8xl animate-shimmer">Delivered</span>
             </h1>
-            <p className="text-xl text-white/90 leading-relaxed">
+            <p className="text-xl lg:text-2xl text-white/95 leading-relaxed font-inter font-light text-shadow">
               Get genuine medicines delivered to your doorstep. Licensed pharmacists, 
               verified products, and secure prescriptions - all in one trusted platform.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button size="lg" className="text-lg px-8">
+            <div className="flex flex-col sm:flex-row gap-6 justify-center pt-4">
+              <Button size="lg" className="btn-gradient text-lg px-10 py-4 rounded-2xl font-semibold text-shadow-sm border-0 animate-glow">
                 Order Medicines Now
               </Button>
-              <Button variant="outline" size="lg" className="text-lg px-8 bg-white/10 border-white text-white hover:bg-white hover:text-primary">
+              <Button variant="outline" size="lg" className="glass-effect text-lg px-10 py-4 rounded-2xl font-semibold text-white border-white/30 hover:bg-white/20 hover:border-white/50 transition-all duration-300 backdrop-blur-xl">
                 Upload Prescription
               </Button>
             </div>
@@ -80,13 +80,15 @@ export const HeroSection = () => {
         </div>
       </div>
 
-      {/* Carousel indicators */}
-      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex space-x-2">
+      {/* Enhanced carousel indicators */}
+      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex space-x-3">
         {backgroundImages.map((_, index) => (
           <button
             key={index}
-            className={`w-3 h-3 rounded-full transition-colors ${
-              index === currentSlide ? 'bg-white' : 'bg-white/30'
+            className={`w-3 h-3 rounded-full transition-all duration-300 ${
+              index === currentSlide 
+                ? 'bg-white shadow-glow scale-125' 
+                : 'bg-white/40 hover:bg-white/70'
             }`}
             onClick={() => setCurrentSlide(index)}
           />
