@@ -32,8 +32,8 @@ export const ServiceCards = () => {
     },
     {
       icon: Heart,
-      title: 'Health Products',
-      description: 'Vitamins, supplements, and wellness products',
+      title: 'Personal Care & Hygiene',
+      description: 'Condoms, sanitary towels, diapers, baby care, and intimate wellness products',
       color: 'bg-green-100 text-green-600',
       action: 'Shop Now',
       onClick: () => scrollToSection('medicine-offers')

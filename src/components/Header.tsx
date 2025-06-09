@@ -627,7 +627,7 @@ export const Header = ({
             onClick={() => scrollToSection('medicine-offers')}
             className="text-sm font-medium hover:text-primary transition-colors py-2"
           >
-            Health Products
+            Personal Care & Hygiene
           </button>
           <button 
             onClick={() => scrollToSection('prescription-upload')}
@@ -676,7 +676,7 @@ export const Header = ({
               onClick={() => scrollToSection('medicine-offers')}
               className="block text-sm font-medium hover:text-primary transition-colors py-2"
             >
-              Health Products
+              Personal Care & Hygiene
             </button>
             <button 
               onClick={() => scrollToSection('prescription-upload')}
