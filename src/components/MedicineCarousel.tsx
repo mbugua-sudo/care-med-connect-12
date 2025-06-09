@@ -114,9 +114,6 @@ export const MedicineCarousel = ({
     return null;
   }
 
-  // Calculate autoplay delay based on number of items (n+1 seconds)
-  const autoplayDelay = (filteredMedicines.length + 1) * 1000;
-
   return (
     <section className="py-12 bg-background">
       <div className="container mx-auto px-4">
@@ -139,13 +136,6 @@ export const MedicineCarousel = ({
               align: "start",
               loop: true,
             }}
-            plugins={[
-              Autoplay({
-                delay: autoplayDelay,
-                stopOnInteraction: true,
-                stopOnMouseEnter: true,
-              }),
-            ]}
             className="w-full"
           >
             <CarouselContent className="-ml-2 md:-ml-4">
