@@ -305,7 +305,7 @@ const ConditionPage = () => {
                       src={medicine.image}
                       alt={medicine.name}
                       className="w-full h-48 object-cover rounded-lg"
-                      hash="L6PZfSi_.AyE_3t7t7R**0o#DgR4"
+                      blurhash="L6PZfSi_.AyE_3t7t7R**0o#DgR4"
                     />
                     {medicine.discount > 0 && (
                       <Badge className="absolute top-2 left-2 bg-red-500 text-white text-xs">
