@@ -101,6 +101,15 @@ export const Header = ({
   const cartCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
   const cartTotal = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
 
+  // Enhanced navigation handler that scrolls to top
+  const handleNavigation = (url: string) => {
+    navigate(url);
+    // Scroll to top when navigating
+    window.scrollTo(0, 0);
+    // Close mobile menu if open
+    setIsMenuOpen(false);
+  };
+
   // Mock medicines for favorites viewer - this should match the actual medicine data
   const allMedicines = [
     {
@@ -263,23 +272,23 @@ export const Header = ({
   const handleSearch = (query: string) => {
     setSearchQuery(query);
     setIsSearchOpen(false);
-    navigate(`/search?q=${encodeURIComponent(query)}`);
+    handleNavigation(`/search?q=${encodeURIComponent(query)}`);
   };
 
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (searchQuery.trim()) {
       setIsSearchOpen(false);
-      navigate(`/search?q=${encodeURIComponent(searchQuery)}`);
+      handleNavigation(`/search?q=${encodeURIComponent(searchQuery)}`);
     }
   };
 
   const handleCategoryClick = (category: string) => {
-    navigate(`/category/${encodeURIComponent(category.toLowerCase().replace(/\s+/g, '-'))}`);
+    handleNavigation(`/category/${encodeURIComponent(category.toLowerCase().replace(/\s+/g, '-'))}`);
   };
 
   const handleConditionClick = (condition: string) => {
-    navigate(`/condition/${encodeURIComponent(condition.toLowerCase().replace(/\s+/g, '-'))}`);
+    handleNavigation(`/condition/${encodeURIComponent(condition.toLowerCase().replace(/\s+/g, '-'))}`);
   };
 
   const handleMarkAsRead = (id: string) => {
@@ -333,7 +342,7 @@ export const Header = ({
   };
 
   const handleSignIn = () => {
-    navigate('/signin');
+    handleNavigation('/signin');
   };
 
   const handleSignOut = () => {
@@ -354,7 +363,7 @@ export const Header = ({
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <Link to="/" className="flex items-center space-x-2">
+          <Link to="/" className="flex items-center space-x-2" onClick={() => window.scrollTo(0, 0)}>
             <div className="w-8 h-8 sm:w-10 sm:h-10 bg-primary rounded-lg flex items-center justify-center">
               <span className="text-white font-bold text-lg sm:text-xl">M</span>
             </div>
@@ -543,7 +552,7 @@ export const Header = ({
                       <span>Sign In</span>
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
-                    <DropdownMenuItem onClick={() => navigate('/signup')}>
+                    <DropdownMenuItem onClick={() => handleNavigation('/signup')}>
                       <User className="mr-2 h-4 w-4" />
                       <span>Sign Up</span>
                     </DropdownMenuItem>
@@ -618,25 +627,24 @@ export const Header = ({
             </MenubarMenu>
           </Menubar>
           
-          <Link 
-            to="/offers"
+          <button 
+            onClick={() => handleNavigation('/offers')}
             className="text-sm font-medium hover:text-primary transition-colors py-2"
           >
             Offers
-          </Link>
-          <Link 
-            to="/personal-care"
+          </button>
+          <button 
+            onClick={() => handleNavigation('/personal-care')}
             className="text-sm font-medium hover:text-primary transition-colors py-2"
           >
             Personal Care & Hygiene
-          </Link>
-          <Link
-            to="/prescription-upload"
-            onClick={() => scrollToSection('prescription-upload')}
+          </button>
+          <button
+            onClick={() => handleNavigation('/prescription-upload')}
             className="text-sm font-medium hover:text-primary transition-colors py-2"
           >
             Upload Prescription
-          </Link>
+          </button>
         </nav>
       </div>
 
@@ -668,20 +676,20 @@ export const Header = ({
                 </button>
               ))}
             </div>
-            <Link 
-              to="/offers"
+            <button 
+              onClick={() => handleNavigation('/offers')}
               className="block text-sm font-medium hover:text-primary transition-colors py-2"
             >
               Offers
-            </Link>
-            <Link 
-              to="/personal-care"
+            </button>
+            <button 
+              onClick={() => handleNavigation('/personal-care')}
               className="block text-sm font-medium hover:text-primary transition-colors py-2"
             >
               Personal Care & Hygiene
-            </Link>
+            </button>
             <button 
-              onClick={() => scrollToSection('prescription-upload')}
+              onClick={() => handleNavigation('/prescription-upload')}
               className="block text-sm font-medium hover:text-primary transition-colors py-2"
             >
               Upload Prescription

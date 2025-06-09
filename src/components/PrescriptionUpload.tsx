@@ -1,4 +1,3 @@
-
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -45,10 +44,38 @@ const prescriptionHistory = [
   }
 ];
 
+// Mock prescription files for simulation
+const mockPrescriptionFiles = [
+  {
+    name: 'prescription_001.jpg',
+    size: 2.5 * 1024 * 1024, // 2.5MB
+    type: 'image/jpeg',
+    lastModified: Date.now(),
+    url: 'https://picsum.photos/800/600?random=1'
+  },
+  {
+    name: 'prescription_002.png',
+    size: 1.8 * 1024 * 1024, // 1.8MB
+    type: 'image/png',
+    lastModified: Date.now(),
+    url: 'https://picsum.photos/800/600?random=2'
+  },
+  {
+    name: 'prescription_003.pdf',
+    size: 3.2 * 1024 * 1024, // 3.2MB
+    type: 'application/pdf',
+    lastModified: Date.now(),
+    url: null
+  }
+];
+
 export const PrescriptionUpload = () => {
   const [dragOver, setDragOver] = useState(false);
   const [files, setFiles] = useState<File[]>([]);
   const [selectedPrescription, setSelectedPrescription] = useState<any>(null);
+  const [patientName, setPatientName] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [notes, setNotes] = useState('');
   const { toast } = useToast();
 
   const handleDragOver = (e: React.DragEvent) => {
@@ -79,11 +106,48 @@ export const PrescriptionUpload = () => {
     setFiles(prev => prev.filter((_, i) => i !== index));
   };
 
+  const handleMockUpload = () => {
+    // Add a random mock file to simulate upload
+    const randomMockFile = mockPrescriptionFiles[Math.floor(Math.random() * mockPrescriptionFiles.length)];
+    
+    // Create a mock File object
+    const mockFile = new File(
+      ['mock content'], 
+      randomMockFile.name, 
+      { 
+        type: randomMockFile.type,
+        lastModified: randomMockFile.lastModified 
+      }
+    );
+    
+    // Override the size property
+    Object.defineProperty(mockFile, 'size', {
+      value: randomMockFile.size,
+      writable: false
+    });
+
+    setFiles(prev => [...prev, mockFile]);
+    
+    toast({
+      title: "Mock prescription uploaded!",
+      description: `Added ${randomMockFile.name} to your uploads`,
+    });
+  };
+
   const handleSubmit = () => {
     if (files.length === 0) {
       toast({
         title: "No files uploaded",
         description: "Please upload at least one prescription image",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    if (!patientName.trim()) {
+      toast({
+        title: "Patient name required",
+        description: "Please enter the patient name",
         variant: "destructive"
       });
       return;
@@ -96,6 +160,9 @@ export const PrescriptionUpload = () => {
 
     // Reset form
     setFiles([]);
+    setPatientName('');
+    setPhoneNumber('');
+    setNotes('');
   };
 
   const viewPrescription = (prescription: any) => {
@@ -104,6 +171,11 @@ export const PrescriptionUpload = () => {
 
   const getFilePreview = (file: File) => {
     if (file.type.startsWith('image/')) {
+      // For mock files, use a placeholder image
+      if (file.name.includes('prescription_')) {
+        const randomId = Math.floor(Math.random() * 1000);
+        return `https://picsum.photos/800/600?random=${randomId}`;
+      }
       return URL.createObjectURL(file);
     }
     return null;
@@ -132,18 +204,23 @@ export const PrescriptionUpload = () => {
               <Eye className="w-5 h-5" />
               <span>Uploaded Files Preview</span>
             </h3>
-            <Button variant="outline" asChild>
-              <label className="cursor-pointer">
-                Add More Files
-                <Input
-                  type="file"
-                  multiple
-                  accept="image/*,.pdf"
-                  className="hidden"
-                  onChange={handleFileSelect}
-                />
-              </label>
-            </Button>
+            <div className="flex space-x-2">
+              <Button variant="outline" onClick={handleMockUpload}>
+                Add Mock Upload
+              </Button>
+              <Button variant="outline" asChild>
+                <label className="cursor-pointer">
+                  Add More Files
+                  <Input
+                    type="file"
+                    multiple
+                    accept="image/*,.pdf"
+                    className="hidden"
+                    onChange={handleFileSelect}
+                  />
+                </label>
+              </Button>
+            </div>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -219,18 +296,23 @@ export const PrescriptionUpload = () => {
               or click to browse files
             </p>
           </div>
-          <Button variant="outline" asChild>
-            <label className="cursor-pointer">
-              Choose Files
-              <Input
-                type="file"
-                multiple
-                accept="image/*,.pdf"
-                className="hidden"
-                onChange={handleFileSelect}
-              />
-            </label>
-          </Button>
+          <div className="flex flex-col sm:flex-row gap-2 justify-center">
+            <Button variant="outline" asChild>
+              <label className="cursor-pointer">
+                Choose Files
+                <Input
+                  type="file"
+                  multiple
+                  accept="image/*,.pdf"
+                  className="hidden"
+                  onChange={handleFileSelect}
+                />
+              </label>
+            </Button>
+            <Button variant="secondary" onClick={handleMockUpload}>
+              Add Mock Upload
+            </Button>
+          </div>
           <p className="text-xs text-muted-foreground">
             Supported formats: JPG, PNG, PDF (Max 10MB per file)
           </p>
@@ -348,11 +430,21 @@ export const PrescriptionUpload = () => {
                   <div className="grid grid-cols-2 gap-4">
                     <div>
                       <Label htmlFor="patient-name">Patient Name</Label>
-                      <Input id="patient-name" placeholder="Enter patient name" />
+                      <Input 
+                        id="patient-name" 
+                        placeholder="Enter patient name"
+                        value={patientName}
+                        onChange={(e) => setPatientName(e.target.value)}
+                      />
                     </div>
                     <div>
                       <Label htmlFor="patient-phone">Phone Number</Label>
-                      <Input id="patient-phone" placeholder="Enter phone number" />
+                      <Input 
+                        id="patient-phone" 
+                        placeholder="Enter phone number"
+                        value={phoneNumber}
+                        onChange={(e) => setPhoneNumber(e.target.value)}
+                      />
                     </div>
                   </div>
                   <div>
@@ -361,6 +453,8 @@ export const PrescriptionUpload = () => {
                       id="notes"
                       placeholder="Any specific instructions or notes..."
                       rows={3}
+                      value={notes}
+                      onChange={(e) => setNotes(e.target.value)}
                     />
                   </div>
                 </div>
