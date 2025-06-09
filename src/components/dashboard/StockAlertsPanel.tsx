@@ -14,7 +14,7 @@ interface Alert {
 }
 
 interface StockAlertsPanelProps {
-  alerts: Alert[];
+  alerts?: Alert[];
 }
 
 const getAlertConfig = (type: string) => {
@@ -50,52 +50,49 @@ const getAlertConfig = (type: string) => {
   }
 };
 
-export const StockAlertsPanel: React.FC<StockAlertsPanelProps> = ({ alerts }) => {
-  if (alerts.length === 0) return null;
+export const StockAlertsPanel: React.FC<StockAlertsPanelProps> = ({ alerts = [] }) => {
+  if (alerts.length === 0) {
+    return (
+      <div className="text-center py-8 text-muted-foreground">
+        <AlertTriangle className="h-8 w-8 mx-auto mb-2 opacity-50" />
+        <p className="text-sm">No active alerts</p>
+      </div>
+    );
+  }
 
   return (
-    <Card className="modern-card">
-      <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          <AlertTriangle className="h-5 w-5 text-amber-600" />
-          Stock Alerts & Notifications
-        </CardTitle>
-      </CardHeader>
-      <CardContent>
-        <div className="space-y-3">
-          {alerts.map((alert) => {
-            const config = getAlertConfig(alert.type);
-            const Icon = config.icon;
-            
-            return (
-              <div
-                key={alert.id}
-                className={`p-4 rounded-lg border ${config.bgColor} flex items-start justify-between`}
-              >
-                <div className="flex items-start gap-3">
-                  <Icon className={`h-5 w-5 mt-0.5 ${config.iconColor}`} />
-                  <div className="flex-1">
-                    <p className="text-sm font-medium text-foreground">
-                      {alert.message}
-                    </p>
-                    {alert.product && (
-                      <Badge variant="outline" className="mt-1 text-xs">
-                        {alert.product}
-                      </Badge>
-                    )}
-                    <p className="text-xs text-muted-foreground mt-1">
-                      {alert.timestamp.toLocaleTimeString()}
-                    </p>
-                  </div>
-                </div>
-                <Button variant="ghost" size="sm" className="h-6 w-6 p-0">
-                  <X className="h-4 w-4" />
-                </Button>
+    <div className="space-y-3">
+      {alerts.map((alert) => {
+        const config = getAlertConfig(alert.type);
+        const Icon = config.icon;
+        
+        return (
+          <div
+            key={alert.id}
+            className={`p-4 rounded-lg border ${config.bgColor} flex items-start justify-between`}
+          >
+            <div className="flex items-start gap-3">
+              <Icon className={`h-5 w-5 mt-0.5 ${config.iconColor}`} />
+              <div className="flex-1">
+                <p className="text-sm font-medium text-foreground">
+                  {alert.message}
+                </p>
+                {alert.product && (
+                  <Badge variant="outline" className="mt-1 text-xs">
+                    {alert.product}
+                  </Badge>
+                )}
+                <p className="text-xs text-muted-foreground mt-1">
+                  {alert.timestamp.toLocaleTimeString()}
+                </p>
               </div>
-            );
-          })}
-        </div>
-      </CardContent>
-    </Card>
+            </div>
+            <Button variant="ghost" size="sm" className="h-6 w-6 p-0">
+              <X className="h-4 w-4" />
+            </Button>
+          </div>
+        );
+      })}
+    </div>
   );
 };

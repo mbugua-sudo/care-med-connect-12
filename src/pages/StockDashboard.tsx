@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -24,9 +25,11 @@ import { CustomerReviewsPanel } from '@/components/dashboard/CustomerReviewsPane
 import { CustomerFeedbackChart } from '@/components/dashboard/CustomerFeedbackChart';
 import { SidebarProvider, SidebarInset, SidebarTrigger } from '@/components/ui/sidebar';
 import { AppSidebar } from '@/components/AppSidebar';
-import { mockData } from '@/utils/mockData';
+import { generateMockData } from '@/utils/mockData';
 
 const StockDashboard = () => {
+  const mockData = generateMockData();
+
   return (
     <SidebarProvider>
       <div className="min-h-screen flex w-full bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
@@ -146,7 +149,7 @@ const StockDashboard = () => {
                       <CardTitle>Revenue Trends</CardTitle>
                     </CardHeader>
                     <CardContent>
-                      <SalesRevenueChart data={mockData.salesRevenue} />
+                      <SalesRevenueChart data={mockData.salesTrends} />
                     </CardContent>
                   </Card>
 
@@ -166,7 +169,7 @@ const StockDashboard = () => {
                       <CardTitle>Stock Alerts</CardTitle>
                     </CardHeader>
                     <CardContent>
-                      <StockAlertsPanel />
+                      <StockAlertsPanel alerts={mockData.alerts} />
                     </CardContent>
                   </Card>
 
@@ -175,7 +178,7 @@ const StockDashboard = () => {
                       <CardTitle>Customer Reviews</CardTitle>
                     </CardHeader>
                     <CardContent>
-                      <CustomerReviewsPanel />
+                      <CustomerReviewsPanel reviews={mockData.customerReviews} />
                     </CardContent>
                   </Card>
 
@@ -184,7 +187,7 @@ const StockDashboard = () => {
                       <CardTitle>Replenishment Status</CardTitle>
                     </CardHeader>
                     <CardContent>
-                      <ReplenishmentGauge percentage={75} />
+                      <ReplenishmentGauge value={75} />
                     </CardContent>
                   </Card>
                 </div>
@@ -197,7 +200,7 @@ const StockDashboard = () => {
                       <CardTitle>Sales Revenue</CardTitle>
                     </CardHeader>
                     <CardContent>
-                      <SalesRevenueChart data={mockData.salesRevenue} />
+                      <SalesRevenueChart data={mockData.salesTrends} />
                     </CardContent>
                   </Card>
 
@@ -206,7 +209,7 @@ const StockDashboard = () => {
                       <CardTitle>Trending Medicines</CardTitle>
                     </CardHeader>
                     <CardContent>
-                      <TrendingMedicinesChart data={mockData.trendingMedicines} />
+                      <TrendingMedicinesChart data={mockData.trending} />
                     </CardContent>
                   </Card>
                 </div>
@@ -259,7 +262,7 @@ const StockDashboard = () => {
                       <CardTitle>Stock Alerts</CardTitle>
                     </CardHeader>
                     <CardContent>
-                      <StockAlertsPanel />
+                      <StockAlertsPanel alerts={mockData.alerts} />
                     </CardContent>
                   </Card>
 
@@ -268,7 +271,7 @@ const StockDashboard = () => {
                       <CardTitle>Replenishment Status</CardTitle>
                     </CardHeader>
                     <CardContent>
-                      <ReplenishmentGauge percentage={60} />
+                      <ReplenishmentGauge value={60} />
                     </CardContent>
                   </Card>
 

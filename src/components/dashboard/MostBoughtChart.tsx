@@ -140,7 +140,7 @@ export const MostBoughtChart: React.FC<MostBoughtChartProps> = ({ data }) => {
               }}
             />
             
-            {/* Enhanced legend with better spacing */}
+            {/* Enhanced legend with improved spacing */}
             <Legend 
               verticalAlign="bottom" 
               height={50}
@@ -151,15 +151,12 @@ export const MostBoughtChart: React.FC<MostBoughtChartProps> = ({ data }) => {
                 fontWeight: '500',
                 lineHeight: '1.6'
               }}
-              itemStyle={{
-                marginRight: '20px',
-                marginBottom: '8px'
-              }}
               formatter={(value, entry) => (
                 <span style={{ 
                   color: entry.color,
                   textShadow: `0 1px 2px ${entry.color}30`,
-                  marginLeft: '8px'
+                  marginLeft: '8px',
+                  marginRight: '20px'
                 }}>
                   {value}
                 </span>

@@ -274,7 +274,6 @@ export const ProductTable: React.FC<ProductTableProps> = ({ searchQuery, selecte
             </div>
             <div className="p-6">
               <ProductForm 
-                productId={editingProduct}
                 onClose={() => {
                   setShowEditForm(false);
                   setEditingProduct(null);
