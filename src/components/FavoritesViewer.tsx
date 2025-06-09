@@ -1,5 +1,5 @@
 
-import { Heart, X } from 'lucide-react';
+import { Heart, X, ShoppingCart } from 'lucide-react';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -67,11 +67,11 @@ export const FavoritesViewer = ({
                       <h4 className="font-medium text-sm">{medicine.name}</h4>
                       <div className="flex items-center space-x-2">
                         <span className="text-sm font-bold text-primary">
-                          Kshs {medicine.price}
+                          KES {medicine.price}
                         </span>
                         {medicine.originalPrice && (
                           <span className="text-xs text-muted-foreground line-through">
-                            Kshs {medicine.originalPrice}
+                            KES {medicine.originalPrice}
                           </span>
                         )}
                       </div>
@@ -81,11 +81,13 @@ export const FavoritesViewer = ({
                           className="flex-1"
                           onClick={() => onAddToCart(medicine)}
                         >
+                          <ShoppingCart className="w-3 h-3 mr-1" />
                           Add to Cart
                         </Button>
                         <Button
                           size="sm"
                           variant="outline"
+                          className="hover:bg-red-50 hover:text-red-600 hover:border-red-200"
                           onClick={() => onRemoveFavorite(medicine.id)}
                         >
                           <X className="w-3 h-3" />

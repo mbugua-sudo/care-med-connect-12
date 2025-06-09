@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 
 export const HeroSection = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [isTransitioning, setIsTransitioning] = useState(false);
   
   // 5 Background images for the hero carousel
   const backgroundImages = [
@@ -16,19 +17,42 @@ export const HeroSection = () => {
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % backgroundImages.length);
+      setIsTransitioning(true);
+      
+      setTimeout(() => {
+        setCurrentSlide((prev) => (prev + 1) % backgroundImages.length);
+        setIsTransitioning(false);
+      }, 500); // Half of transition duration
     }, 5000);
 
     return () => clearInterval(timer);
   }, [backgroundImages.length]);
 
+  const nextIndex = (currentSlide + 1) % backgroundImages.length;
+
   return (
-    <section 
-      className="relative h-[50dvh] flex items-center justify-center py-16 transition-all duration-1000 bg-cover bg-center bg-no-repeat"
-      style={{ 
-        backgroundImage: `url(${backgroundImages[currentSlide]})`,
-      }}
-    >
+    <section className="relative h-[50dvh] flex items-center justify-center py-16 overflow-hidden">
+      {/* Current Image */}
+      <div 
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-all duration-1000"
+        style={{ 
+          backgroundImage: `url(${backgroundImages[currentSlide]})`,
+        }}
+      />
+      
+      {/* Next Image for Vertical Split Effect */}
+      <div 
+        className={`absolute inset-0 bg-cover bg-center bg-no-repeat transition-all duration-1000 ${
+          isTransitioning ? 'transform translate-y-0' : 'transform translate-y-full'
+        }`}
+        style={{ 
+          backgroundImage: `url(${backgroundImages[nextIndex]})`,
+          clipPath: isTransitioning 
+            ? 'polygon(0 0, 100% 0, 100% 100%, 0% 100%)' 
+            : 'polygon(0 100%, 100% 100%, 100% 100%, 0% 100%)'
+        }}
+      />
+
       {/* Background overlay for better text readability */}
       <div className="absolute inset-0 bg-black/40" />
       

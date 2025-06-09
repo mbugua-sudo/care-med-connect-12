@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { Search, ShoppingCart, User, Menu, X, Plus, Minus, Trash2 } from 'lucide-react';
@@ -71,6 +70,13 @@ export const Header = ({
       message: 'Your order #12345 has been delivered successfully',
       time: '2 hours ago',
       isRead: false
+    },
+    {
+      id: '2',
+      title: 'Payment Confirmed',
+      message: 'Your payment for order #12344 has been confirmed',
+      time: '1 day ago',
+      isRead: false
     }
   ]);
   const navigate = useNavigate();
@@ -78,7 +84,7 @@ export const Header = ({
   const cartCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
   const cartTotal = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
 
-  // Mock medicines for favorites viewer
+  // Mock medicines for favorites viewer - this should match the actual medicine data
   const allMedicines = [
     {
       id: '1',
@@ -172,6 +178,12 @@ export const Header = ({
     );
   };
 
+  const handleMarkAllAsRead = () => {
+    setNotifications(prev => 
+      prev.map(notif => ({ ...notif, isRead: true }))
+    );
+  };
+
   const handleClearAllNotifications = () => {
     setNotifications([]);
   };
@@ -258,6 +270,7 @@ export const Header = ({
             <NotificationViewer
               notifications={notifications}
               onMarkAsRead={handleMarkAsRead}
+              onMarkAllAsRead={handleMarkAllAsRead}
               onClearAll={handleClearAllNotifications}
             />
             

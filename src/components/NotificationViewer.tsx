@@ -16,12 +16,14 @@ interface Notification {
 interface NotificationViewerProps {
   notifications: Notification[];
   onMarkAsRead: (id: string) => void;
+  onMarkAllAsRead: () => void;
   onClearAll: () => void;
 }
 
 export const NotificationViewer = ({ 
   notifications, 
   onMarkAsRead, 
+  onMarkAllAsRead,
   onClearAll 
 }: NotificationViewerProps) => {
   const unreadCount = notifications.filter(n => !n.isRead).length;
@@ -42,11 +44,18 @@ export const NotificationViewer = ({
         <SheetHeader>
           <div className="flex items-center justify-between">
             <SheetTitle>Notifications ({unreadCount} unread)</SheetTitle>
-            {notifications.length > 0 && (
-              <Button variant="ghost" size="sm" onClick={onClearAll}>
-                Clear All
-              </Button>
-            )}
+            <div className="flex items-center space-x-2">
+              {unreadCount > 0 && (
+                <Button variant="outline" size="sm" onClick={onMarkAllAsRead}>
+                  Mark All as Read
+                </Button>
+              )}
+              {notifications.length > 0 && (
+                <Button variant="outline" size="sm" onClick={onClearAll} className="border">
+                  Clear All
+                </Button>
+              )}
+            </div>
           </div>
         </SheetHeader>
         
@@ -61,19 +70,24 @@ export const NotificationViewer = ({
                 notification.isRead ? 'bg-background' : 'bg-primary/5 border-primary/20'
               }`}>
                 <div className="flex items-start justify-between">
-                  <div className="flex-1 space-y-1">
-                    <h4 className="font-medium text-sm">{notification.title}</h4>
-                    <p className="text-sm text-muted-foreground">{notification.message}</p>
-                    <p className="text-xs text-muted-foreground">{notification.time}</p>
+                  <div className="flex items-start space-x-3 flex-1">
+                    {!notification.isRead && (
+                      <div className="w-2 h-2 bg-blue-500 rounded-full mt-2 animate-pulse" />
+                    )}
+                    <div className="flex-1 space-y-1">
+                      <h4 className="font-medium text-sm">{notification.title}</h4>
+                      <p className="text-sm text-muted-foreground">{notification.message}</p>
+                      <p className="text-xs text-muted-foreground">{notification.time}</p>
+                    </div>
                   </div>
                   {!notification.isRead && (
                     <Button
                       size="icon"
                       variant="ghost"
-                      className="h-6 w-6"
+                      className="h-8 w-8 hover:bg-red-50 hover:text-red-600 rounded-full"
                       onClick={() => onMarkAsRead(notification.id)}
                     >
-                      <X className="w-3 h-3" />
+                      <X className="w-4 h-4" />
                     </Button>
                   )}
                 </div>
