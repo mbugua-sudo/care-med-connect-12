@@ -6,6 +6,19 @@ import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { Separator } from '@/components/ui/separator';
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "@/components/ui/command";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 
 interface CartItem {
   id: string;
@@ -21,6 +34,8 @@ interface HeaderProps {
   cartItems: CartItem[];
   removeFromCart: (id: string) => void;
   updateCartQuantity: (id: string, quantity: number) => void;
+  searchQuery: string;
+  setSearchQuery: (query: string) => void;
 }
 
 export const Header = ({ 
@@ -28,11 +43,39 @@ export const Header = ({
   setIsAuthenticated, 
   cartItems, 
   removeFromCart, 
-  updateCartQuantity 
+  updateCartQuantity,
+  searchQuery,
+  setSearchQuery
 }: HeaderProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
   const cartCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
   const cartTotal = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+
+  // Mock search suggestions - in real app this would come from API
+  const searchSuggestions = [
+    'Paracetamol',
+    'Ibuprofen',
+    'Vitamin D3',
+    'Omega-3',
+    'Calcium',
+    'Multivitamin',
+    'Aspirin',
+    'Amoxicillin'
+  ].filter(item => 
+    item.toLowerCase().includes(searchQuery.toLowerCase()) && searchQuery.length > 0
+  );
+
+  const handleSearch = (query: string) => {
+    setSearchQuery(query);
+    setIsSearchOpen(false);
+  };
+
+  const handleSearchSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSearchOpen(false);
+    // Search functionality will filter results in MedicineCarousel
+  };
 
   return (
     <header className="bg-white shadow-sm border-b sticky top-0 z-50">
@@ -59,13 +102,43 @@ export const Header = ({
 
           {/* Search bar */}
           <div className="hidden md:flex flex-1 max-w-md mx-8">
-            <div className="relative w-full">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
-              <Input
-                placeholder="Search medicines, health products..."
-                className="pl-10 pr-4 py-2 w-full"
-              />
-            </div>
+            <Popover open={isSearchOpen} onOpenChange={setIsSearchOpen}>
+              <PopoverTrigger asChild>
+                <div className="relative w-full">
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
+                  <form onSubmit={handleSearchSubmit}>
+                    <Input
+                      placeholder="Search medicines, health products..."
+                      className="pl-10 pr-4 py-2 w-full"
+                      value={searchQuery}
+                      onChange={(e) => {
+                        setSearchQuery(e.target.value);
+                        setIsSearchOpen(e.target.value.length > 0);
+                      }}
+                      onFocus={() => setIsSearchOpen(searchQuery.length > 0)}
+                    />
+                  </form>
+                </div>
+              </PopoverTrigger>
+              <PopoverContent className="w-full p-0" align="start">
+                <Command>
+                  <CommandList>
+                    <CommandEmpty>No results found.</CommandEmpty>
+                    <CommandGroup heading="Suggestions">
+                      {searchSuggestions.map((suggestion, index) => (
+                        <CommandItem
+                          key={index}
+                          onSelect={() => handleSearch(suggestion)}
+                        >
+                          <Search className="mr-2 h-4 w-4" />
+                          {suggestion}
+                        </CommandItem>
+                      ))}
+                    </CommandGroup>
+                  </CommandList>
+                </Command>
+              </PopoverContent>
+            </Popover>
           </div>
 
           {/* Action buttons */}
@@ -190,13 +263,17 @@ export const Header = ({
 
         {/* Mobile search */}
         <div className="md:hidden mt-4">
-          <div className="relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
-            <Input
-              placeholder="Search medicines, health products..."
-              className="pl-10 pr-4 py-2 w-full"
-            />
-          </div>
+          <form onSubmit={handleSearchSubmit}>
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
+              <Input
+                placeholder="Search medicines, health products..."
+                className="pl-10 pr-4 py-2 w-full"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+            </div>
+          </form>
         </div>
 
         {/* Navigation menu */}

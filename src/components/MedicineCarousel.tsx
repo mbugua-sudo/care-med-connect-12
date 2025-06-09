@@ -3,7 +3,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
-import { ShoppingCart } from 'lucide-react';
+import { ShoppingCart, Heart } from 'lucide-react';
 
 interface Medicine {
   id: string;
@@ -19,9 +19,19 @@ interface MedicineCarouselProps {
   title: string;
   addToCart: (medicine: Medicine) => void;
   type: 'offers' | 'new-stock' | 'new-medicine';
+  favorites: string[];
+  toggleFavorite: (id: string) => void;
+  searchQuery: string;
 }
 
-export const MedicineCarousel = ({ title, addToCart, type }: MedicineCarouselProps) => {
+export const MedicineCarousel = ({ 
+  title, 
+  addToCart, 
+  type, 
+  favorites, 
+  toggleFavorite, 
+  searchQuery 
+}: MedicineCarouselProps) => {
   // Mock data - in real app this would come from API
   const getMedicines = (): Medicine[] => {
     const baseMedicines = [
@@ -31,7 +41,7 @@ export const MedicineCarousel = ({ title, addToCart, type }: MedicineCarouselPro
         price: 12.99,
         originalPrice: 15.99,
         discount: 20,
-        image: '/placeholder.svg',
+        image: 'https://picsum.photos/2000/2030',
         category: 'Pain Relief'
       },
       {
@@ -40,7 +50,7 @@ export const MedicineCarousel = ({ title, addToCart, type }: MedicineCarouselPro
         price: 24.99,
         originalPrice: 29.99,
         discount: 15,
-        image: '/placeholder.svg',
+        image: 'https://picsum.photos/2000/2031',
         category: 'Vitamins'
       },
       {
@@ -49,7 +59,7 @@ export const MedicineCarousel = ({ title, addToCart, type }: MedicineCarouselPro
         price: 18.50,
         originalPrice: 22.50,
         discount: 18,
-        image: '/placeholder.svg',
+        image: 'https://picsum.photos/2000/2032',
         category: 'Pain Relief'
       },
       {
@@ -58,7 +68,7 @@ export const MedicineCarousel = ({ title, addToCart, type }: MedicineCarouselPro
         price: 32.99,
         originalPrice: 39.99,
         discount: 17,
-        image: '/placeholder.svg',
+        image: 'https://picsum.photos/2000/2033',
         category: 'Supplements'
       },
       {
@@ -67,7 +77,7 @@ export const MedicineCarousel = ({ title, addToCart, type }: MedicineCarouselPro
         price: 16.75,
         originalPrice: 19.75,
         discount: 15,
-        image: '/placeholder.svg',
+        image: 'https://picsum.photos/2000/2034',
         category: 'Vitamins'
       },
       {
@@ -76,7 +86,7 @@ export const MedicineCarousel = ({ title, addToCart, type }: MedicineCarouselPro
         price: 28.99,
         originalPrice: 34.99,
         discount: 17,
-        image: '/placeholder.svg',
+        image: 'https://picsum.photos/2000/2035',
         category: 'Vitamins'
       }
     ];
@@ -88,18 +98,35 @@ export const MedicineCarousel = ({ title, addToCart, type }: MedicineCarouselPro
     }));
   };
 
-  const medicines = getMedicines();
+  const allMedicines = getMedicines();
+  
+  // Filter medicines based on search query
+  const filteredMedicines = searchQuery 
+    ? allMedicines.filter(medicine => 
+        medicine.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        medicine.category.toLowerCase().includes(searchQuery.toLowerCase())
+      )
+    : allMedicines;
+
+  // Don't render if search is active but no results
+  if (searchQuery && filteredMedicines.length === 0) {
+    return null;
+  }
 
   return (
     <section className="py-12 bg-background">
       <div className="container mx-auto px-4">
         <div className="text-center mb-8">
-          <h2 className="text-3xl lg:text-4xl font-bold mb-4">{title}</h2>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            {type === 'offers' && 'Great deals on essential medicines and health products'}
-            {type === 'new-stock' && 'Freshly restocked medicines now available'}
-            {type === 'new-medicine' && 'Latest additions to our medicine catalog'}
-          </p>
+          <h2 className="text-3xl lg:text-4xl font-bold mb-4">
+            {searchQuery ? `Search Results for "${searchQuery}"` : title}
+          </h2>
+          {!searchQuery && (
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+              {type === 'offers' && 'Great deals on essential medicines and health products'}
+              {type === 'new-stock' && 'Freshly restocked medicines now available'}
+              {type === 'new-medicine' && 'Latest additions to our medicine catalog'}
+            </p>
+          )}
         </div>
 
         <Carousel
@@ -110,7 +137,7 @@ export const MedicineCarousel = ({ title, addToCart, type }: MedicineCarouselPro
           className="w-full"
         >
           <CarouselContent className="-ml-2 md:-ml-4">
-            {medicines.map((medicine) => (
+            {filteredMedicines.map((medicine) => (
               <CarouselItem key={medicine.id} className="pl-2 md:pl-4 basis-full sm:basis-1/2 md:basis-1/3 lg:basis-1/4">
                 <Card className="group hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
                   <CardContent className="p-4">
@@ -125,6 +152,18 @@ export const MedicineCarousel = ({ title, addToCart, type }: MedicineCarouselPro
                           -{medicine.discount}%
                         </Badge>
                       )}
+                      <Button
+                        size="icon"
+                        variant="ghost"
+                        className={`absolute top-2 left-2 h-8 w-8 ${
+                          favorites.includes(medicine.id) 
+                            ? 'text-red-500 bg-white/80' 
+                            : 'text-gray-500 bg-white/80 hover:text-red-500'
+                        }`}
+                        onClick={() => toggleFavorite(medicine.id)}
+                      >
+                        <Heart className={`w-4 h-4 ${favorites.includes(medicine.id) ? 'fill-current' : ''}`} />
+                      </Button>
                     </div>
                     
                     <div className="space-y-2">
