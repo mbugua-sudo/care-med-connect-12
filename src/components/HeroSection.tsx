@@ -31,18 +31,18 @@ export const HeroSection = () => {
   const nextIndex = (currentSlide + 1) % backgroundImages.length;
 
   return (
-    <section className="relative h-[60dvh] flex items-center justify-center py-16 overflow-hidden">
-      {/* Current Image - extends beyond container */}
+    <section className="relative h-[60dvh] flex items-center justify-center overflow-hidden">
+      {/* Current Image - full width */}
       <div 
-        className="absolute inset-0 -mx-8 bg-cover bg-center bg-no-repeat transition-all duration-1000 rounded-3xl"
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-all duration-1000"
         style={{ 
           backgroundImage: `url(${backgroundImages[currentSlide]})`,
         }}
       />
       
-      {/* Next Image for Vertical Split Effect - extends beyond container */}
+      {/* Next Image for Vertical Split Effect - full width */}
       <div 
-        className={`absolute inset-0 -mx-8 bg-cover bg-center bg-no-repeat transition-all duration-1000 rounded-3xl ${
+        className={`absolute inset-0 bg-cover bg-center bg-no-repeat transition-all duration-1000 ${
           isTransitioning ? 'transform translate-y-0' : 'transform translate-y-full'
         }`}
         style={{ 
@@ -53,12 +53,12 @@ export const HeroSection = () => {
         }}
       />
 
-      {/* Enhanced gradient overlay with rounded corners */}
-      <div className="absolute inset-0 -mx-8 bg-gradient-to-br from-black/50 via-black/30 to-transparent rounded-3xl" />
+      {/* Enhanced gradient overlay */}
+      <div className="absolute inset-0 bg-gradient-to-br from-black/50 via-black/30 to-transparent" />
       
-      {/* Background blob positioned on top */}
-      <div className="absolute -top-32 -right-32 w-96 h-96 bg-gradient-to-br from-emerald-400/20 to-cyan-400/20 rounded-full blur-3xl animate-float z-10" />
-      <div className="absolute -bottom-32 -left-32 w-96 h-96 bg-gradient-to-tr from-blue-400/20 to-purple-400/20 rounded-full blur-3xl animate-float" style={{ animationDelay: '2s' }} />
+      {/* Background blob positioned on top - moved to appear above content */}
+      <div className="absolute -top-32 -right-32 w-96 h-96 bg-gradient-to-br from-emerald-400/20 to-cyan-400/20 rounded-full blur-3xl animate-float z-30" />
+      <div className="absolute -bottom-32 -left-32 w-96 h-96 bg-gradient-to-tr from-blue-400/20 to-purple-400/20 rounded-full blur-3xl animate-float z-10" style={{ animationDelay: '2s' }} />
       
       <div className="container mx-auto px-4 relative z-20">
         <div className="max-w-4xl mx-auto text-center">
