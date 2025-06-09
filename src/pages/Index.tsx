@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Header } from '@/components/Header';
 import { HeroSection } from '@/components/HeroSection';
@@ -7,10 +6,24 @@ import { MedicineCarousel } from '@/components/MedicineCarousel';
 import { ServiceCards } from '@/components/ServiceCards';
 import { PrescriptionUpload } from '@/components/PrescriptionUpload';
 import { Footer } from '@/components/Footer';
+import { AdvertisementBanner } from '@/components/AdvertisementBanner';
+import { AnimatedBlobs } from '@/components/AnimatedBlobs';
 
 const Index = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [cartItems, setCartItems] = useState<any[]>([]);
+
+  const advertisementImages1 = [
+    'https://picsum.photos/200/201',
+    'https://picsum.photos/200/202',
+    'https://picsum.photos/200/203'
+  ];
+
+  const advertisementImages2 = [
+    'https://picsum.photos/200/204',
+    'https://picsum.photos/200/205',
+    'https://picsum.photos/200/206'
+  ];
 
   const addToCart = (medicine: any) => {
     setCartItems(prev => {
@@ -43,7 +56,8 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background relative">
+      <AnimatedBlobs />
       <Header 
         isAuthenticated={isAuthenticated} 
         setIsAuthenticated={setIsAuthenticated}
@@ -59,11 +73,13 @@ const Index = () => {
           addToCart={addToCart}
           type="offers"
         />
+        <AdvertisementBanner images={advertisementImages1} />
         <MedicineCarousel 
           title="New Medicine in Stock" 
           addToCart={addToCart}
           type="new-stock"
         />
+        <AdvertisementBanner images={advertisementImages2} />
         <MedicineCarousel 
           title="New Medicine" 
           addToCart={addToCart}
