@@ -121,11 +121,11 @@ export const MedicineCarousel = ({
     <section className="py-12 bg-background">
       <div className="container mx-auto px-4">
         <div className="text-center mb-8">
-          <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-4">
+          <h2 className="text-xl md:text-2xl lg:text-3xl xl:text-4xl font-bold mb-4">
             {searchQuery ? `Search Results for "${searchQuery}"` : title}
           </h2>
           {!searchQuery && (
-            <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
+            <p className="text-base md:text-lg lg:text-xl text-muted-foreground max-w-2xl mx-auto">
               {type === 'offers' && 'Great deals on essential medicines and health products'}
               {type === 'new-stock' && 'Freshly restocked medicines now available'}
               {type === 'new-medicine' && 'Latest additions to our medicine catalog'}
@@ -158,7 +158,7 @@ export const MedicineCarousel = ({
                           <img
                             src={medicine.image}
                             alt={medicine.name}
-                            className="w-full h-32 md:h-40 object-cover rounded-lg bg-muted cursor-pointer"
+                            className="w-full h-40 sm:h-44 md:h-40 object-cover rounded-lg bg-muted cursor-pointer"
                           />
                         </Link>
                         {medicine.discount && (
@@ -199,7 +199,7 @@ export const MedicineCarousel = ({
                         
                         <Button 
                           size="sm" 
-                          className="w-full text-xs md:text-sm h-8 md:h-9"
+                          className="w-full text-xs md:text-sm h-8 md:h-9 bg-primary hover:bg-primary/90 text-primary-foreground font-medium"
                           onClick={() => addToCart(medicine)}
                         >
                           <ShoppingCart className="w-3 h-3 md:w-4 md:h-4 mr-1 md:mr-2" />
@@ -211,9 +211,9 @@ export const MedicineCarousel = ({
                 </CarouselItem>
               ))}
             </CarouselContent>
-            {/* Mobile navigation - positioned on top of cards */}
-            <CarouselPrevious className="md:hidden left-2 top-20 z-20 h-8 w-8 bg-white/90 border shadow-lg" />
-            <CarouselNext className="md:hidden right-2 top-20 z-20 h-8 w-8 bg-white/90 border shadow-lg" />
+            {/* Mobile navigation - positioned on top of cards with transparent background and border */}
+            <CarouselPrevious className="md:hidden left-2 top-20 z-20 h-8 w-8 bg-transparent border-2 border-white/80 rounded-full shadow-lg backdrop-blur-sm hover:bg-white/20" />
+            <CarouselNext className="md:hidden right-2 top-20 z-20 h-8 w-8 bg-transparent border-2 border-white/80 rounded-full shadow-lg backdrop-blur-sm hover:bg-white/20" />
             
             {/* Desktop navigation - positioned outside */}
             <CarouselPrevious className="hidden md:flex -left-12" />
