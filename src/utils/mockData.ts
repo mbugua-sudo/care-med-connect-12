@@ -37,6 +37,17 @@ export interface CustomerFeedback {
   sentiment: number;
 }
 
+export interface CustomerReview {
+  id: string;
+  customerName: string;
+  medicine: string;
+  rating: number;
+  comment: string;
+  date: string;
+  verified: boolean;
+  helpfulCount: number;
+}
+
 export function generateMockData() {
   const medicines = [
     'Aspirin', 'Paracetamol', 'Ibuprofen', 'Amoxicillin', 'Metformin',
@@ -136,6 +147,59 @@ export function generateMockData() {
     sentiment: Math.random() * 0.4 + 0.6 // 0.6-1.0 sentiment
   }));
 
+  const customerReviews: CustomerReview[] = [
+    {
+      id: '1',
+      customerName: 'Sarah Johnson',
+      medicine: 'Paracetamol',
+      rating: 5,
+      comment: 'Very effective for headaches. Fast relief and no side effects.',
+      date: '2 days ago',
+      verified: true,
+      helpfulCount: 12
+    },
+    {
+      id: '2',
+      customerName: 'Michael Chen',
+      medicine: 'Ibuprofen',
+      rating: 4,
+      comment: 'Good pain relief but can be harsh on an empty stomach. Take with food.',
+      date: '5 days ago',
+      verified: true,
+      helpfulCount: 8
+    },
+    {
+      id: '3',
+      customerName: 'Emma Wilson',
+      medicine: 'Aspirin',
+      rating: 5,
+      comment: 'Great for daily cardio protection as recommended by my doctor.',
+      date: '1 week ago',
+      verified: false,
+      helpfulCount: 6
+    },
+    {
+      id: '4',
+      customerName: 'David Rodriguez',
+      medicine: 'Metformin',
+      rating: 4,
+      comment: 'Helps manage my diabetes well. Consistent quality and affordable.',
+      date: '1 week ago',
+      verified: true,
+      helpfulCount: 15
+    },
+    {
+      id: '5',
+      customerName: 'Lisa Anderson',
+      medicine: 'Omeprazole',
+      rating: 3,
+      comment: 'Works for acid reflux but takes a few days to see full effect.',
+      date: '2 weeks ago',
+      verified: true,
+      helpfulCount: 4
+    }
+  ];
+
   return {
     stockLevels,
     trending,
@@ -145,6 +209,7 @@ export function generateMockData() {
     productTrends,
     alerts,
     customerFeedback,
+    customerReviews,
     totalRevenue: salesTrends.reduce((sum, day) => sum + day.revenue, 0),
     totalProducts: medicines.length,
     lowStockCount: stockLevels.filter(item => item.status === 'low' || item.status === 'out').length,

@@ -14,6 +14,7 @@ import { SalesRevenueChart } from '@/components/dashboard/SalesRevenueChart';
 import { ProductTrendsChart } from '@/components/dashboard/ProductTrendsChart';
 import { StockAlertsPanel } from '@/components/dashboard/StockAlertsPanel';
 import { CustomerFeedbackChart } from '@/components/dashboard/CustomerFeedbackChart';
+import { CustomerReviewsPanel } from '@/components/dashboard/CustomerReviewsPanel';
 import { ReplenishmentGauge } from '@/components/dashboard/ReplenishmentGauge';
 import { generateMockData } from '@/utils/mockData';
 
@@ -196,6 +197,9 @@ const StockDashboard = () => {
                 </CardContent>
               </Card>
             </div>
+
+            {/* Customer Reviews Section */}
+            <CustomerReviewsPanel reviews={dashboardData.customerReviews} />
           </TabsContent>
 
           <TabsContent value="sales" className="space-y-6">
@@ -223,14 +227,18 @@ const StockDashboard = () => {
           </TabsContent>
 
           <TabsContent value="insights" className="space-y-6">
-            <Card className="modern-card">
-              <CardHeader>
-                <CardTitle>Customer Feedback & Reviews</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <CustomerFeedbackChart data={dashboardData.customerFeedback} />
-              </CardContent>
-            </Card>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <Card className="modern-card">
+                <CardHeader>
+                  <CardTitle>Customer Feedback & Reviews</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <CustomerFeedbackChart data={dashboardData.customerFeedback} />
+                </CardContent>
+              </Card>
+
+              <CustomerReviewsPanel reviews={dashboardData.customerReviews} />
+            </div>
           </TabsContent>
         </Tabs>
       </div>
