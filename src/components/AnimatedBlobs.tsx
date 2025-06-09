@@ -1,7 +1,7 @@
 
 export const AnimatedBlobs = () => {
   return (
-    <div className="fixed inset-0 overflow-hidden pointer-events-none -z-10">
+    <div className="fixed inset-0 overflow-hidden pointer-events-none z-10">
       {/* Primary Medical Blue Blob */}
       <div className="absolute top-20 left-10 w-80 h-80 rounded-full opacity-15 animate-float blur-3xl bg-gradient-to-br from-primary via-blue-500 to-blue-600" 
            style={{ animationDelay: '0s', animationDuration: '8s' }} />

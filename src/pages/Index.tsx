@@ -121,7 +121,7 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background relative">
+    <div className="min-h-screen bg-background relative outline">
       <AnimatedBlobs />
       <FreeDeliveryOverlay />
       <Header 
