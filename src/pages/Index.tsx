@@ -9,6 +9,8 @@ import { PrescriptionUpload } from '@/components/PrescriptionUpload';
 import { Footer } from '@/components/Footer';
 import { AdvertisementBanner } from '@/components/AdvertisementBanner';
 import { AnimatedBlobs } from '@/components/AnimatedBlobs';
+import { CookieConsent } from '@/components/CookieConsent';
+import { FreeDeliveryOverlay } from '@/components/FreeDeliveryOverlay';
 
 const Index = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(true); // For testing notifications
@@ -63,6 +65,7 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-background relative">
       <AnimatedBlobs />
+      <FreeDeliveryOverlay />
       <Header 
         isAuthenticated={isAuthenticated} 
         setIsAuthenticated={setIsAuthenticated}
@@ -77,14 +80,16 @@ const Index = () => {
       <main>
         <HeroSection />
         <TrustIndicators />
-        <MedicineCarousel 
-          title="Medicine on Offer" 
-          addToCart={addToCart}
-          type="offers"
-          favorites={favorites}
-          toggleFavorite={toggleFavorite}
-          searchQuery={searchQuery}
-        />
+        <div id="medicine-offers">
+          <MedicineCarousel 
+            title="Medicine on Offer" 
+            addToCart={addToCart}
+            type="offers"
+            favorites={favorites}
+            toggleFavorite={toggleFavorite}
+            searchQuery={searchQuery}
+          />
+        </div>
         <MedicineCarousel 
           title="New Medicine in Stock" 
           addToCart={addToCart}
@@ -138,9 +143,12 @@ const Index = () => {
         </section>
         
         <ServiceCards />
-        <PrescriptionUpload />
+        <div id="prescription-upload">
+          <PrescriptionUpload />
+        </div>
       </main>
       <Footer />
+      <CookieConsent />
     </div>
   );
 };

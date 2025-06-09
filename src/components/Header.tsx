@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { Search, ShoppingCart, User, Menu, X, Plus, Minus, Trash2 } from 'lucide-react';
@@ -178,6 +179,13 @@ export const Header = ({
   const handleAddToCart = (medicine: any) => {
     // This would typically be handled by parent component
     console.log('Adding to cart:', medicine);
+  };
+
+  const scrollToSection = (sectionId: string) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
   };
 
   return (
@@ -385,21 +393,36 @@ export const Header = ({
 
         {/* Navigation menu */}
         <nav className="hidden md:flex mt-4 space-x-8">
-          <a href="#" className="text-sm font-medium hover:text-primary transition-colors">
+          <button 
+            onClick={() => scrollToSection('medicine-offers')}
+            className="text-sm font-medium hover:text-primary transition-colors"
+          >
             Prescription Medicines
-          </a>
-          <a href="#" className="text-sm font-medium hover:text-primary transition-colors">
+          </button>
+          <button 
+            onClick={() => scrollToSection('medicine-offers')}
+            className="text-sm font-medium hover:text-primary transition-colors"
+          >
             Over-the-Counter
-          </a>
-          <a href="#" className="text-sm font-medium hover:text-primary transition-colors">
+          </button>
+          <button 
+            onClick={() => scrollToSection('medicine-offers')}
+            className="text-sm font-medium hover:text-primary transition-colors"
+          >
             Health Products
-          </a>
-          <a href="#" className="text-sm font-medium hover:text-primary transition-colors">
+          </button>
+          <button 
+            onClick={() => scrollToSection('medicine-offers')}
+            className="text-sm font-medium hover:text-primary transition-colors"
+          >
             Wellness
-          </a>
-          <a href="#" className="text-sm font-medium hover:text-primary transition-colors">
+          </button>
+          <button 
+            onClick={() => scrollToSection('prescription-upload')}
+            className="text-sm font-medium hover:text-primary transition-colors"
+          >
             Upload Prescription
-          </a>
+          </button>
         </nav>
       </div>
 
@@ -407,21 +430,36 @@ export const Header = ({
       {isMenuOpen && (
         <div className="md:hidden bg-white border-t">
           <nav className="container mx-auto px-4 py-4 space-y-4">
-            <a href="#" className="block text-sm font-medium hover:text-primary transition-colors">
+            <button 
+              onClick={() => scrollToSection('medicine-offers')}
+              className="block text-sm font-medium hover:text-primary transition-colors"
+            >
               Prescription Medicines
-            </a>
-            <a href="#" className="block text-sm font-medium hover:text-primary transition-colors">
+            </button>
+            <button 
+              onClick={() => scrollToSection('medicine-offers')}
+              className="block text-sm font-medium hover:text-primary transition-colors"
+            >
               Over-the-Counter
-            </a>
-            <a href="#" className="block text-sm font-medium hover:text-primary transition-colors">
+            </button>
+            <button 
+              onClick={() => scrollToSection('medicine-offers')}
+              className="block text-sm font-medium hover:text-primary transition-colors"
+            >
               Health Products
-            </a>
-            <a href="#" className="block text-sm font-medium hover:text-primary transition-colors">
+            </button>
+            <button 
+              onClick={() => scrollToSection('medicine-offers')}
+              className="block text-sm font-medium hover:text-primary transition-colors"
+            >
               Wellness
-            </a>
-            <a href="#" className="block text-sm font-medium hover:text-primary transition-colors">
+            </button>
+            <button 
+              onClick={() => scrollToSection('prescription-upload')}
+              className="block text-sm font-medium hover:text-primary transition-colors"
+            >
               Upload Prescription
-            </a>
+            </button>
           </nav>
         </div>
       )}

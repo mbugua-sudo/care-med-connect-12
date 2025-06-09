@@ -9,50 +9,66 @@ import {
   FileText, 
   MapPin 
 } from 'lucide-react';
+import { MedicationReminder } from './MedicationReminder';
+import { HealthTracker } from './HealthTracker';
+import { PharmacyLocator } from './PharmacyLocator';
 
 export const ServiceCards = () => {
+  const scrollToSection = (sectionId: string) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   const services = [
     {
       icon: Pill,
       title: 'Prescription Medicines',
       description: 'Upload your prescription and get medicines delivered safely',
       color: 'bg-blue-100 text-blue-600',
-      action: 'Upload Prescription'
+      action: 'Upload Prescription',
+      onClick: () => scrollToSection('prescription-upload')
     },
     {
       icon: Heart,
       title: 'Health Products',
       description: 'Vitamins, supplements, and wellness products',
       color: 'bg-green-100 text-green-600',
-      action: 'Shop Now'
+      action: 'Shop Now',
+      onClick: () => scrollToSection('medicine-offers')
     },
     {
       icon: Activity,
       title: 'Health Monitoring',
       description: 'Track your medications and health progress',
       color: 'bg-purple-100 text-purple-600',
-      action: 'Start Tracking'
+      action: 'Start Tracking',
+      component: HealthTracker
     },
     {
       icon: Calendar,
       title: 'Medication Reminders',
       description: 'Never miss a dose with smart reminders',
       color: 'bg-orange-100 text-orange-600',
-      action: 'Set Reminders'
+      action: 'Set Reminders',
+      component: MedicationReminder
     },
     {
       icon: FileText,
       title: 'Digital Prescriptions',
       description: 'Store and manage all your prescriptions digitally',
       color: 'bg-teal-100 text-teal-600',
-      action: 'Manage Records'
+      action: 'Manage Records',
+      onClick: () => scrollToSection('prescription-upload')
     },
     {
       icon: MapPin,
       title: 'Pharmacy Locator',
       description: 'Find nearby pharmacies and healthcare providers',
       color: 'bg-red-100 text-red-600',
-      action: 'Find Pharmacies'
+      action: 'Find Pharmacies',
+      component: PharmacyLocator
     }
   ];
 
@@ -80,9 +96,18 @@ export const ServiceCards = () => {
                   <div className="flex-1">
                     <h3 className="font-semibold text-lg mb-2">{service.title}</h3>
                     <p className="text-muted-foreground mb-4">{service.description}</p>
-                    <Button variant="outline" size="sm" className="group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
-                      {service.action}
-                    </Button>
+                    {service.component ? (
+                      <service.component />
+                    ) : (
+                      <Button 
+                        variant="outline" 
+                        size="sm" 
+                        className="group-hover:bg-primary group-hover:text-primary-foreground transition-colors"
+                        onClick={service.onClick}
+                      >
+                        {service.action}
+                      </Button>
+                    )}
                   </div>
                 </div>
               </CardContent>
