@@ -189,6 +189,7 @@ const OffersPage = () => {
         setSearchQuery={setSearchQuery}
         favorites={favorites}
         toggleFavorite={toggleFavorite}
+        medicines={offeredMedicines}
       />
       
       <main className="container mx-auto px-4 py-8">

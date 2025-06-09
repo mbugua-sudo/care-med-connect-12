@@ -169,6 +169,7 @@ const CategoryPage = () => {
         setSearchQuery={setSearchQuery}
         favorites={favorites}
         toggleFavorite={toggleFavorite}
+        medicines={allMedicines}
       />
       
       <main className="container mx-auto px-4 py-8">

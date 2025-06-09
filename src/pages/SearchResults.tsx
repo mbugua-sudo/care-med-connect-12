@@ -14,6 +14,64 @@ const SearchResults = () => {
   const [cartItems, setCartItems] = useState<any[]>([]);
   const [favorites, setFavorites] = useState<string[]>([]);
 
+  // Mock medicines for favorites functionality
+  const allMedicines = [
+    {
+      id: '1',
+      name: 'Paracetamol 500mg',
+      price: 1299,
+      originalPrice: 1599,
+      discount: 20,
+      image: 'https://picsum.photos/2000/2030',
+      category: 'Pain Relief'
+    },
+    {
+      id: '2',
+      name: 'Vitamin D3 1000IU',
+      price: 2499,
+      originalPrice: 2999,
+      discount: 15,
+      image: 'https://picsum.photos/2000/2031',
+      category: 'Vitamins'
+    },
+    {
+      id: '3',
+      name: 'Ibuprofen 400mg',
+      price: 1850,
+      originalPrice: 2250,
+      discount: 18,
+      image: 'https://picsum.photos/2000/2032',
+      category: 'Pain Relief'
+    },
+    {
+      id: '4',
+      name: 'Omega-3 Fish Oil',
+      price: 3299,
+      originalPrice: 3999,
+      discount: 17,
+      image: 'https://picsum.photos/2000/2033',
+      category: 'Supplements'
+    },
+    {
+      id: '5',
+      name: 'Calcium Tablets',
+      price: 1675,
+      originalPrice: 1975,
+      discount: 15,
+      image: 'https://picsum.photos/2000/2034',
+      category: 'Vitamins'
+    },
+    {
+      id: '6',
+      name: 'Multivitamin Complex',
+      price: 2899,
+      originalPrice: 3499,
+      discount: 17,
+      image: 'https://picsum.photos/2000/2035',
+      category: 'Vitamins'
+    }
+  ];
+
   const addToCart = (medicine: any) => {
     setCartItems(prev => {
       const existingItem = prev.find(item => item.id === medicine.id);
@@ -65,6 +123,7 @@ const SearchResults = () => {
         setSearchQuery={() => {}}
         favorites={favorites}
         toggleFavorite={toggleFavorite}
+        medicines={allMedicines}
       />
       
       <main className="container mx-auto px-4 py-8">
