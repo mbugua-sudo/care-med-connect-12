@@ -16,7 +16,7 @@ const ConditionPage = () => {
   const [favorites, setFavorites] = useState<string[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
 
-  // Mock medicines for each condition
+  // Comprehensive medicines for each condition
   const conditionMedicines: Record<string, any[]> = {
     'stomach-care-digestive-health': [
       {
@@ -67,6 +67,16 @@ const ConditionPage = () => {
         discount: 21,
         image: 'https://picsum.photos/300/300?random=105',
         rating: 4.1,
+        category: 'Digestive Health'
+      },
+      {
+        id: 'digestive-6',
+        name: 'Loperamide 2mg',
+        price: 799,
+        originalPrice: 999,
+        discount: 20,
+        image: 'https://picsum.photos/300/300?random=106',
+        rating: 4.0,
         category: 'Digestive Health'
       }
     ],
@@ -120,6 +130,16 @@ const ConditionPage = () => {
         image: 'https://picsum.photos/300/300?random=205',
         rating: 4.3,
         category: 'Pain Relief'
+      },
+      {
+        id: 'pain-6',
+        name: 'Naproxen 250mg',
+        price: 1699,
+        originalPrice: 2099,
+        discount: 19,
+        image: 'https://picsum.photos/300/300?random=206',
+        rating: 4.2,
+        category: 'Pain Relief'
       }
     ],
     'diabetes': [
@@ -172,6 +192,16 @@ const ConditionPage = () => {
         image: 'https://picsum.photos/300/300?random=305',
         rating: 4.4,
         category: 'Diabetes Care'
+      },
+      {
+        id: 'diabetes-6',
+        name: 'Glucometer Device',
+        price: 3999,
+        originalPrice: 4999,
+        discount: 20,
+        image: 'https://picsum.photos/300/300?random=306',
+        rating: 4.8,
+        category: 'Diabetes Care'
       }
     ],
     'hypertension': [
@@ -215,8 +245,209 @@ const ConditionPage = () => {
         rating: 4.8,
         category: 'Heart Health'
       }
+    ],
+    'mental-health-depression': [
+      {
+        id: 'mental-1',
+        name: 'Sertraline 50mg',
+        price: 2999,
+        originalPrice: 3699,
+        discount: 19,
+        image: 'https://picsum.photos/300/300?random=501',
+        rating: 4.5,
+        category: 'Mental Health'
+      },
+      {
+        id: 'mental-2',
+        name: 'Fluoxetine 20mg',
+        price: 2599,
+        originalPrice: 3199,
+        discount: 19,
+        image: 'https://picsum.photos/300/300?random=502',
+        rating: 4.4,
+        category: 'Mental Health'
+      }
+    ],
+    'cold-flu': [
+      {
+        id: 'cold-1',
+        name: 'Paracetamol Cold Relief',
+        price: 899,
+        originalPrice: 1199,
+        discount: 25,
+        image: 'https://picsum.photos/300/300?random=601',
+        rating: 4.3,
+        category: 'Cold & Flu'
+      },
+      {
+        id: 'cold-2',
+        name: 'Cough Syrup',
+        price: 1299,
+        originalPrice: 1599,
+        discount: 19,
+        image: 'https://picsum.photos/300/300?random=602',
+        rating: 4.2,
+        category: 'Cold & Flu'
+      }
+    ],
+    'allergies': [
+      {
+        id: 'allergy-1',
+        name: 'Cetirizine 10mg',
+        price: 699,
+        originalPrice: 899,
+        discount: 22,
+        image: 'https://picsum.photos/300/300?random=701',
+        rating: 4.6,
+        category: 'Allergy Relief'
+      },
+      {
+        id: 'allergy-2',
+        name: 'Loratadine 10mg',
+        price: 799,
+        originalPrice: 999,
+        discount: 20,
+        image: 'https://picsum.photos/300/300?random=702',
+        rating: 4.4,
+        category: 'Allergy Relief'
+      }
+    ],
+    'asthma-respiratory': [
+      {
+        id: 'respiratory-1',
+        name: 'Salbutamol Inhaler',
+        price: 1899,
+        originalPrice: 2399,
+        discount: 21,
+        image: 'https://picsum.photos/300/300?random=801',
+        rating: 4.8,
+        category: 'Respiratory'
+      },
+      {
+        id: 'respiratory-2',
+        name: 'Budesonide Inhaler',
+        price: 3299,
+        originalPrice: 4199,
+        discount: 21,
+        image: 'https://picsum.photos/300/300?random=802',
+        rating: 4.7,
+        category: 'Respiratory'
+      }
+    ],
+    'skin-conditions': [
+      {
+        id: 'skin-1',
+        name: 'Hydrocortisone Cream',
+        price: 1199,
+        originalPrice: 1499,
+        discount: 20,
+        image: 'https://picsum.photos/300/300?random=901',
+        rating: 4.4,
+        category: 'Skin Care'
+      },
+      {
+        id: 'skin-2',
+        name: 'Antifungal Cream',
+        price: 1599,
+        originalPrice: 1999,
+        discount: 20,
+        image: 'https://picsum.photos/300/300?random=902',
+        rating: 4.3,
+        category: 'Skin Care'
+      }
+    ],
+    'eye-care': [
+      {
+        id: 'eye-1',
+        name: 'Artificial Tears',
+        price: 899,
+        originalPrice: 1199,
+        discount: 25,
+        image: 'https://picsum.photos/300/300?random=1001',
+        rating: 4.5,
+        category: 'Eye Care'
+      },
+      {
+        id: 'eye-2',
+        name: 'Antibiotic Eye Drops',
+        price: 1599,
+        originalPrice: 1999,
+        discount: 20,
+        image: 'https://picsum.photos/300/300?random=1002',
+        rating: 4.6,
+        category: 'Eye Care'
+      }
+    ],
+    'womens-health': [
+      {
+        id: 'womens-1',
+        name: 'Iron Supplements',
+        price: 1299,
+        originalPrice: 1599,
+        discount: 19,
+        image: 'https://picsum.photos/300/300?random=1101',
+        rating: 4.4,
+        category: 'Women\'s Health'
+      },
+      {
+        id: 'womens-2',
+        name: 'Folic Acid Tablets',
+        price: 899,
+        originalPrice: 1199,
+        discount: 25,
+        image: 'https://picsum.photos/300/300?random=1102',
+        rating: 4.5,
+        category: 'Women\'s Health'
+      }
+    ],
+    'mens-health': [
+      {
+        id: 'mens-1',
+        name: 'Multivitamin for Men',
+        price: 2199,
+        originalPrice: 2799,
+        discount: 21,
+        image: 'https://picsum.photos/300/300?random=1201',
+        rating: 4.3,
+        category: 'Men\'s Health'
+      },
+      {
+        id: 'mens-2',
+        name: 'Testosterone Support',
+        price: 3299,
+        originalPrice: 4199,
+        discount: 21,
+        image: 'https://picsum.photos/300/300?random=1202',
+        rating: 4.2,
+        category: 'Men\'s Health'
+      }
+    ],
+    'senior-care': [
+      {
+        id: 'senior-1',
+        name: 'Senior Multivitamin',
+        price: 2599,
+        originalPrice: 3299,
+        discount: 21,
+        image: 'https://picsum.photos/300/300?random=1301',
+        rating: 4.6,
+        category: 'Senior Care'
+      },
+      {
+        id: 'senior-2',
+        name: 'Joint Support Formula',
+        price: 3799,
+        originalPrice: 4699,
+        discount: 19,
+        image: 'https://picsum.photos/300/300?random=1302',
+        rating: 4.4,
+        category: 'Senior Care'
+      }
     ]
   };
+
+  // Get all medicines for the favorites functionality
+  const allMedicines = Object.values(conditionMedicines).flat();
 
   const conditionName = condition?.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase()) || '';
   const medicines = conditionMedicines[condition || ''] || [];
@@ -271,11 +502,12 @@ const ConditionPage = () => {
         setSearchQuery={setSearchQuery}
         favorites={favorites}
         toggleFavorite={toggleFavorite}
+        medicines={allMedicines}
       />
       
-      <main className="container mx-auto px-4 py-8">
+      <main className="container mx-auto px-4 py-8 lg:py-12">
         {/* Breadcrumb */}
-        <div className="mb-6 text-sm text-muted-foreground">
+        <div className="mb-8 text-sm text-muted-foreground">
           <Link to="/" className="hover:text-primary">Home</Link>
           <span className="mx-2">/</span>
           <span>Shop by Condition</span>
@@ -284,11 +516,11 @@ const ConditionPage = () => {
         </div>
 
         {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4">
+        <div className="mb-12">
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-6">
             {conditionName} Medicines
           </h1>
-          <p className="text-base sm:text-lg text-muted-foreground max-w-2xl">
+          <p className="text-lg sm:text-xl text-muted-foreground max-w-3xl leading-relaxed">
             Find effective medicines and treatments for {conditionName.toLowerCase()}. 
             All products are genuine and sourced from certified manufacturers.
           </p>
@@ -296,11 +528,11 @@ const ConditionPage = () => {
 
         {/* Medicines Grid */}
         {medicines.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 lg:gap-8">
             {medicines.map((medicine) => (
-              <Card key={medicine.id} className="group hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
-                <CardContent className="p-4">
-                  <div className="relative mb-4">
+              <Card key={medicine.id} className="group hover:shadow-xl transition-all duration-300 hover:-translate-y-2">
+                <CardContent className="p-6">
+                  <div className="relative mb-6">
                     <BlurImage
                       src={medicine.image}
                       alt={medicine.name}
@@ -308,14 +540,14 @@ const ConditionPage = () => {
                       blurhash="L6PZfSi_.AyE_3t7t7R**0o#DgR4"
                     />
                     {medicine.discount > 0 && (
-                      <Badge className="absolute top-2 left-2 bg-red-500 text-white text-xs">
+                      <Badge className="absolute top-3 left-3 bg-red-500 text-white text-xs px-2 py-1">
                         {medicine.discount}% OFF
                       </Badge>
                     )}
                     <Button
                       variant="ghost"
                       size="icon"
-                      className={`absolute top-2 right-2 ${
+                      className={`absolute top-3 right-3 ${
                         favorites.includes(medicine.id)
                           ? 'text-red-500 hover:text-red-600'
                           : 'text-gray-400 hover:text-red-500'
@@ -326,17 +558,17 @@ const ConditionPage = () => {
                     </Button>
                   </div>
                   
-                  <div className="space-y-2">
-                    <h3 className="font-semibold text-sm sm:text-base line-clamp-2">
+                  <div className="space-y-3">
+                    <h3 className="font-semibold text-base sm:text-lg line-clamp-2 leading-tight">
                       {medicine.name}
                     </h3>
                     
-                    <div className="flex items-center space-x-1">
+                    <div className="flex items-center space-x-2">
                       <div className="flex">
                         {[...Array(5)].map((_, i) => (
                           <Star
                             key={i}
-                            className={`w-3 h-3 ${
+                            className={`w-4 h-4 ${
                               i < Math.floor(medicine.rating)
                                 ? 'text-yellow-400 fill-current'
                                 : 'text-gray-300'
@@ -344,13 +576,13 @@ const ConditionPage = () => {
                           />
                         ))}
                       </div>
-                      <span className="text-xs text-muted-foreground">
+                      <span className="text-sm text-muted-foreground">
                         ({medicine.rating})
                       </span>
                     </div>
                     
-                    <div className="flex items-center space-x-2">
-                      <span className="text-lg font-bold text-primary">
+                    <div className="flex items-center space-x-3">
+                      <span className="text-xl font-bold text-primary">
                         KES {medicine.price.toLocaleString()}
                       </span>
                       {medicine.originalPrice > medicine.price && (
@@ -361,7 +593,7 @@ const ConditionPage = () => {
                     </div>
                     
                     <Button 
-                      className="w-full text-xs sm:text-sm"
+                      className="w-full text-sm font-medium py-3 mt-4"
                       onClick={() => addToCart(medicine)}
                     >
                       <ShoppingCart className="w-4 h-4 mr-2" />
@@ -373,13 +605,13 @@ const ConditionPage = () => {
             ))}
           </div>
         ) : (
-          <div className="text-center py-16">
-            <h3 className="text-xl font-semibold mb-2">No medicines found</h3>
-            <p className="text-muted-foreground mb-6">
+          <div className="text-center py-20">
+            <h3 className="text-2xl font-semibold mb-4">No medicines found</h3>
+            <p className="text-muted-foreground mb-8 text-lg">
               We're working to add medicines for this condition. Please check back soon.
             </p>
             <Link to="/">
-              <Button>Continue Shopping</Button>
+              <Button size="lg">Continue Shopping</Button>
             </Link>
           </div>
         )}
