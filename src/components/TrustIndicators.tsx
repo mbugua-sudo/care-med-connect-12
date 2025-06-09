@@ -5,7 +5,7 @@ import { Shield, Clock, Truck } from 'lucide-react';
 export const TrustIndicators = () => {
   return (
     <section className="py-8 bg-background">
-      <div className="container mx-auto px-4">
+      <div className="container mx-auto px-4 z-10">
         <div className="flex flex-col md:flex-row gap-6 justify-center">
           <Card className="p-6 hover:shadow-md transition-shadow flex-1 max-w-sm">
             <div className="flex items-center space-x-4">
