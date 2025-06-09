@@ -14,6 +14,7 @@ import OffersPage from "./pages/OffersPage";
 import PersonalCarePage from "./pages/PersonalCarePage";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
+import StockDashboard from "./pages/StockDashboard";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -33,6 +34,7 @@ const App = () => (
           <Route path="/shop-by-condition" element={<ShopByCondition />} />
           <Route path="/offers" element={<OffersPage />} />
           <Route path="/personal-care" element={<PersonalCarePage />} />
+          <Route path="/dashboard" element={<StockDashboard />} />
           <Route path="/signin" element={<SignIn />} />
           <Route path="/signup" element={<SignUp />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
