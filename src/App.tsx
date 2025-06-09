@@ -15,6 +15,7 @@ import PersonalCarePage from "./pages/PersonalCarePage";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import StockDashboard from "./pages/StockDashboard";
+import ContentEditor from "./pages/ContentEditor";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
