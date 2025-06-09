@@ -68,7 +68,7 @@ export const HeroSection = () => {
               <span className="block text-5xl lg:text-7xl mb-2">Your Health,</span>
               <span className="block text-gradient-accent text-6xl lg:text-8xl animate-shimmer">Delivered</span>
             </h1>
-            <p className="text-xl lg:text-2xl text-white/95 leading-relaxed font-inter font-light text-shadow">
+            <p className="text-xl lg:text-2xl max-w-3xl mx-auto text-white/95 leading-relaxed font-inter font-light text-shadow">
               Get genuine medicines delivered to your doorstep. Licensed pharmacists, 
               verified products, and secure prescriptions - all in one trusted platform.
             </p>
@@ -76,7 +76,7 @@ export const HeroSection = () => {
               <Button size="lg" className="btn-gradient text-lg px-10 py-4 rounded-2xl font-semibold text-shadow-sm border-0 animate-glow">
                 Order Medicines Now
               </Button>
-              <Button variant="outline" size="lg" className="glass-effect text-lg px-10 py-4 rounded-2xl font-semibold text-white border-white/30 hover:bg-white/20 hover:border-white/50 transition-all duration-300 backdrop-blur-xl">
+              <Button variant="outline" size="lg" className="glass-effect text-lg px-10 py-4 rounded-2xl font-semibold text-black border-white/30 hover:bg-white/20 hover:border-white/50 transition-all duration-300 backdrop-blur-xl">
                 Upload Prescription
               </Button>
             </div>
