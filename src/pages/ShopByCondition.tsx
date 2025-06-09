@@ -157,6 +157,18 @@ const ShopByCondition = () => {
     }
   ];
 
+  // Mock medicines data for conditions
+  const conditionMedicines = {
+    'stomach-care-digestive-health': [
+      { id: '1', name: 'Paracetamol 500mg', price: 1299, originalPrice: 1599, discount: 20, image: 'https://picsum.photos/2000/2030' },
+      { id: '2', name: 'Antacid Tablets', price: 899, originalPrice: 1099, discount: 18, image: 'https://picsum.photos/2000/2031' }
+    ],
+    'pain-relief-management': [
+      { id: '3', name: 'Ibuprofen 400mg', price: 1850, originalPrice: 2250, discount: 18, image: 'https://picsum.photos/2000/2032' },
+      { id: '4', name: 'Aspirin 325mg', price: 1200, originalPrice: 1450, discount: 17, image: 'https://picsum.photos/2000/2033' }
+    ]
+  };
+
   // Filter conditions based on search
   const filteredConditions = healthConditions.filter(condition =>
     condition.name.toLowerCase().includes(conditionSearch.toLowerCase()) ||
@@ -300,36 +312,74 @@ const ShopByCondition = () => {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 lg:gap-8">
               {conditions.map((condition) => {
                 const IconComponent = condition.icon;
+                const medicines = conditionMedicines[condition.id] || [];
+                
                 return (
-                  <Link key={condition.id} to={`/condition/${condition.id}`}>
-                    <Card className="group hover:shadow-xl transition-all duration-300 hover:-translate-y-2 cursor-pointer h-full">
-                      <CardContent className="p-6 h-full flex flex-col">
-                        <div className="flex items-start justify-between mb-4">
-                          <div className={`p-3 rounded-xl ${condition.color}`}>
-                            <IconComponent className="w-6 h-6" />
+                  <div key={condition.id}>
+                    <Link to={`/condition/${condition.id}`}>
+                      <Card className="group hover:shadow-xl transition-all duration-300 hover:-translate-y-2 cursor-pointer h-full mb-4">
+                        <CardContent className="p-6 h-full flex flex-col">
+                          <div className="flex items-start justify-between mb-4">
+                            <div className={`p-3 rounded-xl ${condition.color}`}>
+                              <IconComponent className="w-6 h-6" />
+                            </div>
+                            <Badge variant="outline" className="text-xs">
+                              {condition.medicineCount} medicines
+                            </Badge>
                           </div>
-                          <Badge variant="outline" className="text-xs">
-                            {condition.medicineCount} medicines
-                          </Badge>
-                        </div>
-                        
-                        <div className="flex-1">
-                          <h3 className="font-semibold text-lg mb-3 group-hover:text-primary transition-colors leading-tight">
-                            {condition.name}
-                          </h3>
-                          <p className="text-muted-foreground text-sm leading-relaxed">
-                            {condition.description}
-                          </p>
-                        </div>
-                        
-                        <div className="mt-6 pt-4 border-t border-border">
-                          <span className="text-primary text-sm font-medium group-hover:underline">
-                            Browse Medicines →
-                          </span>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  </Link>
+                          
+                          <div className="flex-1">
+                            <h3 className="font-semibold text-lg mb-3 group-hover:text-primary transition-colors leading-tight">
+                              {condition.name}
+                            </h3>
+                            <p className="text-muted-foreground text-sm leading-relaxed">
+                              {condition.description}
+                            </p>
+                          </div>
+                          
+                          <div className="mt-6 pt-4 border-t border-border">
+                            <span className="text-primary text-sm font-medium group-hover:underline">
+                              Browse Medicines →
+                            </span>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    </Link>
+                    
+                    {/* Sample medicines for this condition */}
+                    {medicines.length > 0 && (
+                      <div className="grid grid-cols-1 gap-3">
+                        {medicines.slice(0, 2).map((medicine) => (
+                          <Link key={medicine.id} to={`/product/${medicine.id}`}>
+                            <Card className="hover:shadow-md transition-all duration-200 cursor-pointer">
+                              <CardContent className="p-3">
+                                <div className="flex items-center space-x-3">
+                                  <img 
+                                    src={medicine.image} 
+                                    alt={medicine.name}
+                                    className="w-12 h-12 object-cover rounded bg-muted"
+                                  />
+                                  <div className="flex-1 min-w-0">
+                                    <h4 className="font-medium text-sm truncate">{medicine.name}</h4>
+                                    <div className="flex items-center space-x-2">
+                                      <span className="text-sm font-bold text-primary">
+                                        KES {medicine.price}
+                                      </span>
+                                      {medicine.originalPrice && (
+                                        <span className="text-xs text-muted-foreground line-through">
+                                          KES {medicine.originalPrice}
+                                        </span>
+                                      )}
+                                    </div>
+                                  </div>
+                                </div>
+                              </CardContent>
+                            </Card>
+                          </Link>
+                        ))}
+                      </div>
+                    )}
+                  </div>
                 );
               })}
             </div>
