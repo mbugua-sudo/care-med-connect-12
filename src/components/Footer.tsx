@@ -25,7 +25,7 @@ export const Footer = () => {
       <div className="container mx-auto px-4 py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Company Info - Reduced width */}
-          <div className="lg:col-span-1 border border-primary-foreground/20 rounded-lg p-6">
+          <div className="lg:col-span-1 rounded-lg p-6">
             <div className="flex items-center space-x-3 mb-6">
               <div className="w-10 h-10 bg-primary-foreground text-primary rounded-lg flex items-center justify-center font-bold text-xl">
                 M
@@ -36,7 +36,7 @@ export const Footer = () => {
               </div>
             </div>
             
-            <p className="text-sm leading-relaxed mb-6 opacity-90">
+            <p className="text-sm leading-relaxed mb-6 opacity-90 text-left">
               Your trusted online pharmacy delivering genuine medicines and healthcare 
               products right to your doorstep. Licensed, secure, and reliable healthcare 
               solutions for you and your family.
@@ -62,8 +62,8 @@ export const Footer = () => {
 
           {/* Quick Links */}
           <div>
-            <h4 className="text-lg font-semibold mb-6">Quick Links</h4>
-            <ul className="space-y-3">
+            <h4 className="text-lg font-semibold mb-6 text-left">Quick Links</h4>
+            <ul className="space-y-3 text-left">
               <li>
                 <Link to="/about" className="text-sm hover:text-accent transition-colors opacity-90 hover:opacity-100">
                   About Us
@@ -98,7 +98,7 @@ export const Footer = () => {
           </div>
 
           {/* Categories */}
-          <div>
+          <div className='text-left'>
             <h4 className="text-lg font-semibold mb-6">Categories</h4>
             <ul className="space-y-3">
               <li>

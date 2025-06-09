@@ -350,6 +350,53 @@ export const Header = ({
     // Add any additional sign out logic here
   };
 
+  // Helper to render category menu items
+  const renderCategoryMenuItems = (onClick: (category: string) => void, className = "") =>
+    categories.map((category) => (
+      <MenubarItem
+        key={category}
+        onClick={() => onClick(category)}
+        className={`cursor-pointer text-sm py-3 px-3 rounded-md hover:bg-muted ${className}`}
+      >
+        {category}
+      </MenubarItem>
+    ));
+
+  // Helper to render condition menu items
+  const renderConditionMenuItems = (onClick: (condition: string) => void, className = "") =>
+    healthConditions.map((condition) => (
+      <MenubarItem
+        key={condition.name}
+        onClick={() => onClick(condition.name)}
+        className={`cursor-pointer text-sm py-3 px-3 rounded-md hover:bg-muted ${className}`}
+      >
+        {condition.name}
+      </MenubarItem>
+    ));
+
+  // Helper for mobile menu (button instead of MenubarItem)
+  const renderCategoryButtons = (onClick: (category: string) => void) =>
+    categories.map((category) => (
+      <button
+        key={category}
+        onClick={() => onClick(category)}
+        className="block text-sm font-medium hover:text-primary transition-colors pl-4 py-2"
+      >
+        {category}
+      </button>
+    ));
+
+  const renderConditionButtons = (onClick: (condition: string) => void) =>
+    healthConditions.map((condition) => (
+      <button
+        key={condition.name}
+        onClick={() => onClick(condition.name)}
+        className="block text-sm font-medium hover:text-primary transition-colors pl-4 py-2"
+      >
+        {condition.name}
+      </button>
+    ));
+
   return (
     <header className="bg-white shadow-sm border-b sticky top-0 z-50">
       {/* Top bar with emergency contact */}
@@ -588,23 +635,15 @@ export const Header = ({
         </div>
 
         {/* Navigation menu with Categories and Conditions - improved spacing */}
-        <nav className="hidden md:flex mt-6 space-x-8">
-          <Menubar className="border-0 bg-transparent p-0 h-auto">
+        <nav className="hidden md:flex items-center justify-between mt-6 space-x-8">
+          <Menubar className="border-0 bg-transparent p-0 h-auto md:flex items-center justify-between space-x-8">
             <MenubarMenu>
               <MenubarTrigger className="flex items-center space-x-1 text-sm font-medium hover:text-primary transition-colors cursor-pointer p-0 h-auto py-2">
                 <span>Shop by Category</span>
                 <ChevronDown className="w-4 h-4" />
               </MenubarTrigger>
               <MenubarContent className="min-w-56 p-2">
-                {categories.map((category) => (
-                  <MenubarItem
-                    key={category}
-                    onClick={() => handleCategoryClick(category)}
-                    className="cursor-pointer text-sm py-3 px-3 rounded-md hover:bg-muted"
-                  >
-                    {category}
-                  </MenubarItem>
-                ))}
+                {renderCategoryMenuItems(handleCategoryClick)}
               </MenubarContent>
             </MenubarMenu>
 
@@ -614,18 +653,9 @@ export const Header = ({
                 <ChevronDown className="w-4 h-4" />
               </MenubarTrigger>
               <MenubarContent className="max-h-96 overflow-y-auto min-w-64 p-2">
-                {healthConditions.map((condition) => (
-                  <MenubarItem
-                    key={condition.name}
-                    onClick={() => handleConditionClick(condition.name)}
-                    className="cursor-pointer text-sm py-3 px-3 rounded-md hover:bg-muted"
-                  >
-                    {condition.name}
-                  </MenubarItem>
-                ))}
+                {renderConditionMenuItems(handleConditionClick)}
               </MenubarContent>
             </MenubarMenu>
-          </Menubar>
           
           <button 
             onClick={() => handleNavigation('/offers')}
@@ -645,6 +675,8 @@ export const Header = ({
           >
             Upload Prescription
           </button>
+          </Menubar>
+
         </nav>
       </div>
 
@@ -654,27 +686,11 @@ export const Header = ({
           <nav className="container mx-auto px-4 py-6 space-y-6">
             <div className="space-y-3">
               <h4 className="font-medium text-sm text-muted-foreground">Shop by Category</h4>
-              {categories.map((category) => (
-                <button
-                  key={category}
-                  onClick={() => handleCategoryClick(category)}
-                  className="block text-sm font-medium hover:text-primary transition-colors pl-4 py-2"
-                >
-                  {category}
-                </button>
-              ))}
+              {renderCategoryButtons(handleCategoryClick)}
             </div>
             <div className="space-y-3">
               <h4 className="font-medium text-sm text-muted-foreground">Shop by Condition</h4>
-              {healthConditions.map((condition) => (
-                <button
-                  key={condition.name}
-                  onClick={() => handleConditionClick(condition.name)}
-                  className="block text-sm font-medium hover:text-primary transition-colors pl-4 py-2"
-                >
-                  {condition.name}
-                </button>
-              ))}
+              {renderConditionButtons(handleConditionClick)}
             </div>
             <button 
               onClick={() => handleNavigation('/offers')}
