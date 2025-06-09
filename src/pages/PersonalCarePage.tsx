@@ -1,5 +1,5 @@
-
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 import { Button } from '@/components/ui/button';
@@ -34,7 +34,7 @@ const PersonalCarePage = () => {
   // Mock products data
   const allProducts = [
     {
-      id: '1',
+      id: 'personal-care-1',
       name: 'Durex Classic Condoms 12 Pack',
       price: 899,
       originalPrice: 1099,
@@ -46,7 +46,7 @@ const PersonalCarePage = () => {
       inStock: true
     },
     {
-      id: '2',
+      id: 'personal-care-2',
       name: 'Always Ultra Night Sanitary Pads',
       price: 549,
       originalPrice: 649,
@@ -58,7 +58,7 @@ const PersonalCarePage = () => {
       inStock: true
     },
     {
-      id: '3',
+      id: 'personal-care-3',
       name: 'Pampers Baby Dry Diapers Size M',
       price: 1299,
       originalPrice: 1499,
@@ -70,7 +70,7 @@ const PersonalCarePage = () => {
       inStock: true
     },
     {
-      id: '4',
+      id: 'personal-care-4',
       name: 'Johnson\'s Baby Shampoo 500ml',
       price: 279,
       originalPrice: 329,
@@ -82,7 +82,7 @@ const PersonalCarePage = () => {
       inStock: true
     },
     {
-      id: '5',
+      id: 'personal-care-5',
       name: 'Whisper Ultra Wings Pads',
       price: 199,
       originalPrice: 249,
@@ -94,7 +94,7 @@ const PersonalCarePage = () => {
       inStock: false
     },
     {
-      id: '6',
+      id: 'personal-care-6',
       name: 'Koex Sensitive Condoms 3 Pack',
       price: 299,
       originalPrice: 349,
@@ -106,7 +106,7 @@ const PersonalCarePage = () => {
       inStock: true
     },
     {
-      id: '7',
+      id: 'personal-care-7',
       name: 'Huggies Wonder Pants L Size',
       price: 1599,
       originalPrice: 1899,
@@ -118,7 +118,7 @@ const PersonalCarePage = () => {
       inStock: true
     },
     {
-      id: '8',
+      id: 'personal-care-8',
       name: 'Cetaphil Gentle Baby Wash',
       price: 445,
       originalPrice: 525,
@@ -303,9 +303,9 @@ const PersonalCarePage = () => {
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="all">All Prices</SelectItem>
-                  <SelectItem value="under-500">Under ₹500</SelectItem>
-                  <SelectItem value="500-1000">₹500 - ₹1000</SelectItem>
-                  <SelectItem value="over-1000">Over ₹1000</SelectItem>
+                  <SelectItem value="under-500">Under Kshs 500</SelectItem>
+                  <SelectItem value="500-1000">Kshs 500 - Kshs 1000</SelectItem>
+                  <SelectItem value="over-1000">Over Kshs 1000</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -358,27 +358,76 @@ const PersonalCarePage = () => {
               {filteredProducts.map((product) => (
                 <Card key={product.id} className="group hover:shadow-lg transition-all duration-300">
                   <CardContent className="p-4">
-                    <div className="relative mb-4">
-                      <img 
-                        src={product.image} 
-                        alt={product.name}
-                        className="w-full h-48 object-cover rounded-lg"
-                      />
-                      {product.discount > 0 && (
-                        <Badge className="absolute top-2 left-2 bg-red-500 text-white">
-                          {product.discount}% OFF
+                    <Link to={`/product/${product.id}`} className="block">
+                      <div className="relative mb-4">
+                        <img 
+                          src={product.image} 
+                          alt={product.name}
+                          className="w-full h-48 object-cover rounded-lg"
+                        />
+                        {product.discount > 0 && (
+                          <Badge className="absolute top-2 left-2 bg-red-500 text-white">
+                            {product.discount}% OFF
+                          </Badge>
+                        )}
+                        {!product.inStock && (
+                          <Badge className="absolute top-2 right-2 bg-gray-500 text-white">
+                            Out of Stock
+                          </Badge>
+                        )}
+                      </div>
+                      
+                      <div className="space-y-2">
+                        <Badge variant="outline" className="text-xs">
+                          {product.category}
                         </Badge>
-                      )}
-                      {!product.inStock && (
-                        <Badge className="absolute top-2 right-2 bg-gray-500 text-white">
-                          Out of Stock
-                        </Badge>
-                      )}
+                        <h3 className="font-medium text-sm line-clamp-2">{product.name}</h3>
+                        <p className="text-xs text-muted-foreground">{product.brand}</p>
+                        
+                        <div className="flex items-center gap-1">
+                          <span className="text-lg font-bold text-primary">
+                            Kshs {(product.price / 100).toFixed(0)}
+                          </span>
+                          {product.originalPrice && (
+                            <span className="text-sm text-muted-foreground line-through">
+                              Kshs {(product.originalPrice / 100).toFixed(0)}
+                            </span>
+                          )}
+                        </div>
+                        
+                        <div className="flex items-center gap-1">
+                          <div className="flex text-yellow-400">
+                            {'★'.repeat(Math.floor(product.rating))}
+                            {'☆'.repeat(5 - Math.floor(product.rating))}
+                          </div>
+                          <span className="text-xs text-muted-foreground">
+                            ({product.rating})
+                          </span>
+                        </div>
+                      </div>
+                    </Link>
+                    
+                    <div className="flex items-center gap-2 mt-4">
+                      <Button 
+                        onClick={(e) => {
+                          e.preventDefault();
+                          addToCart(product);
+                        }}
+                        disabled={!product.inStock}
+                        className="flex-1 gap-2"
+                        size="sm"
+                      >
+                        <ShoppingCart className="w-4 h-4" />
+                        {product.inStock ? 'Add to Cart' : 'Out of Stock'}
+                      </Button>
                       <Button
                         size="icon"
                         variant="ghost"
-                        onClick={() => toggleFavorite(product.id)}
-                        className="absolute top-2 right-2 hover:bg-white/80"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          toggleFavorite(product.id);
+                        }}
+                        className="hover:bg-white/80"
                       >
                         <Heart 
                           className={`w-4 h-4 ${
@@ -387,45 +436,6 @@ const PersonalCarePage = () => {
                               : 'text-gray-600'
                           }`} 
                         />
-                      </Button>
-                    </div>
-                    
-                    <div className="space-y-2">
-                      <Badge variant="outline" className="text-xs">
-                        {product.category}
-                      </Badge>
-                      <h3 className="font-medium text-sm line-clamp-2">{product.name}</h3>
-                      <p className="text-xs text-muted-foreground">{product.brand}</p>
-                      
-                      <div className="flex items-center gap-1">
-                        <span className="text-lg font-bold text-primary">
-                          ₹{(product.price / 100).toFixed(0)}
-                        </span>
-                        {product.originalPrice && (
-                          <span className="text-sm text-muted-foreground line-through">
-                            ₹{(product.originalPrice / 100).toFixed(0)}
-                          </span>
-                        )}
-                      </div>
-                      
-                      <div className="flex items-center gap-1">
-                        <div className="flex text-yellow-400">
-                          {'★'.repeat(Math.floor(product.rating))}
-                          {'☆'.repeat(5 - Math.floor(product.rating))}
-                        </div>
-                        <span className="text-xs text-muted-foreground">
-                          ({product.rating})
-                        </span>
-                      </div>
-                      
-                      <Button 
-                        onClick={() => addToCart(product)}
-                        disabled={!product.inStock}
-                        className="w-full gap-2"
-                        size="sm"
-                      >
-                        <ShoppingCart className="w-4 h-4" />
-                        {product.inStock ? 'Add to Cart' : 'Out of Stock'}
                       </Button>
                     </div>
                   </CardContent>

@@ -180,12 +180,43 @@ const ProductDetail = () => {
         inStock: 12,
         rating: 4.7,
         reviewCount: 89
+      },
+      // Personal care products
+      {
+        id: 'personal-care-1',
+        name: 'Durex Classic Condoms 12 Pack',
+        price: 899,
+        originalPrice: 1099,
+        discount: 18,
+        image: 'https://picsum.photos/300/300?random=1',
+        category: 'Condoms',
+        description: 'Premium quality condoms for safe and comfortable intimate moments. Made with high-quality latex for maximum protection.',
+        ingredients: 'Natural rubber latex, silicone lubricant.',
+        howToUse: 'Use as directed. Check expiry date before use. Store in a cool, dry place.',
+        inStock: 25,
+        rating: 4.5,
+        reviewCount: 87
+      },
+      {
+        id: 'personal-care-2',
+        name: 'Always Ultra Night Sanitary Pads',
+        price: 549,
+        originalPrice: 649,
+        discount: 15,
+        image: 'https://picsum.photos/300/300?random=2',
+        category: 'Sanitary Towels',
+        description: 'Ultra-absorbent night pads with wings for maximum protection and comfort during heavy flow days.',
+        ingredients: 'Top sheet, absorbent core, back sheet with adhesive.',
+        howToUse: 'Remove backing, place adhesive side on underwear. Change every 4-6 hours or as needed.',
+        inStock: 50,
+        rating: 4.7,
+        reviewCount: 156
       }
     ];
     
     // Handle different ID formats from carousels
     const cleanId = medicineId.replace(/^(offers|new-stock|new-medicine)-/, '');
-    return medicines.find(med => med.id === cleanId) || medicines[0];
+    return medicines.find(med => med.id === cleanId || med.id === medicineId) || medicines[0];
   };
 
   useEffect(() => {
@@ -365,11 +396,11 @@ const ProductDetail = () => {
               
               <div className="flex items-center space-x-4 mb-4">
                 <span className="text-3xl font-bold text-primary">
-                  KES {medicine.price}
+                  Kshs {medicine.price}
                 </span>
                 {medicine.originalPrice && (
                   <span className="text-xl text-muted-foreground line-through">
-                    KES {medicine.originalPrice}
+                    Kshs {medicine.originalPrice}
                   </span>
                 )}
               </div>
@@ -518,6 +549,13 @@ const ProductDetail = () => {
             </Tabs>
           </CardContent>
         </Card>
+
+        {/* Rating Component */}
+        <RatingComponent 
+          productId={medicine.id}
+          isAuthenticated={isAuthenticated}
+          onRatingSubmit={handleRatingSubmit}
+        />
 
         {/* Recently Viewed */}
         <RecentlyViewed 
