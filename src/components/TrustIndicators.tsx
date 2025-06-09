@@ -13,7 +13,7 @@ export const TrustIndicators = () => {
                 <Shield className="w-6 h-6 text-green-600" />
               </div>
               <div>
-                <h3 className="font-semibold">100% Genuine Medicines</h3>
+                <h3 className="font-semibold text-base">100% Genuine Medicines</h3>
                 <p className="text-sm text-muted-foreground">
                   Verified by licensed pharmacists
                 </p>
@@ -27,7 +27,7 @@ export const TrustIndicators = () => {
                 <Clock className="w-6 h-6 text-blue-600" />
               </div>
               <div>
-                <h3 className="font-semibold">24/7 Pharmacy Support</h3>
+                <h3 className="font-semibold text-base">24/7 Pharmacy Support</h3>
                 <p className="text-sm text-muted-foreground">
                   Expert consultation available
                 </p>
@@ -41,7 +41,7 @@ export const TrustIndicators = () => {
                 <Truck className="w-6 h-6 text-orange-600" />
               </div>
               <div>
-                <h3 className="font-semibold">Fast Delivery</h3>
+                <h3 className="font-semibold text-base">Fast Delivery</h3>
                 <p className="text-sm text-muted-foreground">
                   Same-day delivery in major cities
                 </p>
