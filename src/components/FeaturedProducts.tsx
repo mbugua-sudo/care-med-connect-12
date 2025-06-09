@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { BlurImage } from '@/components/BlurImage';
 import { ShoppingCart, Heart, Star } from 'lucide-react';
 
 export const FeaturedProducts = () => {
@@ -17,7 +18,7 @@ export const FeaturedProducts = () => {
       originalPrice: 15.99,
       rating: 4.8,
       reviews: 234,
-      image: '/placeholder.svg',
+      image: 'https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=400&h=300&fit=crop',
       inStock: true,
       requiresPrescription: false
     },
@@ -28,7 +29,7 @@ export const FeaturedProducts = () => {
       price: 25.50,
       rating: 4.9,
       reviews: 156,
-      image: '/placeholder.svg',
+      image: 'https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=400&h=300&fit=crop',
       inStock: true,
       requiresPrescription: true
     },
@@ -40,7 +41,7 @@ export const FeaturedProducts = () => {
       originalPrice: 22.00,
       rating: 4.7,
       reviews: 89,
-      image: '/placeholder.svg',
+      image: 'https://images.unsplash.com/photo-1550572017-edd951b55104?w=400&h=300&fit=crop',
       inStock: true,
       requiresPrescription: false
     },
@@ -51,7 +52,7 @@ export const FeaturedProducts = () => {
       price: 32.99,
       rating: 4.6,
       reviews: 67,
-      image: '/placeholder.svg',
+      image: 'https://images.unsplash.com/photo-1587854692152-cbe660dbde88?w=400&h=300&fit=crop',
       inStock: false,
       requiresPrescription: true
     },
@@ -63,7 +64,7 @@ export const FeaturedProducts = () => {
       originalPrice: 29.99,
       rating: 4.8,
       reviews: 178,
-      image: '/placeholder.svg',
+      image: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&h=300&fit=crop',
       inStock: true,
       requiresPrescription: false
     },
@@ -74,7 +75,7 @@ export const FeaturedProducts = () => {
       price: 9.99,
       rating: 4.5,
       reviews: 203,
-      image: '/placeholder.svg',
+      image: 'https://images.unsplash.com/photo-1607619056574-7b8d3ee536b2?w=400&h=300&fit=crop',
       inStock: true,
       requiresPrescription: false
     }
@@ -106,10 +107,10 @@ export const FeaturedProducts = () => {
               <CardContent className="p-0">
                 {/* Product image */}
                 <div className="relative overflow-hidden rounded-t-lg">
-                  <img 
-                    src={product.image} 
+                  <BlurImage
+                    src={product.image}
                     alt={product.name}
-                    className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
+                    className="w-full h-48 group-hover:scale-105 transition-transform duration-300"
                   />
                   <div className="absolute top-3 left-3">
                     <Badge variant={product.inStock ? "default" : "destructive"}>
@@ -161,11 +162,11 @@ export const FeaturedProducts = () => {
                     {/* Price */}
                     <div className="flex items-center space-x-2 mb-4">
                       <span className="text-2xl font-bold text-primary">
-                        ${product.price}
+                        KES {product.price}
                       </span>
                       {product.originalPrice && (
                         <span className="text-lg text-muted-foreground line-through">
-                          ${product.originalPrice}
+                          KES {product.originalPrice}
                         </span>
                       )}
                     </div>

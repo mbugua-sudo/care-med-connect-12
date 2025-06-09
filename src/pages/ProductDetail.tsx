@@ -5,6 +5,7 @@ import { Footer } from '@/components/Footer';
 import { AnimatedBlobs } from '@/components/AnimatedBlobs';
 import { BlurImage } from '@/components/BlurImage';
 import { ShareDialog } from '@/components/ShareDialog';
+import { RatingComponent } from '@/components/RatingComponent';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
@@ -182,6 +183,12 @@ const ProductDetail = () => {
         ? prev.filter(fav => fav !== medicineId)
         : [...prev, medicineId]
     );
+  };
+
+  const handleRatingSubmit = (rating: number) => {
+    // In a real app, this would save to backend
+    console.log(`User rated product ${medicine?.id} with ${rating} stars`);
+    // You could update local state or make an API call here
   };
 
   if (!medicine) {

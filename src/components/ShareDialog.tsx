@@ -19,9 +19,10 @@ interface ShareDialogProps {
 export const ShareDialog = ({ productName, productUrl, productImage }: ShareDialogProps) => {
   const currentUrl = productUrl || window.location.href;
   const shareText = `Check out this medicine: ${productName}`;
+  const whatsappNumber = "+254704472009"; // Updated WhatsApp number
   
   const handleWhatsAppShare = () => {
-    const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(`${shareText} ${currentUrl}`)}`;
+    const whatsappUrl = `https://wa.me/${whatsappNumber.replace(/[^0-9]/g, '')}?text=${encodeURIComponent(`${shareText} ${currentUrl}`)}`;
     window.open(whatsappUrl, '_blank');
   };
 

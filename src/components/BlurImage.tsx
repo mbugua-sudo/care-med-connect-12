@@ -7,13 +7,17 @@ interface BlurImageProps {
   alt: string;
   className?: string;
   blurhash?: string;
+  width?: number;
+  height?: number;
 }
 
 export const BlurImage = ({ 
   src, 
   alt, 
   className = "", 
-  blurhash = "LKO2?U%2Tw=w]~RBVZRi};RPxuwH" // Default blurhash
+  blurhash = "LKO2?U%2Tw=w]~RBVZRi};RPxuwH", // Default blurhash
+  width = 400,
+  height = 300
 }: BlurImageProps) => {
   const [imageLoaded, setImageLoaded] = useState(false);
   const [imageError, setImageError] = useState(false);
@@ -23,8 +27,8 @@ export const BlurImage = ({
       {!imageLoaded && !imageError && (
         <BlurhashCanvas
           hash={blurhash}
-          width={400}
-          height={300}
+          width={width}
+          height={height}
           className="absolute inset-0 w-full h-full object-cover"
         />
       )}
