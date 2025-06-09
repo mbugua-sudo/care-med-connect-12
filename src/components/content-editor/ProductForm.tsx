@@ -115,12 +115,12 @@ export const ProductForm: React.FC<ProductFormProps> = ({ onClose, product }) =>
       {/* Basic Information */}
       <Card>
         <CardHeader>
-          <CardTitle>Basic Information</CardTitle>
+          <CardTitle className="text-left">Basic Information</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <Label htmlFor="name">Product Name *</Label>
+              <Label htmlFor="name" className="text-left block">Product Name *</Label>
               <Input
                 id="name"
                 value={formData.name}
@@ -135,7 +135,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({ onClose, product }) =>
               )}
             </div>
             <div>
-              <Label htmlFor="brand">Brand</Label>
+              <Label htmlFor="brand" className="text-left block">Brand</Label>
               <Input
                 id="brand"
                 value={formData.brand}
@@ -143,7 +143,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({ onClose, product }) =>
               />
             </div>
             <div>
-              <Label htmlFor="genericName">Generic Name</Label>
+              <Label htmlFor="genericName" className="text-left block">Generic Name</Label>
               <Input
                 id="genericName"
                 value={formData.genericName}
@@ -151,7 +151,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({ onClose, product }) =>
               />
             </div>
             <div>
-              <Label htmlFor="category">Category *</Label>
+              <Label htmlFor="category" className="text-left block">Category *</Label>
               <Select value={formData.category} onValueChange={(value) => handleInputChange('category', value)}>
                 <SelectTrigger className={errors.category ? 'border-red-500' : ''}>
                   <SelectValue placeholder="Select category" />
@@ -174,7 +174,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({ onClose, product }) =>
           </div>
           
           <div>
-            <Label htmlFor="description">Description</Label>
+            <Label htmlFor="description" className="text-left block">Description</Label>
             <Textarea
               id="description"
               value={formData.description}
@@ -189,12 +189,12 @@ export const ProductForm: React.FC<ProductFormProps> = ({ onClose, product }) =>
       {/* Product Details */}
       <Card>
         <CardHeader>
-          <CardTitle>Product Details</CardTitle>
+          <CardTitle className="text-left">Product Details</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
-              <Label htmlFor="strength">Strength</Label>
+              <Label htmlFor="strength" className="text-left block">Strength</Label>
               <Input
                 id="strength"
                 value={formData.strength}
@@ -203,7 +203,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({ onClose, product }) =>
               />
             </div>
             <div>
-              <Label htmlFor="form">Form</Label>
+              <Label htmlFor="form" className="text-left block">Form</Label>
               <Select value={formData.form} onValueChange={(value) => handleInputChange('form', value)}>
                 <SelectTrigger>
                   <SelectValue placeholder="Select form" />
@@ -219,7 +219,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({ onClose, product }) =>
               </Select>
             </div>
             <div>
-              <Label htmlFor="packSize">Pack Size</Label>
+              <Label htmlFor="packSize" className="text-left block">Pack Size</Label>
               <Input
                 id="packSize"
                 type="number"
@@ -231,7 +231,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({ onClose, product }) =>
           </div>
           
           <div>
-            <Label htmlFor="activeIngredients">Active Ingredients</Label>
+            <Label htmlFor="activeIngredients" className="text-left block">Active Ingredients</Label>
             <Textarea
               id="activeIngredients"
               value={formData.activeIngredients}
@@ -242,7 +242,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({ onClose, product }) =>
           </div>
 
           <div>
-            <Label htmlFor="ingredients">All Ingredients</Label>
+            <Label htmlFor="ingredients" className="text-left block">All Ingredients</Label>
             <Textarea
               id="ingredients"
               value={formData.ingredients}
@@ -253,7 +253,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({ onClose, product }) =>
           </div>
 
           <div>
-            <Label htmlFor="howToUse">How to Use</Label>
+            <Label htmlFor="howToUse" className="text-left block">How to Use</Label>
             <Textarea
               id="howToUse"
               value={formData.howToUse}
@@ -268,12 +268,12 @@ export const ProductForm: React.FC<ProductFormProps> = ({ onClose, product }) =>
       {/* Pricing & Inventory */}
       <Card>
         <CardHeader>
-          <CardTitle>Pricing & Inventory</CardTitle>
+          <CardTitle className="text-left">Pricing & Inventory</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
-              <Label htmlFor="price">Selling Price (Kshs) *</Label>
+              <Label htmlFor="price" className="text-left block">Selling Price (Kshs) *</Label>
               <Input
                 id="price"
                 type="number"
@@ -289,7 +289,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({ onClose, product }) =>
               )}
             </div>
             <div>
-              <Label htmlFor="originalPrice">Original Price (Kshs)</Label>
+              <Label htmlFor="originalPrice" className="text-left block">Original Price (Kshs)</Label>
               <Input
                 id="originalPrice"
                 type="number"
@@ -298,7 +298,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({ onClose, product }) =>
               />
             </div>
             <div>
-              <Label htmlFor="costPrice">Cost Price (Kshs)</Label>
+              <Label htmlFor="costPrice" className="text-left block">Cost Price (Kshs)</Label>
               <Input
                 id="costPrice"
                 type="number"
@@ -310,7 +310,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({ onClose, product }) =>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
-              <Label htmlFor="stockQuantity">Stock Quantity *</Label>
+              <Label htmlFor="stockQuantity" className="text-left block">Stock Quantity *</Label>
               <Input
                 id="stockQuantity"
                 type="number"
@@ -326,7 +326,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({ onClose, product }) =>
               )}
             </div>
             <div>
-              <Label htmlFor="minStockLevel">Min Stock Level</Label>
+              <Label htmlFor="minStockLevel" className="text-left block">Min Stock Level</Label>
               <Input
                 id="minStockLevel"
                 type="number"
@@ -335,7 +335,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({ onClose, product }) =>
               />
             </div>
             <div>
-              <Label htmlFor="maxStockLevel">Max Stock Level</Label>
+              <Label htmlFor="maxStockLevel" className="text-left block">Max Stock Level</Label>
               <Input
                 id="maxStockLevel"
                 type="number"
@@ -347,7 +347,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({ onClose, product }) =>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <Label htmlFor="sku">SKU</Label>
+              <Label htmlFor="sku" className="text-left block">SKU</Label>
               <Input
                 id="sku"
                 value={formData.sku}
@@ -355,7 +355,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({ onClose, product }) =>
               />
             </div>
             <div>
-              <Label htmlFor="barcode">Barcode</Label>
+              <Label htmlFor="barcode" className="text-left block">Barcode</Label>
               <Input
                 id="barcode"
                 value={formData.barcode}
@@ -369,7 +369,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({ onClose, product }) =>
       {/* Product Images */}
       <Card>
         <CardHeader>
-          <CardTitle>Product Images</CardTitle>
+          <CardTitle className="text-left">Product Images</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
@@ -413,12 +413,12 @@ export const ProductForm: React.FC<ProductFormProps> = ({ onClose, product }) =>
       {/* Additional Information */}
       <Card>
         <CardHeader>
-          <CardTitle>Additional Information</CardTitle>
+          <CardTitle className="text-left">Additional Information</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <Label htmlFor="manufacturer">Manufacturer</Label>
+              <Label htmlFor="manufacturer" className="text-left block">Manufacturer</Label>
               <Input
                 id="manufacturer"
                 value={formData.manufacturer}
@@ -426,7 +426,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({ onClose, product }) =>
               />
             </div>
             <div>
-              <Label htmlFor="countryOfOrigin">Country of Origin</Label>
+              <Label htmlFor="countryOfOrigin" className="text-left block">Country of Origin</Label>
               <Input
                 id="countryOfOrigin"
                 value={formData.countryOfOrigin}
@@ -434,7 +434,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({ onClose, product }) =>
               />
             </div>
             <div>
-              <Label htmlFor="weight">Weight (grams)</Label>
+              <Label htmlFor="weight" className="text-left block">Weight (grams)</Label>
               <Input
                 id="weight"
                 type="number"
@@ -443,7 +443,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({ onClose, product }) =>
               />
             </div>
             <div>
-              <Label htmlFor="expiryDate">Expiry Date</Label>
+              <Label htmlFor="expiryDate" className="text-left block">Expiry Date</Label>
               <Input
                 id="expiryDate"
                 type="date"
@@ -454,7 +454,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({ onClose, product }) =>
           </div>
           
           <div>
-            <Label htmlFor="storageInstructions">Storage Instructions</Label>
+            <Label htmlFor="storageInstructions" className="text-left block">Storage Instructions</Label>
             <Textarea
               id="storageInstructions"
               value={formData.storageInstructions}
@@ -466,7 +466,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({ onClose, product }) =>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <Label htmlFor="rating">Rating (0-5)</Label>
+              <Label htmlFor="rating" className="text-left block">Rating (0-5)</Label>
               <Input
                 id="rating"
                 type="number"
@@ -478,7 +478,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({ onClose, product }) =>
               />
             </div>
             <div>
-              <Label htmlFor="reviewCount">Review Count</Label>
+              <Label htmlFor="reviewCount" className="text-left block">Review Count</Label>
               <Input
                 id="reviewCount"
                 type="number"
@@ -493,13 +493,13 @@ export const ProductForm: React.FC<ProductFormProps> = ({ onClose, product }) =>
       {/* Settings */}
       <Card>
         <CardHeader>
-          <CardTitle>Product Settings</CardTitle>
+          <CardTitle className="text-left">Product Settings</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="space-y-4">
               <div className="flex items-center justify-between">
-                <Label htmlFor="requiresPrescription">Requires Prescription</Label>
+                <Label htmlFor="requiresPrescription" className="text-left">Requires Prescription</Label>
                 <Switch
                   id="requiresPrescription"
                   checked={formData.requiresPrescription}
@@ -508,7 +508,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({ onClose, product }) =>
               </div>
               
               <div className="flex items-center justify-between">
-                <Label htmlFor="isPrescriptionOnly">Prescription Only</Label>
+                <Label htmlFor="isPrescriptionOnly" className="text-left">Prescription Only</Label>
                 <Switch
                   id="isPrescriptionOnly"
                   checked={formData.isPrescriptionOnly}
@@ -517,7 +517,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({ onClose, product }) =>
               </div>
               
               <div className="flex items-center justify-between">
-                <Label htmlFor="isActive">Active</Label>
+                <Label htmlFor="isActive" className="text-left">Active</Label>
                 <Switch
                   id="isActive"
                   checked={formData.isActive}
@@ -528,7 +528,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({ onClose, product }) =>
             
             <div className="space-y-4">
               <div className="flex items-center justify-between">
-                <Label htmlFor="isFeatured">Featured Product</Label>
+                <Label htmlFor="isFeatured" className="text-left">Featured Product</Label>
                 <Switch
                   id="isFeatured"
                   checked={formData.isFeatured}
@@ -537,7 +537,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({ onClose, product }) =>
               </div>
               
               <div className="flex items-center justify-between">
-                <Label htmlFor="isNew">New Product</Label>
+                <Label htmlFor="isNew" className="text-left">New Product</Label>
                 <Switch
                   id="isNew"
                   checked={formData.isNew}
