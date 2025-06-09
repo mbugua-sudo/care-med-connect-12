@@ -32,17 +32,17 @@ export const HeroSection = () => {
 
   return (
     <section className="relative h-[60dvh] flex items-center justify-center py-16 overflow-hidden">
-      {/* Current Image */}
+      {/* Current Image - extends beyond container */}
       <div 
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-all duration-1000"
+        className="absolute inset-0 -mx-8 bg-cover bg-center bg-no-repeat transition-all duration-1000 rounded-3xl"
         style={{ 
           backgroundImage: `url(${backgroundImages[currentSlide]})`,
         }}
       />
       
-      {/* Next Image for Vertical Split Effect */}
+      {/* Next Image for Vertical Split Effect - extends beyond container */}
       <div 
-        className={`absolute inset-0 bg-cover bg-center bg-no-repeat transition-all duration-1000 ${
+        className={`absolute inset-0 -mx-8 bg-cover bg-center bg-no-repeat transition-all duration-1000 rounded-3xl ${
           isTransitioning ? 'transform translate-y-0' : 'transform translate-y-full'
         }`}
         style={{ 
@@ -53,10 +53,14 @@ export const HeroSection = () => {
         }}
       />
 
-      {/* Enhanced gradient overlay */}
-      <div className="absolute inset-0 bg-gradient-to-br from-black/50 via-black/30 to-transparent" />
+      {/* Enhanced gradient overlay with rounded corners */}
+      <div className="absolute inset-0 -mx-8 bg-gradient-to-br from-black/50 via-black/30 to-transparent rounded-3xl" />
       
-      <div className="container mx-auto px-4 relative z-10">
+      {/* Background blob positioned on top */}
+      <div className="absolute -top-32 -right-32 w-96 h-96 bg-gradient-to-br from-emerald-400/20 to-cyan-400/20 rounded-full blur-3xl animate-float z-10" />
+      <div className="absolute -bottom-32 -left-32 w-96 h-96 bg-gradient-to-tr from-blue-400/20 to-purple-400/20 rounded-full blur-3xl animate-float" style={{ animationDelay: '2s' }} />
+      
+      <div className="container mx-auto px-4 relative z-20">
         <div className="max-w-4xl mx-auto text-center">
           {/* Hero content with enhanced typography */}
           <div className="space-y-8">
@@ -81,7 +85,7 @@ export const HeroSection = () => {
       </div>
 
       {/* Enhanced carousel indicators */}
-      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex space-x-3">
+      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex space-x-3 z-20">
         {backgroundImages.map((_, index) => (
           <button
             key={index}
