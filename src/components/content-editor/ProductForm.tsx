@@ -20,8 +20,10 @@ export const ProductForm: React.FC<ProductFormProps> = ({ onClose, product }) =>
     name: product?.name || '',
     brand: product?.brand || '',
     genericName: product?.generic_name || '',
-    category: product?.category_id || '',
+    category: product?.category || '',
     description: product?.description || '',
+    ingredients: product?.ingredients || '',
+    howToUse: product?.howToUse || '',
     activeIngredients: product?.active_ingredients || '',
     strength: product?.strength || '',
     form: product?.form || '',
@@ -31,19 +33,21 @@ export const ProductForm: React.FC<ProductFormProps> = ({ onClose, product }) =>
     costPrice: product?.cost_price || '',
     sku: product?.sku || '',
     barcode: product?.barcode || '',
-    stockQuantity: product?.stock_quantity || '',
-    minStockLevel: product?.min_stock_level || '',
-    maxStockLevel: product?.max_stock_level || '',
-    requiresPrescription: product?.requires_prescription || false,
+    stockQuantity: product?.stock_quantity || product?.stockQuantity || '',
+    minStockLevel: product?.min_stock_level || product?.minStockLevel || '',
+    maxStockLevel: product?.max_stock_level || product?.maxStockLevel || '',
+    requiresPrescription: product?.requires_prescription || product?.requiresPrescription || false,
     isPrescriptionOnly: product?.is_prescription_only || false,
-    isActive: product?.is_active !== undefined ? product.is_active : true,
+    isActive: product?.is_active !== undefined ? product.is_active : product?.status === 'active',
     isFeatured: product?.is_featured || false,
     isNew: product?.is_new || false,
     weight: product?.weight_grams || '',
     expiryDate: product?.expiry_date || '',
     manufacturer: product?.manufacturer || '',
     countryOfOrigin: product?.country_of_origin || '',
-    storageInstructions: product?.storage_instructions || ''
+    storageInstructions: product?.storage_instructions || '',
+    rating: product?.rating || 0,
+    reviewCount: product?.reviewCount || 0
   });
 
   const [images, setImages] = useState<string[]>(product?.images || []);
@@ -51,11 +55,11 @@ export const ProductForm: React.FC<ProductFormProps> = ({ onClose, product }) =>
 
   // TODO: Replace with real categories from Supabase
   const mockCategories = [
-    { id: '1', name: 'Pain Relief' },
-    { id: '2', name: 'Vitamins' },
-    { id: '3', name: 'Antibiotics' },
-    { id: '4', name: 'Cold & Flu' },
-    { id: '5', name: 'Supplements' }
+    { id: 'Pain Relief', name: 'Pain Relief' },
+    { id: 'Vitamins', name: 'Vitamins' },
+    { id: 'Antibiotics', name: 'Antibiotics' },
+    { id: 'Cold & Flu', name: 'Cold & Flu' },
+    { id: 'Supplements', name: 'Supplements' }
   ];
 
   const handleInputChange = (field: string, value: any) => {
@@ -176,6 +180,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({ onClose, product }) =>
               value={formData.description}
               onChange={(e) => handleInputChange('description', e.target.value)}
               rows={3}
+              placeholder="A lightweight, oil-based cleanser that gently melts away makeup, dirt, oils and sunscreen without stinging the eye area."
             />
           </div>
         </CardContent>
@@ -232,6 +237,29 @@ export const ProductForm: React.FC<ProductFormProps> = ({ onClose, product }) =>
               value={formData.activeIngredients}
               onChange={(e) => handleInputChange('activeIngredients', e.target.value)}
               rows={2}
+              placeholder="Paracetamol 500mg. Excipients: Contains lactose, sodium metabisulfite and starch."
+            />
+          </div>
+
+          <div>
+            <Label htmlFor="ingredients">All Ingredients</Label>
+            <Textarea
+              id="ingredients"
+              value={formData.ingredients}
+              onChange={(e) => handleInputChange('ingredients', e.target.value)}
+              rows={2}
+              placeholder="Complete list of ingredients including inactive components"
+            />
+          </div>
+
+          <div>
+            <Label htmlFor="howToUse">How to Use</Label>
+            <Textarea
+              id="howToUse"
+              value={formData.howToUse}
+              onChange={(e) => handleInputChange('howToUse', e.target.value)}
+              rows={3}
+              placeholder="Apply a few pumps of cleansing oil onto dry face with dry hands. Massage gently in circular motions..."
             />
           </div>
         </CardContent>
@@ -245,7 +273,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({ onClose, product }) =>
         <CardContent className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
-              <Label htmlFor="price">Selling Price (KES) *</Label>
+              <Label htmlFor="price">Selling Price (Kshs) *</Label>
               <Input
                 id="price"
                 type="number"
@@ -261,7 +289,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({ onClose, product }) =>
               )}
             </div>
             <div>
-              <Label htmlFor="originalPrice">Original Price (KES)</Label>
+              <Label htmlFor="originalPrice">Original Price (Kshs)</Label>
               <Input
                 id="originalPrice"
                 type="number"
@@ -270,7 +298,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({ onClose, product }) =>
               />
             </div>
             <div>
-              <Label htmlFor="costPrice">Cost Price (KES)</Label>
+              <Label htmlFor="costPrice">Cost Price (Kshs)</Label>
               <Input
                 id="costPrice"
                 type="number"
@@ -378,6 +406,86 @@ export const ProductForm: React.FC<ProductFormProps> = ({ onClose, product }) =>
             <p className="text-sm text-muted-foreground">
               TODO: Implement image upload to Supabase Storage
             </p>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Additional Information */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Additional Information</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <Label htmlFor="manufacturer">Manufacturer</Label>
+              <Input
+                id="manufacturer"
+                value={formData.manufacturer}
+                onChange={(e) => handleInputChange('manufacturer', e.target.value)}
+              />
+            </div>
+            <div>
+              <Label htmlFor="countryOfOrigin">Country of Origin</Label>
+              <Input
+                id="countryOfOrigin"
+                value={formData.countryOfOrigin}
+                onChange={(e) => handleInputChange('countryOfOrigin', e.target.value)}
+              />
+            </div>
+            <div>
+              <Label htmlFor="weight">Weight (grams)</Label>
+              <Input
+                id="weight"
+                type="number"
+                value={formData.weight}
+                onChange={(e) => handleInputChange('weight', e.target.value)}
+              />
+            </div>
+            <div>
+              <Label htmlFor="expiryDate">Expiry Date</Label>
+              <Input
+                id="expiryDate"
+                type="date"
+                value={formData.expiryDate}
+                onChange={(e) => handleInputChange('expiryDate', e.target.value)}
+              />
+            </div>
+          </div>
+          
+          <div>
+            <Label htmlFor="storageInstructions">Storage Instructions</Label>
+            <Textarea
+              id="storageInstructions"
+              value={formData.storageInstructions}
+              onChange={(e) => handleInputChange('storageInstructions', e.target.value)}
+              rows={2}
+              placeholder="Store in a cool, dry place away from direct sunlight"
+            />
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <Label htmlFor="rating">Rating (0-5)</Label>
+              <Input
+                id="rating"
+                type="number"
+                min="0"
+                max="5"
+                step="0.1"
+                value={formData.rating}
+                onChange={(e) => handleInputChange('rating', e.target.value)}
+              />
+            </div>
+            <div>
+              <Label htmlFor="reviewCount">Review Count</Label>
+              <Input
+                id="reviewCount"
+                type="number"
+                value={formData.reviewCount}
+                onChange={(e) => handleInputChange('reviewCount', e.target.value)}
+              />
+            </div>
           </div>
         </CardContent>
       </Card>

@@ -30,7 +30,7 @@ interface ProductTableProps {
 }
 
 export const ProductTable: React.FC<ProductTableProps> = ({ searchQuery, selectedCategory }) => {
-  const [editingProduct, setEditingProduct] = useState<string | null>(null);
+  const [editingProduct, setEditingProduct] = useState<any>(null);
   const [showEditForm, setShowEditForm] = useState(false);
 
   // TODO: Replace with real data from Supabase
@@ -44,14 +44,20 @@ export const ProductTable: React.FC<ProductTableProps> = ({ searchQuery, selecte
       name: 'Paracetamol 500mg',
       brand: 'Generic',
       category: 'Pain Relief',
-      price: 150,
+      price: 1299,
+      originalPrice: 1599,
       stockQuantity: 250,
       minStockLevel: 50,
       status: 'active',
       sku: 'PAR-500-001',
       requiresPrescription: false,
       createdAt: '2024-01-15',
-      updatedAt: '2024-01-20'
+      updatedAt: '2024-01-20',
+      description: 'A lightweight, oil-based cleanser that gently melts away makeup, dirt, oils and sunscreen without stinging the eye area.',
+      ingredients: 'Paracetamol 500mg. Excipients: Contains lactose, sodium metabisulfite and starch.',
+      howToUse: 'Apply a few pumps of cleansing oil onto dry face with dry hands. Massage gently in circular motions. Emulsify with water to create a milky emulsion before rinsing off completely with lukewarm water.',
+      rating: 4.5,
+      reviewCount: 124
     },
     {
       id: '2',
@@ -65,7 +71,12 @@ export const ProductTable: React.FC<ProductTableProps> = ({ searchQuery, selecte
       sku: 'AMX-250-002',
       requiresPrescription: true,
       createdAt: '2024-01-10',
-      updatedAt: '2024-01-18'
+      updatedAt: '2024-01-18',
+      description: 'Antibiotic medication used to treat bacterial infections.',
+      ingredients: 'Amoxicillin trihydrate 250mg, microcrystalline cellulose, magnesium stearate.',
+      howToUse: 'Take one capsule every 8 hours with food or as directed by your healthcare provider.',
+      rating: 4.2,
+      reviewCount: 89
     },
     {
       id: '3',
@@ -79,7 +90,12 @@ export const ProductTable: React.FC<ProductTableProps> = ({ searchQuery, selecte
       sku: 'VTC-1000-003',
       requiresPrescription: false,
       createdAt: '2024-01-12',
-      updatedAt: '2024-01-19'
+      updatedAt: '2024-01-19',
+      description: 'High-potency Vitamin C supplement to support immune system function.',
+      ingredients: 'Ascorbic acid 1000mg, citrus bioflavonoids, rose hips extract.',
+      howToUse: 'Take one tablet daily with food, preferably with breakfast.',
+      rating: 4.7,
+      reviewCount: 156
     }
   ];
 
@@ -90,13 +106,13 @@ export const ProductTable: React.FC<ProductTableProps> = ({ searchQuery, selecte
     return { status: 'high', color: 'bg-emerald-500', text: 'Good Stock' };
   };
 
-  const handleEdit = (productId: string) => {
-    console.log('Edit product:', productId);
-    setEditingProduct(productId);
+  const handleEdit = (product: any) => {
+    console.log('Edit product:', product);
+    setEditingProduct(product);
     setShowEditForm(true);
     toast({
       title: "Edit Product",
-      description: `Opening edit form for product ${productId}`,
+      description: `Opening edit form for ${product.name}`,
     });
   };
 
@@ -113,9 +129,10 @@ export const ProductTable: React.FC<ProductTableProps> = ({ searchQuery, selecte
   const handleView = (productId: string) => {
     console.log('View product:', productId);
     // TODO: Navigate to product detail view or open modal
+    window.open(`/product/${productId}`, '_blank');
     toast({
       title: "View Product",
-      description: `Viewing details for product ${productId}`,
+      description: `Opening product details in new tab`,
     });
   };
 
@@ -225,7 +242,7 @@ export const ProductTable: React.FC<ProductTableProps> = ({ searchQuery, selecte
                             <Button 
                               variant="ghost" 
                               size="sm"
-                              onClick={() => handleEdit(product.id)}
+                              onClick={() => handleEdit(product)}
                               className="hover:bg-green-50 hover:text-green-600"
                             >
                               <Edit className="h-4 w-4" />
@@ -274,6 +291,7 @@ export const ProductTable: React.FC<ProductTableProps> = ({ searchQuery, selecte
             </div>
             <div className="p-6">
               <ProductForm 
+                product={editingProduct}
                 onClose={() => {
                   setShowEditForm(false);
                   setEditingProduct(null);
