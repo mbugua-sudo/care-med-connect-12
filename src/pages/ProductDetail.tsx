@@ -9,6 +9,7 @@ import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Progress } from '@/components/ui/progress';
 import { 
   Breadcrumb, 
   BreadcrumbItem, 
@@ -19,7 +20,7 @@ import {
 } from '@/components/ui/breadcrumb';
 import { RecentlyViewed } from '@/components/RecentlyViewed';
 import { SimilarProducts } from '@/components/SimilarProducts';
-import { ShoppingCart, Heart, Minus, Plus, Share2, Truck, Shield, Clock } from 'lucide-react';
+import { ShoppingCart, Heart, Minus, Plus, Share2, Truck, Star } from 'lucide-react';
 
 interface Medicine {
   id: string;
@@ -33,7 +34,17 @@ interface Medicine {
   ingredients: string;
   howToUse: string;
   inStock: number;
+  rating: number;
+  reviewCount: number;
   brandId?: string;
+}
+
+interface Review {
+  id: string;
+  rating: number;
+  comment: string;
+  author: string;
+  date: string;
 }
 
 const ProductDetail = () => {
@@ -44,6 +55,38 @@ const ProductDetail = () => {
   const [quantity, setQuantity] = useState(1);
   const [selectedImage, setSelectedImage] = useState(0);
   const [medicine, setMedicine] = useState<Medicine | null>(null);
+
+  // Mock reviews data
+  const reviews: Review[] = [
+    {
+      id: '1',
+      rating: 5,
+      comment: 'Very effective pain relief. Works fast and lasts long.',
+      author: 'John D.',
+      date: '2024-01-15'
+    },
+    {
+      id: '2',
+      rating: 4,
+      comment: 'Good quality medicine, reasonably priced.',
+      author: 'Sarah M.',
+      date: '2024-01-10'
+    },
+    {
+      id: '3',
+      rating: 5,
+      comment: 'Excellent product, highly recommended.',
+      author: 'Mike R.',
+      date: '2024-01-05'
+    }
+  ];
+
+  // Calculate rating distribution
+  const ratingDistribution = [5, 4, 3, 2, 1].map(star => {
+    const count = reviews.filter(review => review.rating === star).length;
+    const percentage = reviews.length > 0 ? (count / reviews.length) * 100 : 0;
+    return { star, count, percentage };
+  });
 
   // Mock data - in real app this would come from API
   const getMedicine = (medicineId: string): Medicine | null => {
@@ -59,7 +102,9 @@ const ProductDetail = () => {
         description: 'A lightweight, oil-based cleanser that gently melts away makeup, dirt, oils and sunscreen without stinging the eye area.',
         ingredients: 'Paracetamol 500mg. Excipients: Contains lactose, sodium metabisulfite and starch.',
         howToUse: 'Apply a few pumps of cleansing oil onto dry face with dry hands. Massage gently in circular motions. Emulsify with water to create a milky emulsion before rinsing off completely with lukewarm water.',
-        inStock: 4
+        inStock: 4,
+        rating: 4.5,
+        reviewCount: 124
       },
       {
         id: '2',
@@ -72,7 +117,9 @@ const ProductDetail = () => {
         description: 'High-quality Vitamin D3 supplement to support bone health and immune system function.',
         ingredients: 'Vitamin D3 (cholecalciferol) 1000IU, microcrystalline cellulose, magnesium stearate.',
         howToUse: 'Take one tablet daily with food or as directed by your healthcare provider.',
-        inStock: 12
+        inStock: 12,
+        rating: 4.7,
+        reviewCount: 89
       }
     ];
     
@@ -85,6 +132,9 @@ const ProductDetail = () => {
     if (id) {
       const foundMedicine = getMedicine(id);
       setMedicine(foundMedicine);
+      
+      // Scroll to top when medicine changes
+      window.scrollTo(0, 0);
       
       // Add to recently viewed
       const recentlyViewed = JSON.parse(localStorage.getItem('recentlyViewed') || '[]');
@@ -139,6 +189,21 @@ const ProductDetail = () => {
 
   const productImages = [medicine.image, medicine.image, medicine.image];
 
+  const renderStars = (rating: number) => {
+    return Array.from({ length: 5 }, (_, i) => (
+      <Star
+        key={i}
+        className={`w-4 h-4 ${
+          i < Math.floor(rating) 
+            ? 'text-yellow-400 fill-current' 
+            : i < rating 
+            ? 'text-yellow-400 fill-current opacity-50' 
+            : 'text-gray-300'
+        }`}
+      />
+    ));
+  };
+
   return (
     <div className="min-h-screen bg-background relative">
       <AnimatedBlobs />
@@ -172,7 +237,9 @@ const ProductDetail = () => {
             <BreadcrumbSeparator />
             <BreadcrumbItem>
               <BreadcrumbLink asChild>
-                <Link to="/">{medicine.category}</Link>
+                <Link to={`/category/${medicine.category.toLowerCase().replace(/\s+/g, '-')}`}>
+                  {medicine.category}
+                </Link>
               </BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
@@ -218,6 +285,16 @@ const ProductDetail = () => {
             <div>
               <p className="text-muted-foreground text-sm mb-2">{medicine.category}</p>
               <h1 className="text-3xl font-bold mb-4">{medicine.name}</h1>
+              
+              {/* Rating */}
+              <div className="flex items-center space-x-2 mb-4">
+                <div className="flex items-center">
+                  {renderStars(medicine.rating)}
+                </div>
+                <span className="text-sm text-muted-foreground">
+                  {medicine.rating} ({medicine.reviewCount} reviews)
+                </span>
+              </div>
               
               <div className="flex items-center space-x-4 mb-4">
                 <span className="text-3xl font-bold text-primary">
@@ -300,10 +377,11 @@ const ProductDetail = () => {
         <Card className="mb-12">
           <CardContent className="p-6">
             <Tabs defaultValue="description" className="w-full">
-              <TabsList className="grid w-full grid-cols-3">
+              <TabsList className="grid w-full grid-cols-4">
                 <TabsTrigger value="description">Description</TabsTrigger>
                 <TabsTrigger value="ingredients">Ingredients</TabsTrigger>
                 <TabsTrigger value="usage">How to Use</TabsTrigger>
+                <TabsTrigger value="reviews">Reviews</TabsTrigger>
               </TabsList>
               <TabsContent value="description" className="mt-6">
                 <p className="text-muted-foreground leading-relaxed">{medicine.description}</p>
@@ -313,6 +391,60 @@ const ProductDetail = () => {
               </TabsContent>
               <TabsContent value="usage" className="mt-6">
                 <p className="text-muted-foreground leading-relaxed">{medicine.howToUse}</p>
+              </TabsContent>
+              <TabsContent value="reviews" className="mt-6">
+                <div className="space-y-6">
+                  {/* Rating Overview */}
+                  <div className="grid md:grid-cols-2 gap-8">
+                    <div>
+                      <h3 className="text-lg font-semibold mb-4">Overall Rating</h3>
+                      <div className="flex items-center space-x-4 mb-4">
+                        <span className="text-4xl font-bold">{medicine.rating}</span>
+                        <div>
+                          <div className="flex items-center mb-1">
+                            {renderStars(medicine.rating)}
+                          </div>
+                          <p className="text-sm text-muted-foreground">{medicine.reviewCount} reviews</p>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div>
+                      <h4 className="font-medium mb-4">Rating Breakdown</h4>
+                      <div className="space-y-2">
+                        {ratingDistribution.map(({ star, count, percentage }) => (
+                          <div key={star} className="flex items-center space-x-3">
+                            <span className="text-sm w-3">{star}</span>
+                            <Star className="w-4 h-4 text-yellow-400 fill-current" />
+                            <Progress value={percentage} className="flex-1 h-2" />
+                            <span className="text-sm text-muted-foreground w-8">{count}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+
+                  <Separator />
+
+                  {/* Individual Reviews */}
+                  <div className="space-y-4">
+                    <h4 className="font-medium">Customer Reviews</h4>
+                    {reviews.map((review) => (
+                      <div key={review.id} className="border-b pb-4 last:border-b-0">
+                        <div className="flex items-center justify-between mb-2">
+                          <div className="flex items-center space-x-2">
+                            <span className="font-medium">{review.author}</span>
+                            <div className="flex items-center">
+                              {renderStars(review.rating)}
+                            </div>
+                          </div>
+                          <span className="text-sm text-muted-foreground">{review.date}</span>
+                        </div>
+                        <p className="text-muted-foreground">{review.comment}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
               </TabsContent>
             </Tabs>
           </CardContent>

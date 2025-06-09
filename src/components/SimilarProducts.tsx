@@ -1,5 +1,5 @@
 
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -24,6 +24,8 @@ interface SimilarProductsProps {
 }
 
 export const SimilarProducts = ({ currentProductId, category, addToCart, favorites, toggleFavorite }: SimilarProductsProps) => {
+  const navigate = useNavigate();
+  
   // Mock data - in real app this would come from API based on category
   const getSimilarProducts = (): Medicine[] => {
     const allMedicines = [
@@ -91,6 +93,11 @@ export const SimilarProducts = ({ currentProductId, category, addToCart, favorit
 
   const similarProducts = getSimilarProducts();
 
+  const handleProductClick = (medicineId: string) => {
+    navigate(`/product/${medicineId}`);
+    window.scrollTo(0, 0);
+  };
+
   if (similarProducts.length === 0) {
     return null;
   }
@@ -107,13 +114,12 @@ export const SimilarProducts = ({ currentProductId, category, addToCart, favorit
           <Card key={medicine.id} className="group hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
             <CardContent className="p-4">
               <div className="relative mb-4">
-                <Link to={`/product/${medicine.id}`}>
-                  <img
-                    src={medicine.image}
-                    alt={medicine.name}
-                    className="w-full h-40 object-cover rounded-lg bg-muted cursor-pointer"
-                  />
-                </Link>
+                <img
+                  src={medicine.image}
+                  alt={medicine.name}
+                  className="w-full h-40 object-cover rounded-lg bg-muted cursor-pointer"
+                  onClick={() => handleProductClick(medicine.id)}
+                />
                 {medicine.discount && (
                   <Badge className="absolute top-2 right-2 bg-red-500 text-white">
                     -{medicine.discount}%
@@ -135,9 +141,12 @@ export const SimilarProducts = ({ currentProductId, category, addToCart, favorit
               
               <div className="space-y-2">
                 <p className="text-xs text-muted-foreground">{medicine.category}</p>
-                <Link to={`/product/${medicine.id}`}>
-                  <h3 className="font-semibold text-sm line-clamp-2 hover:text-primary cursor-pointer">{medicine.name}</h3>
-                </Link>
+                <h3 
+                  className="font-semibold text-sm line-clamp-2 hover:text-primary cursor-pointer"
+                  onClick={() => handleProductClick(medicine.id)}
+                >
+                  {medicine.name}
+                </h3>
                 
                 <div className="flex items-center space-x-2">
                   <span className="text-lg font-bold text-primary">

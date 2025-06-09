@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { Search, ShoppingCart, User, Menu, X, Plus, Minus, Trash2 } from 'lucide-react';
+import { Search, ShoppingCart, User, Menu, X, Plus, Minus, Trash2, ChevronDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
@@ -8,6 +8,13 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/co
 import { Separator } from '@/components/ui/separator';
 import { NotificationViewer } from '@/components/NotificationViewer';
 import { FavoritesViewer } from '@/components/FavoritesViewer';
+import {
+  Menubar,
+  MenubarContent,
+  MenubarItem,
+  MenubarMenu,
+  MenubarTrigger,
+} from "@/components/ui/menubar";
 import {
   Command,
   CommandEmpty,
@@ -142,8 +149,19 @@ export const Header = ({
     }
   ];
 
-  // Mock search suggestions
+  // Categories for navigation
+  const categories = [
+    'Pain Relief',
+    'Vitamins',
+    'Supplements',
+    'Antibiotics',
+    'Heart Health',
+    'Diabetes Care'
+  ];
+
+  // Enhanced search suggestions including medicines
   const searchSuggestions = [
+    ...allMedicines.map(med => med.name),
     'Paracetamol',
     'Ibuprofen',
     'Vitamin D3',
@@ -168,6 +186,10 @@ export const Header = ({
       setIsSearchOpen(false);
       navigate(`/search?q=${encodeURIComponent(searchQuery)}`);
     }
+  };
+
+  const handleCategoryClick = (category: string) => {
+    navigate(`/category/${encodeURIComponent(category.toLowerCase().replace(/\s+/g, '-'))}`);
   };
 
   const handleMarkAsRead = (id: string) => {
@@ -252,6 +274,7 @@ export const Header = ({
                         <CommandItem
                           key={index}
                           onSelect={() => handleSearch(suggestion)}
+                          className="cursor-pointer"
                         >
                           <Search className="mr-2 h-4 w-4" />
                           {suggestion}
@@ -404,14 +427,28 @@ export const Header = ({
           </form>
         </div>
 
-        {/* Navigation menu */}
+        {/* Navigation menu with Categories */}
         <nav className="hidden md:flex mt-4 space-x-8">
-          <button 
-            onClick={() => scrollToSection('medicine-offers')}
-            className="text-sm font-medium hover:text-primary transition-colors"
-          >
-            Prescription Medicines
-          </button>
+          <Menubar className="border-0 bg-transparent p-0 h-auto">
+            <MenubarMenu>
+              <MenubarTrigger className="flex items-center space-x-1 text-sm font-medium hover:text-primary transition-colors cursor-pointer p-0 h-auto">
+                <span>Shop by Category</span>
+                <ChevronDown className="w-4 h-4" />
+              </MenubarTrigger>
+              <MenubarContent>
+                {categories.map((category) => (
+                  <MenubarItem
+                    key={category}
+                    onClick={() => handleCategoryClick(category)}
+                    className="cursor-pointer"
+                  >
+                    {category}
+                  </MenubarItem>
+                ))}
+              </MenubarContent>
+            </MenubarMenu>
+          </Menubar>
+          
           <button 
             onClick={() => scrollToSection('medicine-offers')}
             className="text-sm font-medium hover:text-primary transition-colors"
@@ -443,12 +480,18 @@ export const Header = ({
       {isMenuOpen && (
         <div className="md:hidden bg-white border-t">
           <nav className="container mx-auto px-4 py-4 space-y-4">
-            <button 
-              onClick={() => scrollToSection('medicine-offers')}
-              className="block text-sm font-medium hover:text-primary transition-colors"
-            >
-              Prescription Medicines
-            </button>
+            <div className="space-y-2">
+              <h4 className="font-medium text-sm text-muted-foreground">Shop by Category</h4>
+              {categories.map((category) => (
+                <button
+                  key={category}
+                  onClick={() => handleCategoryClick(category)}
+                  className="block text-sm font-medium hover:text-primary transition-colors pl-4"
+                >
+                  {category}
+                </button>
+              ))}
+            </div>
             <button 
               onClick={() => scrollToSection('medicine-offers')}
               className="block text-sm font-medium hover:text-primary transition-colors"
