@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { 
   Table, 
   TableBody, 
@@ -13,7 +14,7 @@ import {
   TableHeader, 
   TableRow 
 } from '@/components/ui/table';
-import { Upload, FileText, Camera, Clock, X, Eye } from 'lucide-react';
+import { Upload, FileText, Camera, Clock, X, Eye, Calendar } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
 // Mock prescription history data
@@ -405,209 +406,223 @@ export const PrescriptionUpload = () => {
             </p>
           </div>
           
-          <div className="grid lg:grid-cols-2 gap-8">
-            {/* Upload/Preview area */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center space-x-2">
-                  {files.length > 0 ? (
-                    <>
-                      <Eye className="w-5 h-5" />
-                      <span>Prescription Preview</span>
-                    </>
-                  ) : (
-                    <>
-                      <Upload className="w-5 h-5" />
-                      <span>Upload Prescription</span>
-                    </>
-                  )}
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-6">
-                {renderUploadArea()}
-                {/* Patient information */}
-                <div className="space-y-4">
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <Label htmlFor="patient-name">Patient Name</Label>
-                      <Input 
-                        id="patient-name" 
-                        placeholder="Enter patient name"
-                        value={patientName}
-                        onChange={(e) => setPatientName(e.target.value)}
-                      />
+          <Tabs defaultValue="upload" className="w-full">
+            <TabsList className="grid w-full grid-cols-2 mb-8">
+              <TabsTrigger value="upload" className="flex items-center space-x-2">
+                <Upload className="w-4 h-4" />
+                <span>Upload Prescription</span>
+              </TabsTrigger>
+              <TabsTrigger value="history" className="flex items-center space-x-2">
+                <Calendar className="w-4 h-4" />
+                <span>View History</span>
+              </TabsTrigger>
+            </TabsList>
+
+            <TabsContent value="upload">
+              <div className="grid lg:grid-cols-2 gap-8">
+                {/* Upload/Preview area */}
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="flex items-center space-x-2">
+                      {files.length > 0 ? (
+                        <>
+                          <Eye className="w-5 h-5" />
+                          <span>Prescription Preview</span>
+                        </>
+                      ) : (
+                        <>
+                          <Upload className="w-5 h-5" />
+                          <span>Upload Prescription</span>
+                        </>
+                      )}
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-6">
+                    {renderUploadArea()}
+                    {/* Patient information */}
+                    <div className="space-y-4">
+                      <div className="grid grid-cols-2 gap-4">
+                        <div>
+                          <Label htmlFor="patient-name">Patient Name</Label>
+                          <Input 
+                            id="patient-name" 
+                            placeholder="Enter patient name"
+                            value={patientName}
+                            onChange={(e) => setPatientName(e.target.value)}
+                          />
+                        </div>
+                        <div>
+                          <Label htmlFor="patient-phone">Phone Number</Label>
+                          <Input 
+                            id="patient-phone" 
+                            placeholder="Enter phone number"
+                            value={phoneNumber}
+                            onChange={(e) => setPhoneNumber(e.target.value)}
+                          />
+                        </div>
+                      </div>
+                      <div>
+                        <Label htmlFor="notes">Additional Notes (Optional)</Label>
+                        <Textarea
+                          id="notes"
+                          placeholder="Any specific instructions or notes..."
+                          rows={3}
+                          value={notes}
+                          onChange={(e) => setNotes(e.target.value)}
+                        />
+                      </div>
                     </div>
-                    <div>
-                      <Label htmlFor="patient-phone">Phone Number</Label>
-                      <Input 
-                        id="patient-phone" 
-                        placeholder="Enter phone number"
-                        value={phoneNumber}
-                        onChange={(e) => setPhoneNumber(e.target.value)}
-                      />
-                    </div>
-                  </div>
-                  <div>
-                    <Label htmlFor="notes">Additional Notes (Optional)</Label>
-                    <Textarea
-                      id="notes"
-                      placeholder="Any specific instructions or notes..."
-                      rows={3}
-                      value={notes}
-                      onChange={(e) => setNotes(e.target.value)}
-                    />
-                  </div>
+                    <Button
+                      className="w-full"
+                      size="lg"
+                      onClick={handleSubmit}
+                    >
+                      Submit Prescription
+                    </Button>
+                  </CardContent>
+                </Card>
+                
+                {/* Process information */}
+                <div className="space-y-6">
+                  <Card>
+                    <CardHeader>
+                      <CardTitle className="flex items-center space-x-2">
+                        <Clock className="w-5 h-5" />
+                        <span>How It Works</span>
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="space-y-6">
+                        <div className="flex space-x-4">
+                          <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center text-white font-semibold text-sm">
+                            1
+                          </div>
+                          <div>
+                            <h4 className="font-semibold">Upload Prescription</h4>
+                            <p className="text-sm text-muted-foreground">
+                              Take a clear photo or upload PDF of your prescription
+                            </p>
+                          </div>
+                        </div>
+                        <div className="flex space-x-4">
+                          <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center text-white font-semibold text-sm">
+                            2
+                          </div>
+                          <div>
+                            <h4 className="font-semibold">Pharmacist Review</h4>
+                            <p className="text-sm text-muted-foreground">
+                              Licensed pharmacist verifies and processes your prescription
+                            </p>
+                          </div>
+                        </div>
+                        <div className="flex space-x-4">
+                          <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center text-white font-semibold text-sm">
+                            3
+                          </div>
+                          <div>
+                            <h4 className="font-semibold">Order Confirmation</h4>
+                            <p className="text-sm text-muted-foreground">
+                              Receive order details and payment options
+                            </p>
+                          </div>
+                        </div>
+                        <div className="flex space-x-4">
+                          <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center text-white font-semibold text-sm">
+                            4
+                          </div>
+                          <div>
+                            <h4 className="font-semibold">Fast Delivery</h4>
+                            <p className="text-sm text-muted-foreground">
+                              Medicines delivered to your doorstep safely
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                  <Card className="bg-primary/5 border-primary/20">
+                    <CardContent className="p-6">
+                      <h3 className="font-semibold text-lg mb-3">Why Choose Us?</h3>
+                      <ul className="space-y-2 text-sm">
+                        <li className="flex items-center space-x-2">
+                          <div className="w-2 h-2 bg-primary rounded-full"></div>
+                          <span>Licensed pharmacists verify every prescription</span>
+                        </li>
+                        <li className="flex items-center space-x-2">
+                          <div className="w-2 h-2 bg-primary rounded-full"></div>
+                          <span>100% genuine medicines guaranteed</span>
+                        </li>
+                        <li className="flex items-center space-x-2">
+                          <div className="w-2 h-2 bg-primary rounded-full"></div>
+                          <span>Secure data handling and privacy protection</span>
+                        </li>
+                        <li className="flex items-center space-x-2">
+                          <div className="w-2 h-2 bg-primary rounded-full"></div>
+                          <span>Same-day delivery in major cities</span>
+                        </li>
+                      </ul>
+                    </CardContent>
+                  </Card>
                 </div>
-                <Button
-                  className="w-full"
-                  size="lg"
-                  onClick={handleSubmit}
-                >
-                  Submit Prescription
-                </Button>
-              </CardContent>
-            </Card>
-            
-            {/* Process information */}
-            <div className="space-y-6">
+              </div>
+            </TabsContent>
+
+            <TabsContent value="history">
               <Card>
                 <CardHeader>
                   <CardTitle className="flex items-center space-x-2">
                     <Clock className="w-5 h-5" />
-                    <span>How It Works</span>
+                    <span>Prescription History</span>
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="space-y-6">
-                    <div className="flex space-x-4">
-                      <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center text-white font-semibold text-sm">
-                        1
-                      </div>
-                      <div>
-                        <h4 className="font-semibold">Upload Prescription</h4>
-                        <p className="text-sm text-muted-foreground">
-                          Take a clear photo or upload PDF of your prescription
-                        </p>
-                      </div>
-                    </div>
-                    <div className="flex space-x-4">
-                      <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center text-white font-semibold text-sm">
-                        2
-                      </div>
-                      <div>
-                        <h4 className="font-semibold">Pharmacist Review</h4>
-                        <p className="text-sm text-muted-foreground">
-                          Licensed pharmacist verifies and processes your prescription
-                        </p>
-                      </div>
-                    </div>
-                    <div className="flex space-x-4">
-                      <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center text-white font-semibold text-sm">
-                        3
-                      </div>
-                      <div>
-                        <h4 className="font-semibold">Order Confirmation</h4>
-                        <p className="text-sm text-muted-foreground">
-                          Receive order details and payment options
-                        </p>
-                      </div>
-                    </div>
-                    <div className="flex space-x-4">
-                      <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center text-white font-semibold text-sm">
-                        4
-                      </div>
-                      <div>
-                        <h4 className="font-semibold">Fast Delivery</h4>
-                        <p className="text-sm text-muted-foreground">
-                          Medicines delivered to your doorstep safely
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-              <Card className="bg-primary/5 border-primary/20">
-                <CardContent className="p-6">
-                  <h3 className="font-semibold text-lg mb-3">Why Choose Us?</h3>
-                  <ul className="space-y-2 text-sm">
-                    <li className="flex items-center space-x-2">
-                      <div className="w-2 h-2 bg-primary rounded-full"></div>
-                      <span>Licensed pharmacists verify every prescription</span>
-                    </li>
-                    <li className="flex items-center space-x-2">
-                      <div className="w-2 h-2 bg-primary rounded-full"></div>
-                      <span>100% genuine medicines guaranteed</span>
-                    </li>
-                    <li className="flex items-center space-x-2">
-                      <div className="w-2 h-2 bg-primary rounded-full"></div>
-                      <span>Secure data handling and privacy protection</span>
-                    </li>
-                    <li className="flex items-center space-x-2">
-                      <div className="w-2 h-2 bg-primary rounded-full"></div>
-                      <span>Same-day delivery in major cities</span>
-                    </li>
-                  </ul>
-                </CardContent>
-              </Card>
-            </div>
-          </div>
-
-          {/* Recent Prescriptions - Only visible after uploading files */}
-          {files.length > 0 && (
-            <Card className="mt-8">
-              <CardHeader>
-                <CardTitle className="flex items-center space-x-2">
-                  <Clock className="w-5 h-5" />
-                  <span>Recent Prescriptions</span>
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead>Patient Name</TableHead>
-                      <TableHead>Upload Date</TableHead>
-                      <TableHead>Status</TableHead>
-                      <TableHead>Medicines</TableHead>
-                      <TableHead>Actions</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {prescriptionHistory.map((prescription) => (
-                      <TableRow key={prescription.id}>
-                        <TableCell className="font-medium">
-                          {prescription.patientName}
-                        </TableCell>
-                        <TableCell>{prescription.uploadDate}</TableCell>
-                        <TableCell>
-                          <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(prescription.status)}`}>
-                            {prescription.status}
-                          </span>
-                        </TableCell>
-                        <TableCell>
-                          <div className="max-w-xs">
-                            {prescription.medicines.slice(0, 2).join(', ')}
-                            {prescription.medicines.length > 2 && '...'}
-                          </div>
-                        </TableCell>
-                        <TableCell>
-                          <Button
-                            variant="outline"
-                            size="sm"
-                            onClick={() => viewPrescription(prescription)}
-                            className="flex items-center space-x-1"
-                          >
-                            <Eye className="w-4 h-4" />
-                            <span>View</span>
-                          </Button>
-                        </TableCell>
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead>Patient Name</TableHead>
+                        <TableHead>Upload Date</TableHead>
+                        <TableHead>Status</TableHead>
+                        <TableHead>Medicines</TableHead>
+                        <TableHead>Actions</TableHead>
                       </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </CardContent>
-            </Card>
-          )}
+                    </TableHeader>
+                    <TableBody>
+                      {prescriptionHistory.map((prescription) => (
+                        <TableRow key={prescription.id}>
+                          <TableCell className="font-medium">
+                            {prescription.patientName}
+                          </TableCell>
+                          <TableCell>{prescription.uploadDate}</TableCell>
+                          <TableCell>
+                            <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(prescription.status)}`}>
+                              {prescription.status}
+                            </span>
+                          </TableCell>
+                          <TableCell>
+                            <div className="max-w-xs">
+                              {prescription.medicines.slice(0, 2).join(', ')}
+                              {prescription.medicines.length > 2 && '...'}
+                            </div>
+                          </TableCell>
+                          <TableCell>
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              onClick={() => viewPrescription(prescription)}
+                              className="flex items-center space-x-1"
+                            >
+                              <Eye className="w-4 h-4" />
+                              <span>View</span>
+                            </Button>
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </CardContent>
+              </Card>
+            </TabsContent>
+          </Tabs>
         </div>
       </div>
     </section>

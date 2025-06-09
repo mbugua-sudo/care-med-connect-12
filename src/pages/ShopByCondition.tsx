@@ -1,3 +1,4 @@
+
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { useState } from 'react';
@@ -166,6 +167,22 @@ const ShopByCondition = () => {
     'pain-relief-management': [
       { id: '3', name: 'Ibuprofen 400mg', price: 1850, originalPrice: 2250, discount: 18, image: 'https://picsum.photos/2000/2032' },
       { id: '4', name: 'Aspirin 325mg', price: 1200, originalPrice: 1450, discount: 17, image: 'https://picsum.photos/2000/2033' }
+    ],
+    'diabetes': [
+      { id: '5', name: 'Metformin 500mg', price: 2200, originalPrice: 2600, discount: 15, image: 'https://picsum.photos/2000/2034' },
+      { id: '6', name: 'Insulin Syringes', price: 3500, originalPrice: 4000, discount: 12, image: 'https://picsum.photos/2000/2035' }
+    ],
+    'hypertension': [
+      { id: '7', name: 'Amlodipine 5mg', price: 1800, originalPrice: 2100, discount: 14, image: 'https://picsum.photos/2000/2036' },
+      { id: '8', name: 'Losartan 50mg', price: 2100, originalPrice: 2450, discount: 14, image: 'https://picsum.photos/2000/2037' }
+    ],
+    'mental-health-depression': [
+      { id: '9', name: 'Sertraline 50mg', price: 2800, originalPrice: 3200, discount: 12, image: 'https://picsum.photos/2000/2038' },
+      { id: '10', name: 'Fluoxetine 20mg', price: 2600, originalPrice: 3000, discount: 13, image: 'https://picsum.photos/2000/2039' }
+    ],
+    'cold-flu': [
+      { id: '11', name: 'Cold Relief Syrup', price: 950, originalPrice: 1200, discount: 20, image: 'https://picsum.photos/2000/2040' },
+      { id: '12', name: 'Flu Tablets', price: 750, originalPrice: 950, discount: 21, image: 'https://picsum.photos/2000/2041' }
     ]
   };
 
@@ -346,12 +363,12 @@ const ShopByCondition = () => {
                       </Card>
                     </Link>
                     
-                    {/* Sample medicines for this condition */}
+                    {/* Sample medicines for this condition - Now clickable */}
                     {medicines.length > 0 && (
                       <div className="grid grid-cols-1 gap-3">
                         {medicines.slice(0, 2).map((medicine) => (
                           <Link key={medicine.id} to={`/product/${medicine.id}`}>
-                            <Card className="hover:shadow-md transition-all duration-200 cursor-pointer">
+                            <Card className="hover:shadow-md transition-all duration-200 cursor-pointer hover:bg-primary/5">
                               <CardContent className="p-3">
                                 <div className="flex items-center space-x-3">
                                   <img 
@@ -360,7 +377,7 @@ const ShopByCondition = () => {
                                     className="w-12 h-12 object-cover rounded bg-muted"
                                   />
                                   <div className="flex-1 min-w-0">
-                                    <h4 className="font-medium text-sm truncate">{medicine.name}</h4>
+                                    <h4 className="font-medium text-sm truncate hover:text-primary transition-colors">{medicine.name}</h4>
                                     <div className="flex items-center space-x-2">
                                       <span className="text-sm font-bold text-primary">
                                         KES {medicine.price}
