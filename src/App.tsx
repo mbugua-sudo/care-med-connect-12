@@ -9,6 +9,7 @@ import SearchResults from "./pages/SearchResults";
 import ProductDetail from "./pages/ProductDetail";
 import CategoryPage from "./pages/CategoryPage";
 import ConditionPage from "./pages/ConditionPage";
+import ShopByCondition from "./pages/ShopByCondition";
 import OffersPage from "./pages/OffersPage";
 import PersonalCarePage from "./pages/PersonalCarePage";
 import SignIn from "./pages/SignIn";
@@ -29,6 +30,7 @@ const App = () => (
           <Route path="/product/:id" element={<ProductDetail />} />
           <Route path="/category/:category" element={<CategoryPage />} />
           <Route path="/condition/:condition" element={<ConditionPage />} />
+          <Route path="/shop-by-condition" element={<ShopByCondition />} />
           <Route path="/offers" element={<OffersPage />} />
           <Route path="/personal-care" element={<PersonalCarePage />} />
           <Route path="/signin" element={<SignIn />} />

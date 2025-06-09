@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Header } from '@/components/Header';
@@ -549,7 +550,7 @@ const ConditionPage = () => {
         <div className="mb-8 text-sm text-muted-foreground">
           <Link to="/" className="hover:text-primary">Home</Link>
           <span className="mx-2">/</span>
-          <span>Shop by Condition</span>
+          <Link to="/shop-by-condition" className="hover:text-primary">Shop by Condition</Link>
           <span className="mx-2">/</span>
           <span className="text-foreground font-medium">{conditionName}</span>
         </div>
