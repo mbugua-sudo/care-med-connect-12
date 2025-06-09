@@ -23,9 +23,9 @@ export const BlurImage = ({
       {!imageLoaded && !imageError && (
         <BlurhashCanvas
           hash={blurhash}
-          width="100%"
-          height="100%"
-          className="absolute inset-0 w-full h-full"
+          width={400}
+          height={300}
+          className="absolute inset-0 w-full h-full object-cover"
         />
       )}
       <img
