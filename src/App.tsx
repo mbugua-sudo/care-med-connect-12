@@ -8,7 +8,6 @@ import ShopByCondition from './pages/ShopByCondition';
 import ConditionPage from './pages/ConditionPage';
 import PersonalCarePage from './pages/PersonalCarePage';
 import OffersPage from './pages/OffersPage';
-import UploadPrescription from './pages/UploadPrescription';
 import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
 import StockDashboard from './pages/StockDashboard';
@@ -31,7 +30,6 @@ function App() {
           <Route path="/condition/:condition" element={<ConditionPage />} />
           <Route path="/personal-care" element={<PersonalCarePage />} />
           <Route path="/offers" element={<OffersPage />} />
-          <Route path="/upload-prescription" element={<UploadPrescription />} />
           <Route path="/signin" element={<SignIn />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/dashboard" element={<StockDashboard />} />
