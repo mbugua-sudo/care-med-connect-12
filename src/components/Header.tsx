@@ -1,5 +1,6 @@
 
 import { useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 import { Search, ShoppingCart, User, Menu, X, Heart, Bell, Plus, Minus, Trash2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -49,10 +50,12 @@ export const Header = ({
 }: HeaderProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const navigate = useNavigate();
+  
   const cartCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
   const cartTotal = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
 
-  // Mock search suggestions - in real app this would come from API
+  // Mock search suggestions
   const searchSuggestions = [
     'Paracetamol',
     'Ibuprofen',
@@ -69,12 +72,15 @@ export const Header = ({
   const handleSearch = (query: string) => {
     setSearchQuery(query);
     setIsSearchOpen(false);
+    navigate(`/search?q=${encodeURIComponent(query)}`);
   };
 
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSearchOpen(false);
-    // Search functionality will filter results in MedicineCarousel
+    if (searchQuery.trim()) {
+      setIsSearchOpen(false);
+      navigate(`/search?q=${encodeURIComponent(searchQuery)}`);
+    }
   };
 
   return (
@@ -82,7 +88,7 @@ export const Header = ({
       {/* Top bar with emergency contact */}
       <div className="bg-primary text-primary-foreground py-2">
         <div className="container mx-auto px-4 text-center text-sm">
-          24/7 Emergency Pharmacy Hotline: +1 (555) 123-4567
+          24/7 Emergency Pharmacy Hotline: +254 (700) 123-4567
         </div>
       </div>
 
@@ -90,7 +96,7 @@ export const Header = ({
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <div className="flex items-center space-x-2">
+          <Link to="/" className="flex items-center space-x-2">
             <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
               <span className="text-white font-bold text-xl">M</span>
             </div>
@@ -98,7 +104,7 @@ export const Header = ({
               <h1 className="text-2xl font-bold text-primary">MediCare</h1>
               <p className="text-xs text-muted-foreground">Online Pharmacy</p>
             </div>
-          </div>
+          </Link>
 
           {/* Search bar */}
           <div className="hidden md:flex flex-1 max-w-md mx-8">
@@ -143,14 +149,13 @@ export const Header = ({
 
           {/* Action buttons */}
           <div className="flex items-center space-x-4">
-            {isAuthenticated && (
-              <Button variant="ghost" size="icon" className="relative">
-                <Bell className="w-5 h-5" />
-                <Badge className="absolute -top-2 -right-2 w-5 h-5 flex items-center justify-center p-0 text-xs">
-                  2
-                </Badge>
-              </Button>
-            )}
+            {/* Notifications - visible for testing */}
+            <Button variant="ghost" size="icon" className="relative">
+              <Bell className="w-5 h-5" />
+              <Badge className="absolute -top-2 -right-2 w-5 h-5 flex items-center justify-center p-0 text-xs">
+                1
+              </Badge>
+            </Button>
             
             <Button variant="ghost" size="icon">
               <Heart className="w-5 h-5" />
@@ -189,7 +194,7 @@ export const Header = ({
                           />
                           <div className="flex-1 space-y-1">
                             <h4 className="font-medium text-sm">{item.name}</h4>
-                            <p className="text-sm font-bold text-primary">${item.price}</p>
+                            <p className="text-sm font-bold text-primary">Kshs {item.price}</p>
                             <div className="flex items-center space-x-2">
                               <Button
                                 size="icon"
@@ -228,7 +233,7 @@ export const Header = ({
                       <div className="space-y-4">
                         <div className="flex justify-between text-lg font-bold">
                           <span>Total:</span>
-                          <span>${cartTotal.toFixed(2)}</span>
+                          <span>Kshs {cartTotal.toFixed(2)}</span>
                         </div>
                         <Button className="w-full" size="lg">
                           Proceed to Checkout
@@ -245,9 +250,11 @@ export const Header = ({
                 <User className="w-5 h-5" />
               </Button>
             ) : (
-              <Button onClick={() => setIsAuthenticated(true)}>
-                Sign In
-              </Button>
+              <Link to="/signin">
+                <Button>
+                  Sign In
+                </Button>
+              </Link>
             )}
 
             <Button

@@ -38,8 +38,8 @@ export const MedicineCarousel = ({
       {
         id: '1',
         name: 'Paracetamol 500mg',
-        price: 12.99,
-        originalPrice: 15.99,
+        price: 1299,
+        originalPrice: 1599,
         discount: 20,
         image: 'https://picsum.photos/2000/2030',
         category: 'Pain Relief'
@@ -47,8 +47,8 @@ export const MedicineCarousel = ({
       {
         id: '2',
         name: 'Vitamin D3 1000IU',
-        price: 24.99,
-        originalPrice: 29.99,
+        price: 2499,
+        originalPrice: 2999,
         discount: 15,
         image: 'https://picsum.photos/2000/2031',
         category: 'Vitamins'
@@ -56,8 +56,8 @@ export const MedicineCarousel = ({
       {
         id: '3',
         name: 'Ibuprofen 400mg',
-        price: 18.50,
-        originalPrice: 22.50,
+        price: 1850,
+        originalPrice: 2250,
         discount: 18,
         image: 'https://picsum.photos/2000/2032',
         category: 'Pain Relief'
@@ -65,8 +65,8 @@ export const MedicineCarousel = ({
       {
         id: '4',
         name: 'Omega-3 Fish Oil',
-        price: 32.99,
-        originalPrice: 39.99,
+        price: 3299,
+        originalPrice: 3999,
         discount: 17,
         image: 'https://picsum.photos/2000/2033',
         category: 'Supplements'
@@ -74,8 +74,8 @@ export const MedicineCarousel = ({
       {
         id: '5',
         name: 'Calcium Tablets',
-        price: 16.75,
-        originalPrice: 19.75,
+        price: 1675,
+        originalPrice: 1975,
         discount: 15,
         image: 'https://picsum.photos/2000/2034',
         category: 'Vitamins'
@@ -83,8 +83,8 @@ export const MedicineCarousel = ({
       {
         id: '6',
         name: 'Multivitamin Complex',
-        price: 28.99,
-        originalPrice: 34.99,
+        price: 2899,
+        originalPrice: 3499,
         discount: 17,
         image: 'https://picsum.photos/2000/2035',
         category: 'Vitamins'
@@ -172,11 +172,11 @@ export const MedicineCarousel = ({
                       
                       <div className="flex items-center space-x-2">
                         <span className="text-lg font-bold text-primary">
-                          ${medicine.price}
+                          Kshs {medicine.price}
                         </span>
                         {medicine.originalPrice && (
                           <span className="text-sm text-muted-foreground line-through">
-                            ${medicine.originalPrice}
+                            Kshs {medicine.originalPrice}
                           </span>
                         )}
                       </div>

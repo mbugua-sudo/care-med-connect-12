@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Header } from '@/components/Header';
 import { HeroSection } from '@/components/HeroSection';
@@ -11,7 +10,7 @@ import { AdvertisementBanner } from '@/components/AdvertisementBanner';
 import { AnimatedBlobs } from '@/components/AnimatedBlobs';
 
 const Index = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(true); // For testing notifications
   const [cartItems, setCartItems] = useState<any[]>([]);
   const [favorites, setFavorites] = useState<string[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
@@ -37,6 +36,14 @@ const Index = () => {
     'https://picsum.photos/2000/2009',
     'https://picsum.photos/2000/2010',
     'https://picsum.photos/2000/2011'
+  ];
+
+  const advertisementImages5 = [
+    'https://picsum.photos/2000/2012'
+  ];
+
+  const advertisementImages6 = [
+    'https://picsum.photos/2000/2013'
   ];
 
   const addToCart = (medicine: any) => {
@@ -119,6 +126,29 @@ const Index = () => {
           searchQuery={searchQuery}
         />
         <AdvertisementBanner images={advertisementImages3} />
+        
+        {/* Two 50% width banners below New Medicine */}
+        <section className="py-8 bg-background">
+          <div className="container mx-auto px-4">
+            <div className="grid md:grid-cols-2 gap-6">
+              <div className="overflow-hidden hover:shadow-lg transition-all duration-300 hover:-translate-y-1 rounded-lg">
+                <img
+                  src="https://picsum.photos/2000/2012"
+                  alt="Advertisement Banner 1"
+                  className="w-full h-64 object-cover"
+                />
+              </div>
+              <div className="overflow-hidden hover:shadow-lg transition-all duration-300 hover:-translate-y-1 rounded-lg">
+                <img
+                  src="https://picsum.photos/2000/2013"
+                  alt="Advertisement Banner 2"
+                  className="w-full h-64 object-cover"
+                />
+              </div>
+            </div>
+          </div>
+        </section>
+        
         <AdvertisementBanner images={advertisementImages4} />
         <ServiceCards />
         <PrescriptionUpload />
