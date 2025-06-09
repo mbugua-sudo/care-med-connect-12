@@ -1,9 +1,9 @@
-
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
 import { ShoppingCart, Heart } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 interface Medicine {
   id: string;
@@ -142,11 +142,13 @@ export const MedicineCarousel = ({
                 <Card className="group hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
                   <CardContent className="p-4">
                     <div className="relative mb-4">
-                      <img
-                        src={medicine.image}
-                        alt={medicine.name}
-                        className="w-full h-40 object-cover rounded-lg bg-muted"
-                      />
+                      <Link to={`/product/${medicine.id}`}>
+                        <img
+                          src={medicine.image}
+                          alt={medicine.name}
+                          className="w-full h-40 object-cover rounded-lg bg-muted cursor-pointer"
+                        />
+                      </Link>
                       {medicine.discount && (
                         <Badge className="absolute top-2 right-2 bg-red-500 text-white">
                           -{medicine.discount}%
@@ -168,7 +170,9 @@ export const MedicineCarousel = ({
                     
                     <div className="space-y-2">
                       <p className="text-xs text-muted-foreground">{medicine.category}</p>
-                      <h3 className="font-semibold text-sm line-clamp-2">{medicine.name}</h3>
+                      <Link to={`/product/${medicine.id}`}>
+                        <h3 className="font-semibold text-sm line-clamp-2 hover:text-primary cursor-pointer">{medicine.name}</h3>
+                      </Link>
                       
                       <div className="flex items-center space-x-2">
                         <span className="text-lg font-bold text-primary">
