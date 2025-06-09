@@ -1,3 +1,4 @@
+
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -322,61 +323,6 @@ export const PrescriptionUpload = () => {
             </p>
           </div>
           
-          {/* Prescription History */}
-          <Card className="mb-8">
-            <CardHeader>
-              <CardTitle className="flex items-center space-x-2">
-                <Clock className="w-5 h-5" />
-                <span>Recent Prescriptions</span>
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>Patient Name</TableHead>
-                    <TableHead>Upload Date</TableHead>
-                    <TableHead>Status</TableHead>
-                    <TableHead>Medicines</TableHead>
-                    <TableHead>Actions</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {prescriptionHistory.map((prescription) => (
-                    <TableRow key={prescription.id}>
-                      <TableCell className="font-medium">
-                        {prescription.patientName}
-                      </TableCell>
-                      <TableCell>{prescription.uploadDate}</TableCell>
-                      <TableCell>
-                        <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(prescription.status)}`}>
-                          {prescription.status}
-                        </span>
-                      </TableCell>
-                      <TableCell>
-                        <div className="max-w-xs">
-                          {prescription.medicines.slice(0, 2).join(', ')}
-                          {prescription.medicines.length > 2 && '...'}
-                        </div>
-                      </TableCell>
-                      <TableCell>
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          onClick={() => viewPrescription(prescription)}
-                          className="flex items-center space-x-1"
-                        >
-                          <Eye className="w-4 h-4" />
-                          <span>View</span>
-                        </Button>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </CardContent>
-          </Card>
-          
           <div className="grid lg:grid-cols-2 gap-8">
             {/* Upload/Preview area */}
             <Card>
@@ -427,6 +373,7 @@ export const PrescriptionUpload = () => {
                 </Button>
               </CardContent>
             </Card>
+            
             {/* Process information */}
             <div className="space-y-6">
               <Card>
@@ -510,6 +457,63 @@ export const PrescriptionUpload = () => {
               </Card>
             </div>
           </div>
+
+          {/* Recent Prescriptions - Only visible after uploading files */}
+          {files.length > 0 && (
+            <Card className="mt-8">
+              <CardHeader>
+                <CardTitle className="flex items-center space-x-2">
+                  <Clock className="w-5 h-5" />
+                  <span>Recent Prescriptions</span>
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Patient Name</TableHead>
+                      <TableHead>Upload Date</TableHead>
+                      <TableHead>Status</TableHead>
+                      <TableHead>Medicines</TableHead>
+                      <TableHead>Actions</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {prescriptionHistory.map((prescription) => (
+                      <TableRow key={prescription.id}>
+                        <TableCell className="font-medium">
+                          {prescription.patientName}
+                        </TableCell>
+                        <TableCell>{prescription.uploadDate}</TableCell>
+                        <TableCell>
+                          <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(prescription.status)}`}>
+                            {prescription.status}
+                          </span>
+                        </TableCell>
+                        <TableCell>
+                          <div className="max-w-xs">
+                            {prescription.medicines.slice(0, 2).join(', ')}
+                            {prescription.medicines.length > 2 && '...'}
+                          </div>
+                        </TableCell>
+                        <TableCell>
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => viewPrescription(prescription)}
+                            className="flex items-center space-x-1"
+                          >
+                            <Eye className="w-4 h-4" />
+                            <span>View</span>
+                          </Button>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </CardContent>
+            </Card>
+          )}
         </div>
       </div>
     </section>
