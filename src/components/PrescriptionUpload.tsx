@@ -1,4 +1,3 @@
-
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -6,12 +5,49 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
+import { 
+  Table, 
+  TableBody, 
+  TableCell, 
+  TableHead, 
+  TableHeader, 
+  TableRow 
+} from '@/components/ui/table';
 import { Upload, FileText, Camera, Clock, X, Eye } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+
+// Mock prescription history data
+const prescriptionHistory = [
+  {
+    id: '1',
+    patientName: 'John Doe',
+    uploadDate: '2024-06-08',
+    status: 'Processed',
+    medicines: ['Paracetamol 500mg', 'Vitamin D3'],
+    prescriptionImage: '/placeholder.svg'
+  },
+  {
+    id: '2',
+    patientName: 'Jane Smith',
+    uploadDate: '2024-06-07',
+    status: 'Under Review',
+    medicines: ['Amoxicillin 250mg', 'Cough Syrup'],
+    prescriptionImage: '/placeholder.svg'
+  },
+  {
+    id: '3',
+    patientName: 'Mike Johnson',
+    uploadDate: '2024-06-06',
+    status: 'Delivered',
+    medicines: ['Ibuprofen 400mg'],
+    prescriptionImage: '/placeholder.svg'
+  }
+];
 
 export const PrescriptionUpload = () => {
   const [dragOver, setDragOver] = useState(false);
   const [files, setFiles] = useState<File[]>([]);
+  const [selectedPrescription, setSelectedPrescription] = useState<any>(null);
   const { toast } = useToast();
 
   const handleDragOver = (e: React.DragEvent) => {
@@ -61,11 +97,28 @@ export const PrescriptionUpload = () => {
     setFiles([]);
   };
 
+  const viewPrescription = (prescription: any) => {
+    setSelectedPrescription(prescription);
+  };
+
   const getFilePreview = (file: File) => {
     if (file.type.startsWith('image/')) {
       return URL.createObjectURL(file);
     }
     return null;
+  };
+
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case 'Processed':
+        return 'text-green-600 bg-green-100';
+      case 'Under Review':
+        return 'text-yellow-600 bg-yellow-100';
+      case 'Delivered':
+        return 'text-blue-600 bg-blue-100';
+      default:
+        return 'text-gray-600 bg-gray-100';
+    }
   };
 
   const renderUploadArea = () => {
@@ -185,10 +238,81 @@ export const PrescriptionUpload = () => {
     );
   };
 
+  if (selectedPrescription) {
+    return (
+      <section className="py-16 bg-background">
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto">
+            <div className="flex items-center justify-between mb-8">
+              <h2 className="text-3xl lg:text-4xl font-bold">
+                Prescription Details
+              </h2>
+              <Button 
+                variant="outline" 
+                onClick={() => setSelectedPrescription(null)}
+              >
+                Back to History
+              </Button>
+            </div>
+            
+            <div className="grid lg:grid-cols-2 gap-8">
+              <Card>
+                <CardHeader>
+                  <CardTitle>Prescription Image</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="aspect-video bg-muted rounded-lg flex items-center justify-center">
+                    <img
+                      src={selectedPrescription.prescriptionImage}
+                      alt="Prescription"
+                      className="max-w-full max-h-full object-contain rounded"
+                    />
+                  </div>
+                </CardContent>
+              </Card>
+              
+              <Card>
+                <CardHeader>
+                  <CardTitle>Prescription Information</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div>
+                    <Label className="text-sm font-medium text-muted-foreground">Patient Name</Label>
+                    <p className="text-lg">{selectedPrescription.patientName}</p>
+                  </div>
+                  <div>
+                    <Label className="text-sm font-medium text-muted-foreground">Upload Date</Label>
+                    <p className="text-lg">{selectedPrescription.uploadDate}</p>
+                  </div>
+                  <div>
+                    <Label className="text-sm font-medium text-muted-foreground">Status</Label>
+                    <span className={`inline-block px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(selectedPrescription.status)}`}>
+                      {selectedPrescription.status}
+                    </span>
+                  </div>
+                  <div>
+                    <Label className="text-sm font-medium text-muted-foreground">Prescribed Medicines</Label>
+                    <ul className="mt-2 space-y-1">
+                      {selectedPrescription.medicines.map((medicine: string, index: number) => (
+                        <li key={index} className="text-sm bg-muted p-2 rounded">
+                          {medicine}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section className="py-16 bg-background">
       <div className="container mx-auto px-4">
-        <div className="max-w-4xl mx-auto">
+        <div className="max-w-6xl mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-3xl lg:text-4xl font-bold mb-4">
               Upload Your Prescriptions
@@ -197,6 +321,62 @@ export const PrescriptionUpload = () => {
               Get your prescribed medicines delivered safely and quickly
             </p>
           </div>
+          
+          {/* Prescription History */}
+          <Card className="mb-8">
+            <CardHeader>
+              <CardTitle className="flex items-center space-x-2">
+                <Clock className="w-5 h-5" />
+                <span>Recent Prescriptions</span>
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Patient Name</TableHead>
+                    <TableHead>Upload Date</TableHead>
+                    <TableHead>Status</TableHead>
+                    <TableHead>Medicines</TableHead>
+                    <TableHead>Actions</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {prescriptionHistory.map((prescription) => (
+                    <TableRow key={prescription.id}>
+                      <TableCell className="font-medium">
+                        {prescription.patientName}
+                      </TableCell>
+                      <TableCell>{prescription.uploadDate}</TableCell>
+                      <TableCell>
+                        <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(prescription.status)}`}>
+                          {prescription.status}
+                        </span>
+                      </TableCell>
+                      <TableCell>
+                        <div className="max-w-xs">
+                          {prescription.medicines.slice(0, 2).join(', ')}
+                          {prescription.medicines.length > 2 && '...'}
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => viewPrescription(prescription)}
+                          className="flex items-center space-x-1"
+                        >
+                          <Eye className="w-4 h-4" />
+                          <span>View</span>
+                        </Button>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </CardContent>
+          </Card>
+          
           <div className="grid lg:grid-cols-2 gap-8">
             {/* Upload/Preview area */}
             <Card>
