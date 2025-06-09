@@ -1,9 +1,10 @@
-
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 import { AnimatedBlobs } from '@/components/AnimatedBlobs';
+import { BlurImage } from '@/components/BlurImage';
+import { ShareDialog } from '@/components/ShareDialog';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
@@ -254,10 +255,10 @@ const ProductDetail = () => {
           {/* Product Images */}
           <div className="space-y-4">
             <div className="relative">
-              <img
+              <BlurImage
                 src={productImages[selectedImage]}
                 alt={medicine.name}
-                className="w-full h-96 object-cover rounded-lg"
+                className="w-full h-96 rounded-lg"
               />
               {medicine.discount && (
                 <Badge className="absolute top-4 right-4 bg-red-500 text-white text-lg px-3 py-1">
@@ -274,7 +275,7 @@ const ProductDetail = () => {
                     selectedImage === index ? 'border-primary' : 'border-gray-200'
                   }`}
                 >
-                  <img src={img} alt="" className="w-full h-full object-cover" />
+                  <BlurImage src={img} alt="" className="w-full h-full" />
                 </button>
               ))}
             </div>
@@ -354,9 +355,11 @@ const ProductDetail = () => {
                 >
                   <Heart className={`w-5 h-5 ${favorites.includes(medicine.id) ? 'fill-current' : ''}`} />
                 </Button>
-                <Button variant="outline" size="lg">
-                  <Share2 className="w-5 h-5" />
-                </Button>
+                <ShareDialog 
+                  productName={medicine.name}
+                  productUrl={window.location.href}
+                  productImage={medicine.image}
+                />
               </div>
             </div>
 
