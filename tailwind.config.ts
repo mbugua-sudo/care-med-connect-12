@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -61,6 +62,17 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
+				},
+				// Healthcare-specific colors
+				health: {
+					success: 'hsl(var(--health-success))',
+					warning: 'hsl(var(--health-warning))',
+					emergency: 'hsl(var(--health-emergency))',
+					info: 'hsl(var(--health-info))'
+				},
+				prescription: {
+					required: 'hsl(var(--prescription-required))',
+					verified: 'hsl(var(--prescription-verified))'
 				}
 			},
 			borderRadius: {
@@ -84,11 +96,41 @@ export default {
 					to: {
 						height: '0'
 					}
+				},
+				'pulse-soft': {
+					'0%, 100%': { opacity: '1' },
+					'50%': { opacity: '0.7' }
+				},
+				'slide-up': {
+					from: { 
+						opacity: '0', 
+						transform: 'translateY(20px)' 
+					},
+					to: { 
+						opacity: '1', 
+						transform: 'translateY(0)' 
+					}
+				},
+				'fade-in': {
+					from: { opacity: '0' },
+					to: { opacity: '1' }
 				}
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
-				'accordion-up': 'accordion-up 0.2s ease-out'
+				'accordion-up': 'accordion-up 0.2s ease-out',
+				'pulse-soft': 'pulse-soft 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+				'slide-up': 'slide-up 0.5s ease-out',
+				'fade-in': 'fade-in 0.3s ease-out'
+			},
+			fontFamily: {
+				sans: ['Inter', 'system-ui', 'sans-serif'],
+			},
+			spacing: {
+				'18': '4.5rem',
+				'88': '22rem',
+				'112': '28rem',
+				'128': '32rem'
 			}
 		}
 	},
