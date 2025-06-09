@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { Header } from '@/components/Header';
 import { HeroSection } from '@/components/HeroSection';
@@ -15,35 +16,10 @@ const Index = () => {
   const [favorites, setFavorites] = useState<string[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
 
-  const advertisementImages1 = [
-    'https://picsum.photos/2000/2001',
-    'https://picsum.photos/2000/2002',
-    'https://picsum.photos/2000/2003'
-  ];
-
   const advertisementImages2 = [
     'https://picsum.photos/2000/2004',
     'https://picsum.photos/2000/2005',
     'https://picsum.photos/2000/2006'
-  ];
-
-  const advertisementImages3 = [
-    'https://picsum.photos/2000/2007',
-    'https://picsum.photos/2000/2008'
-  ];
-
-  const advertisementImages4 = [
-    'https://picsum.photos/2000/2009',
-    'https://picsum.photos/2000/2010',
-    'https://picsum.photos/2000/2011'
-  ];
-
-  const advertisementImages5 = [
-    'https://picsum.photos/2000/2012'
-  ];
-
-  const advertisementImages6 = [
-    'https://picsum.photos/2000/2013'
   ];
 
   const addToCart = (medicine: any) => {
@@ -95,6 +71,8 @@ const Index = () => {
         updateCartQuantity={updateCartQuantity}
         searchQuery={searchQuery}
         setSearchQuery={setSearchQuery}
+        favorites={favorites}
+        toggleFavorite={toggleFavorite}
       />
       <main>
         <HeroSection />
@@ -107,7 +85,6 @@ const Index = () => {
           toggleFavorite={toggleFavorite}
           searchQuery={searchQuery}
         />
-        <AdvertisementBanner images={advertisementImages1} />
         <MedicineCarousel 
           title="New Medicine in Stock" 
           addToCart={addToCart}
@@ -125,31 +102,41 @@ const Index = () => {
           toggleFavorite={toggleFavorite}
           searchQuery={searchQuery}
         />
-        <AdvertisementBanner images={advertisementImages3} />
         
         {/* Two 50% width banners below New Medicine */}
         <section className="py-8 bg-background">
           <div className="container mx-auto px-4">
             <div className="grid md:grid-cols-2 gap-6">
-              <div className="overflow-hidden hover:shadow-lg transition-all duration-300 hover:-translate-y-1 rounded-lg">
+              <div className="relative overflow-hidden hover:shadow-lg transition-all duration-300 hover:-translate-y-1 rounded-lg group">
                 <img
                   src="https://picsum.photos/2000/2012"
                   alt="Advertisement Banner 1"
                   className="w-full h-64 object-cover"
                 />
+                <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                  <div className="text-white text-center p-4">
+                    <h3 className="text-xl font-bold mb-2">Health & Wellness</h3>
+                    <p className="text-sm">Discover our range of health products and supplements</p>
+                  </div>
+                </div>
               </div>
-              <div className="overflow-hidden hover:shadow-lg transition-all duration-300 hover:-translate-y-1 rounded-lg">
+              <div className="relative overflow-hidden hover:shadow-lg transition-all duration-300 hover:-translate-y-1 rounded-lg group">
                 <img
                   src="https://picsum.photos/2000/2013"
                   alt="Advertisement Banner 2"
                   className="w-full h-64 object-cover"
                 />
+                <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                  <div className="text-white text-center p-4">
+                    <h3 className="text-xl font-bold mb-2">Prescription Services</h3>
+                    <p className="text-sm">Upload your prescription for quick and easy ordering</p>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </section>
         
-        <AdvertisementBanner images={advertisementImages4} />
         <ServiceCards />
         <PrescriptionUpload />
       </main>

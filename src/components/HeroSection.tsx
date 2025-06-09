@@ -24,7 +24,7 @@ export const HeroSection = () => {
 
   return (
     <section 
-      className="relative min-h-screen flex items-center justify-center py-16 transition-all duration-1000 bg-cover bg-center bg-no-repeat"
+      className="relative h-[50dvh] flex items-center justify-center py-16 transition-all duration-1000 bg-cover bg-center bg-no-repeat"
       style={{ 
         backgroundImage: `url(${backgroundImages[currentSlide]})`,
       }}

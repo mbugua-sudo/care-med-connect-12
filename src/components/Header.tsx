@@ -1,12 +1,13 @@
-
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { Search, ShoppingCart, User, Menu, X, Heart, Bell, Plus, Minus, Trash2 } from 'lucide-react';
+import { Search, ShoppingCart, User, Menu, X, Plus, Minus, Trash2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { Separator } from '@/components/ui/separator';
+import { NotificationViewer } from '@/components/NotificationViewer';
+import { FavoritesViewer } from '@/components/FavoritesViewer';
 import {
   Command,
   CommandEmpty,
@@ -29,6 +30,14 @@ interface CartItem {
   image: string;
 }
 
+interface Notification {
+  id: string;
+  title: string;
+  message: string;
+  time: string;
+  isRead: boolean;
+}
+
 interface HeaderProps {
   isAuthenticated: boolean;
   setIsAuthenticated: (value: boolean) => void;
@@ -37,6 +46,8 @@ interface HeaderProps {
   updateCartQuantity: (id: string, quantity: number) => void;
   searchQuery: string;
   setSearchQuery: (query: string) => void;
+  favorites: string[];
+  toggleFavorite: (id: string) => void;
 }
 
 export const Header = ({ 
@@ -46,14 +57,83 @@ export const Header = ({
   removeFromCart, 
   updateCartQuantity,
   searchQuery,
-  setSearchQuery
+  setSearchQuery,
+  favorites,
+  toggleFavorite
 }: HeaderProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [notifications, setNotifications] = useState<Notification[]>([
+    {
+      id: '1',
+      title: 'Order Delivered',
+      message: 'Your order #12345 has been delivered successfully',
+      time: '2 hours ago',
+      isRead: false
+    }
+  ]);
   const navigate = useNavigate();
   
   const cartCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
   const cartTotal = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+
+  // Mock medicines for favorites viewer
+  const allMedicines = [
+    {
+      id: '1',
+      name: 'Paracetamol 500mg',
+      price: 1299,
+      originalPrice: 1599,
+      discount: 20,
+      image: 'https://picsum.photos/2000/2030',
+      category: 'Pain Relief'
+    },
+    {
+      id: '2',
+      name: 'Vitamin D3 1000IU',
+      price: 2499,
+      originalPrice: 2999,
+      discount: 15,
+      image: 'https://picsum.photos/2000/2031',
+      category: 'Vitamins'
+    },
+    {
+      id: '3',
+      name: 'Ibuprofen 400mg',
+      price: 1850,
+      originalPrice: 2250,
+      discount: 18,
+      image: 'https://picsum.photos/2000/2032',
+      category: 'Pain Relief'
+    },
+    {
+      id: '4',
+      name: 'Omega-3 Fish Oil',
+      price: 3299,
+      originalPrice: 3999,
+      discount: 17,
+      image: 'https://picsum.photos/2000/2033',
+      category: 'Supplements'
+    },
+    {
+      id: '5',
+      name: 'Calcium Tablets',
+      price: 1675,
+      originalPrice: 1975,
+      discount: 15,
+      image: 'https://picsum.photos/2000/2034',
+      category: 'Vitamins'
+    },
+    {
+      id: '6',
+      name: 'Multivitamin Complex',
+      price: 2899,
+      originalPrice: 3499,
+      discount: 17,
+      image: 'https://picsum.photos/2000/2035',
+      category: 'Vitamins'
+    }
+  ];
 
   // Mock search suggestions
   const searchSuggestions = [
@@ -81,6 +161,23 @@ export const Header = ({
       setIsSearchOpen(false);
       navigate(`/search?q=${encodeURIComponent(searchQuery)}`);
     }
+  };
+
+  const handleMarkAsRead = (id: string) => {
+    setNotifications(prev => 
+      prev.map(notif => 
+        notif.id === id ? { ...notif, isRead: true } : notif
+      )
+    );
+  };
+
+  const handleClearAllNotifications = () => {
+    setNotifications([]);
+  };
+
+  const handleAddToCart = (medicine: any) => {
+    // This would typically be handled by parent component
+    console.log('Adding to cart:', medicine);
   };
 
   return (
@@ -149,17 +246,20 @@ export const Header = ({
 
           {/* Action buttons */}
           <div className="flex items-center space-x-4">
-            {/* Notifications - visible for testing */}
-            <Button variant="ghost" size="icon" className="relative">
-              <Bell className="w-5 h-5" />
-              <Badge className="absolute -top-2 -right-2 w-5 h-5 flex items-center justify-center p-0 text-xs">
-                1
-              </Badge>
-            </Button>
+            {/* Notifications */}
+            <NotificationViewer
+              notifications={notifications}
+              onMarkAsRead={handleMarkAsRead}
+              onClearAll={handleClearAllNotifications}
+            />
             
-            <Button variant="ghost" size="icon">
-              <Heart className="w-5 h-5" />
-            </Button>
+            {/* Favorites */}
+            <FavoritesViewer
+              favorites={favorites}
+              medicines={allMedicines}
+              onRemoveFavorite={toggleFavorite}
+              onAddToCart={handleAddToCart}
+            />
 
             {/* Shopping Cart with Sheet */}
             <Sheet>
