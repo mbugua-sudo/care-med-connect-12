@@ -60,8 +60,8 @@ export const HeroSection = () => {
       <div className="absolute -top-32 -right-32 w-96 h-96 bg-gradient-to-br from-emerald-400/20 to-cyan-400/20 rounded-full blur-3xl animate-float z-30" />
       <div className="absolute -bottom-32 -left-32 w-96 h-96 bg-gradient-to-tr from-blue-400/20 to-purple-400/20 rounded-full blur-3xl animate-float z-10" style={{ animationDelay: '2s' }} />
       
-      <div className="w-full px-4 relative z-20">
-        <div className="max-w-4xl mx-auto text-center">
+      <div className="w-full px-8 relative z-20">
+        <div className="text-center">
           {/* Hero content with enhanced typography */}
           <div className="space-y-8">
             <h1 className="font-poppins font-bold text-white leading-tight text-shadow-lg">
