@@ -3,14 +3,14 @@ import shutil
 from typing import List
 from fastapi import FastAPI, UploadFile, File, Form, Query
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, FileResponse
 from .config import get_settings
 from .schemas import UploadResponse, BuildIndexRequest, BuildIndexResponse, QueryRequest, QueryResponse, RetrievedChunk, AnswerData, ExportRequest, ExportResponse
 from .db import insert_document, update_document_text_path, list_documents, insert_chunks, get_all_chunks, get_chunk_by_id, insert_query, insert_query_citations, list_queries
 from .parsers import parse_pdf_to_text, parse_docx_to_text, parse_xlsx_to_text, parse_txt_to_text, ocr_image_to_text
 from .chunking import split_text_into_chunks
 from .embedding import embed_texts, embed_query
-from .index_store import save_index, load_index, search
+from .index_store import save_index, load_index, search, get_index_metadata
 from .moderation import moderate_text
 from .reasoning import answer_question
 from .images_tts import generate_image_from_prompt, synthesize_speech
@@ -34,6 +34,21 @@ app.add_middleware(
 @app.get("/health")
 def health():
     return {"status": "ok"}
+
+
+@app.get("/documents")
+def documents():
+    return {"documents": list_documents()}
+
+
+@app.get("/index-info")
+def index_info():
+    return get_index_metadata()
+
+
+@app.get("/queries")
+def queries(limit: int = 100):
+    return {"queries": list_queries(limit=limit)}
 
 
 @app.post("/upload", response_model=UploadResponse)
@@ -179,4 +194,12 @@ def export(req: ExportRequest):
     else:
         return JSONResponse(status_code=400, content={"error": "Unsupported export format"})
     return ExportResponse(path=path)
+
+
+@app.get("/download")
+def download(path: str = Query(...)):
+    # Simple static file serving for generated files
+    if not os.path.exists(path):
+        return JSONResponse(status_code=404, content={"error": "File not found"})
+    return FileResponse(path)
 

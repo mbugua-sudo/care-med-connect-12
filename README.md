@@ -1,3 +1,56 @@
+Document Research & Q&A Web App
+================================
+
+Requirements
+------------
+- Python 3.10+
+- Node 18+
+- OpenAI API key
+
+Setup
+-----
+1) Copy env and set your key
+```
+cp .env.example .env
+```
+Set `OPENAI_API_KEY` in `.env`.
+
+2) Backend install and run
+```
+cd backend
+python -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+```
+
+3) Frontend install and run
+```
+cd frontend
+npm install
+npm run dev
+```
+
+Usage
+-----
+1. Upload a PDF/TXT/DOCX/XLSX/image.
+2. Click "Build Index" to create embeddings in FAISS.
+3. Ask questions in chat. Toggle Deep reasoning / Image / Voice.
+4. Export past answers via CSV/XLSX.
+
+API Endpoints
+-------------
+- `POST /upload` — Upload files, parse via PyMuPDF, python-docx, openpyxl, TXT, OCR (gpt-image-1)
+- `POST /build-index` — Split, embed (text-embedding-3-large), store in FAISS
+- `POST /query` — Moderate (omni-moderation-latest), retrieve, reason with gpt-5-mini or gpt-5/o1-pro
+- `POST /export` — Export query history via pandas/openpyxl
+- `GET /documents`, `GET /index-info`, `GET /queries`, `GET /health`
+
+Notes
+-----
+- Embeddings, metadata, and queries stored locally (SQLite + JSON + files).
+- You can customize models and retrieval params via `.env`.
+
 # Welcome to your Lovable project
 
 ## Project info

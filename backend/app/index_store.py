@@ -32,6 +32,20 @@ def load_index() -> Tuple[faiss.Index, List[int], str]:
     return index, meta["id_to_chunk_id"], meta.get("embedding_model", "")
 
 
+def get_index_metadata() -> Dict[str, Any]:
+    index_path, meta_path = _paths()
+    exists = os.path.exists(index_path) and os.path.exists(meta_path)
+    info: Dict[str, Any] = {"exists": exists}
+    if exists:
+        with open(meta_path, "r", encoding="utf-8") as f:
+            meta = json.load(f)
+        info.update({
+            "embedding_model": meta.get("embedding_model"),
+            "num_vectors": faiss.read_index(index_path).ntotal,
+        })
+    return info
+
+
 def search(index: faiss.Index, query_vec: np.ndarray, top_k: int) -> List[Tuple[int, float]]:
     if query_vec.ndim == 1:
         query_vec = query_vec.reshape(1, -1)
